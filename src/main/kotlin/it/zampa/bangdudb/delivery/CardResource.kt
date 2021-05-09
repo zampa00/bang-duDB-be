@@ -4,9 +4,8 @@ import it.zampa.bangdudb.domain.Card
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:8100", "http://localhost:21472"])
+@CrossOrigin
 class CardResource(val service: CardService) {
-
 
 	@GetMapping("/cards")
 	fun index(): List<Card> = service.findMessages()
