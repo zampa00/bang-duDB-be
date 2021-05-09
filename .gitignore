@@ -32,4 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-data/bangdudb.mv.db
+/data/
+/data/*
+data/
+data/*
