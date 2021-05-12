@@ -11,7 +11,22 @@ class CardService(val db: CardRepository) {
 
 	fun findCard(cardId: String): Card? = db.findCard(cardId)
 
-	fun findCards(characters: List<String>): List<Card> = db.findCards(characters)
+	fun findCards(
+		characters: List<String>?,
+		bands: List<String>?,
+		rarities: List<String>?,
+		attributes: List<String>?,
+		skill_session_types: List<String>?,
+		is_gacha: Boolean?,
+		is_unavailable_gacha: Boolean?,
+		is_birthday: Boolean?,
+		is_promo: Boolean?,
+	): List<Card> {
+		System.out.println(rarities)
+		return db.findCards(
+			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_birthday, is_promo
+		)
+	}
 
 	fun post(card: Card) {
 		db.save(card)

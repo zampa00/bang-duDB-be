@@ -14,8 +14,21 @@ class CardResource(val service: CardService) {
 	@GetMapping("/searchCards")
 	@ResponseBody
 	fun getCardsFrom(
-		@RequestParam(name = "characters") characters: List<String>
-	): List<Card> = service.findCards(characters)
+		@RequestParam(name = "characters") characters: List<String>?,
+		@RequestParam(name = "bands") bands: List<String>?,
+		@RequestParam(name = "rarities") rarities: List<String>?,
+		@RequestParam(name = "attributes") attributes: List<String>?,
+		@RequestParam(name = "skill_session_types") skill_session_types: List<String>?,
+		@RequestParam(name = "is_gacha") is_gacha: Boolean?,
+		@RequestParam(name = "is_unavailable_gacha") is_unavailable_gacha: Boolean?,
+		@RequestParam(name = "is_birthday") is_birthday: Boolean?,
+		@RequestParam(name = "is_promo") is_promo: Boolean?,
+	): List<Card> {
+		System.out.println("${rarities}")
+		return service.findCards(
+			characters, bands, rarities?.map { e -> e.toString() }, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_birthday, is_promo
+		)
+	}
 
 	@GetMapping("/card/{cardId}")
 	@ResponseBody

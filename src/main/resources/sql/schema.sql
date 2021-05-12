@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS cards (
   character_name                VARCHAR      NOT NULL,
   band                          VARCHAR      NOT NULL,
   card_name                     VARCHAR      NOT NULL,
-  rarity                        CHAR(1)      NOT NULL,
+  rarity                        VARCHAR(2)      NOT NULL,
   attribute                     VARCHAR      NOT NULL,
   release_date                  DATE         NOT NULL,
 
