@@ -19,10 +19,10 @@ class CardResource(val service: CardService) {
 		@RequestParam(name = "rarities") rarities: List<String>?,
 		@RequestParam(name = "attributes") attributes: List<String>?,
 		@RequestParam(name = "skill_session_types") skill_session_types: List<String>?,
-		@RequestParam(name = "is_gacha") is_gacha: Boolean?,
-		@RequestParam(name = "is_unavailable_gacha") is_unavailable_gacha: Boolean?,
-		@RequestParam(name = "is_birthday") is_birthday: Boolean?,
-		@RequestParam(name = "is_promo") is_promo: Boolean?,
+		@RequestParam(name = "allowGacha") is_gacha: Boolean?,
+		@RequestParam(name = "allowUnavailableGacha") is_unavailable_gacha: Boolean?,
+		@RequestParam(name = "allowEvent") is_birthday: Boolean?,
+		@RequestParam(name = "allowPromo") is_promo: Boolean?,
 	): List<Card> {
 		System.out.println("${rarities}")
 		return service.findCards(
