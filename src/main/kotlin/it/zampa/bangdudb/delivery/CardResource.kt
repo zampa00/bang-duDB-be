@@ -11,6 +11,12 @@ class CardResource(val service: CardService) {
 	@GetMapping("/cards")
 	fun index(): List<Card> = service.findCards()
 
+	@GetMapping("/searchCards")
+	@ResponseBody
+	fun getCardsFrom(
+		@RequestParam(name = "characters") characters: List<String>
+	): List<Card> = service.findCards(characters)
+
 	@GetMapping("/card/{cardId}")
 	@ResponseBody
 	fun getCardFromId(@PathVariable cardId: String): Card? {

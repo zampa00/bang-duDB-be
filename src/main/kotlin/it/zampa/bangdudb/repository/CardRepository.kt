@@ -10,6 +10,11 @@ interface CardRepository : CrudRepository<Card, String> {
 	@Query("select * from cards")
 	fun findCards(): List<Card>
 
+	@Query("select * from cards where character_name in (:characters)")
+	fun findCards(
+		@Param("characters") characters: List<String>
+	): List<Card>
+
 	@Query("select * from cards where id = :id")
 	fun findCard(
 		@Param("id") cardId: String

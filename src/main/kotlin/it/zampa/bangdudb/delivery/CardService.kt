@@ -11,6 +11,8 @@ class CardService(val db: CardRepository) {
 
 	fun findCard(cardId: String): Card? = db.findCard(cardId)
 
+	fun findCards(characters: List<String>): List<Card> = db.findCards(characters)
+
 	fun post(card: Card) {
 		db.save(card)
 	}
