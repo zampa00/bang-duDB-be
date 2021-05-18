@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS cards (
 
   is_gacha                      BOOLEAN      NOT NULL,
   is_unavailable_gacha          BOOLEAN      NOT NULL,
+  is_event          BOOLEAN      NOT NULL,
   is_birthday                   BOOLEAN      NOT NULL,
   is_promo                      BOOLEAN      NOT NULL,
 

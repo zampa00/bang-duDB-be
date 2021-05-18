@@ -28,6 +28,7 @@ data class Card(
 
 	val is_gacha: Boolean,
 	val is_unavailable_gacha: Boolean,
+	val is_event: Boolean,
 	val is_birthday: Boolean,
 	val is_promo: Boolean,
 

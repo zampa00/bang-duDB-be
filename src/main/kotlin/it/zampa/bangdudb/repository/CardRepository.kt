@@ -23,6 +23,7 @@ interface CardRepository : CrudRepository<Card, String> {
 		"AND (:skill_session_types is null OR skill_session_type in (:skill_session_types)) " +
 		"AND (:is_gacha is null OR is_gacha = :is_gacha) " +
 		"AND (:is_unavailable_gacha is null OR is_unavailable_gacha = :is_unavailable_gacha) " +
+		"AND (:is_event is null OR is_event = :is_event) " +
 		"AND (:is_birthday is null OR is_birthday = :is_birthday) " +
 		"AND (:is_promo is null OR is_promo = :is_promo) " +
 		""
@@ -35,6 +36,7 @@ interface CardRepository : CrudRepository<Card, String> {
 		@Param("skill_session_types") skill_session_types: List<String>?,
 		@Param("is_gacha") is_gacha: Boolean?,
 		@Param("is_unavailable_gacha") is_unavailable_gacha: Boolean?,
+		@Param("is_event") is_event: Boolean?,
 		@Param("is_birthday") is_birthday: Boolean?,
 		@Param("is_promo") is_promo: Boolean?,
 	): List<Card>
