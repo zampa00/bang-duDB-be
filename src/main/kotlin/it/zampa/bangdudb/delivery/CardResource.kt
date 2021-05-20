@@ -1,7 +1,12 @@
 package it.zampa.bangdudb.delivery
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import it.zampa.bangdudb.delivery.data.InputCard
 import it.zampa.bangdudb.domain.Card
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 
 @RestController
@@ -40,6 +45,15 @@ class CardResource(val service: CardService) {
 	@PostMapping("/addCard")
 	fun post(@RequestBody card: Card) {
 		service.post(card)
+	}
+
+	@PostMapping("/addSingleCard")
+	fun test(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile) {
+		println(cardDetails)
+		val mapper = ObjectMapper().registerModule(KotlinModule())
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		val card = mapper.readValue<InputCard>(cardDetails, InputCard::class.java)
+		println(card)
 	}
 
 }
