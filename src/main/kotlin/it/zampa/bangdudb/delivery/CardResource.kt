@@ -5,13 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.data.InputCard
 import it.zampa.bangdudb.domain.Card
+import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 
 @RestController
 @CrossOrigin
-class CardResource(val service: CardService) {
+class CardResource(val service: CardService, val addCardUseCase: AddCardUseCase) {
 
 	@GetMapping("/cards")
 	fun index(): List<Card> = service.findCards()
@@ -54,6 +55,7 @@ class CardResource(val service: CardService) {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		val card = mapper.readValue<InputCard>(cardDetails, InputCard::class.java)
 		println(card)
+		addCardUseCase.execute(cardDetails, imgBase, imgIdl)
 	}
 
 }
