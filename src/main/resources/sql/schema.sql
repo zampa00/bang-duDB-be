@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS cards (
-  id VARCHAR DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY,
+  id                            VARCHAR      NOT NULL PRIMARY KEY,
 
   character_name                VARCHAR      NOT NULL,
   band                          VARCHAR      NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS cards (
 
   is_gacha                      BOOLEAN      NOT NULL,
   is_unavailable_gacha          BOOLEAN      NOT NULL,
-  is_event          BOOLEAN      NOT NULL,
+  is_event                      BOOLEAN      NOT NULL,
   is_birthday                   BOOLEAN      NOT NULL,
   is_promo                      BOOLEAN      NOT NULL,
 

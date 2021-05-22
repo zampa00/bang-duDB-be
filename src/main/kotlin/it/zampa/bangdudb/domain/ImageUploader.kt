@@ -1,9 +1,11 @@
 package it.zampa.bangdudb.domain
 
-import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.io.InputStream
 
 interface ImageUploader {
 
-	fun uploadCard(img: MultipartFile, imageName: String): String
+	fun uploadCard(img: File, imageName: String): String
+	fun uploadCard(img: InputStream, imageName: String): String
 
 }

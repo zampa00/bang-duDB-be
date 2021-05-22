@@ -4,53 +4,83 @@ import it.zampa.bangdudb.delivery.data.InputCard
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.repository.CardRepository
+import it.zampa.bangdudb.utils.ImageCompressionService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.io.InputStream
 import java.time.LocalDate
 
 class AddCardUseCaseTest {
 
 	val imageUploader = mock<ImageUploader>()
 	val cardRepository = mock<CardRepository>()
-	val usecase = AddCardUseCase(imageUploader, cardRepository)
+	val imageCompressionService = mock<ImageCompressionService>()
+	val usecase = AddCardUseCase(imageUploader, cardRepository, imageCompressionService)
 
 	val firstImageToUpload = mock<MultipartFile>()
 	val firstImageToUploadName = "firstImageName"
+	val firstImageInputStream = mock<InputStream>()
 
 	val secondImageToUpload = mock<MultipartFile>()
 	val secondImageToUploadName = "secondImageName"
+	val secondImageInputStream = mock<InputStream>()
+
+	val firstCompressedFile = mock<File>()
+	val secondCompressedFile = mock<File>()
 
 
 	@BeforeEach
 	fun setUp() {
 		whenever(firstImageToUpload.resource).thenReturn(mock())
-		whenever(firstImageToUpload.resource.file).thenReturn(mock())
+		whenever(firstImageToUpload.inputStream).thenReturn(firstImageInputStream)
 		whenever(firstImageToUpload.resource.filename).thenReturn(firstImageToUploadName)
 
 		whenever(secondImageToUpload.resource).thenReturn(mock())
-		whenever(secondImageToUpload.resource.file).thenReturn(mock())
+		whenever(secondImageToUpload.inputStream).thenReturn(secondImageInputStream)
 		whenever(secondImageToUpload.resource.filename).thenReturn(secondImageToUploadName)
 
-		whenever(imageUploader.uploadCard(firstImageToUpload, firstImageToUploadName)).thenReturn("${baseCardUrl}001_0001_1.png")
-		whenever(imageUploader.uploadCard(secondImageToUpload, secondImageToUploadName)).thenReturn("${baseCardUrl}001_0001_2.png")
+		whenever(imageUploader.uploadCard(firstImageInputStream, firstImageToUploadName)).thenReturn("${baseCardUrl}001_0001_1.png")
+		whenever(imageUploader.uploadCard(secondImageInputStream, secondImageToUploadName)).thenReturn("${baseCardUrl}001_0001_2.png")
+		whenever(imageUploader.uploadCard(firstCompressedFile, "001_0001_1_lq.jpg")).thenReturn("${baseCardUrl}001_0001_1_lq.jpg")
+		whenever(imageUploader.uploadCard(secondCompressedFile, "001_0001_2_lq.jpg")).thenReturn("${baseCardUrl}001_0001_2_lq.jpg")
+
+		whenever(imageCompressionService.compress(firstImageInputStream, any())).thenReturn(firstCompressedFile)
+		whenever(imageCompressionService.compress(secondImageInputStream, any())).thenReturn(secondCompressedFile)
+
+		whenever(firstCompressedFile.name).thenReturn("001_0001_1_lq.jpg")
+		whenever(secondCompressedFile.name).thenReturn("001_0001_2_lq.jpg")
 	}
 
 	@Test
 	fun `should call the upload service on the first image`() {
 		usecase.execute(card, firstImageToUpload, secondImageToUpload)
 
-		verify(imageUploader).uploadCard(firstImageToUpload, firstImageToUploadName)
+		verify(imageUploader).uploadCard(firstImageInputStream, firstImageToUploadName)
 	}
 
 	@Test
 	fun `should call the upload service on the second image`() {
 		usecase.execute(card, firstImageToUpload, secondImageToUpload)
 
-		verify(imageUploader).uploadCard(secondImageToUpload, secondImageToUploadName)
+		verify(imageUploader).uploadCard(secondImageInputStream, secondImageToUploadName)
+	}
+
+	@Test
+	fun `should resize the images`() {
+		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+
+		verify(imageCompressionService, times(2)).compress(any(), any())
+	}
+
+	@Test
+	fun `should upload 4 images in total`() {
+		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+
+		verify(imageUploader, times(2)).uploadCard(any<File>(), any())
+		verify(imageUploader, times(2)).uploadCard(any<InputStream>(), any())
 	}
 
 	@Test
@@ -71,7 +101,7 @@ class AddCardUseCaseTest {
 			cardName = "card name",
 			rarities = "4*",
 			attributes = "cool",
-			releaseDate = "2021-01-21",
+			releaseDate = "2021-01-21T21:02:22.523+02:00",
 
 			power = 1,
 			pf = 1,

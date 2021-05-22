@@ -4,11 +4,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
-import org.springframework.web.multipart.MultipartFile
 import strikt.api.expectThat
 import strikt.assertions.hasSize
 import strikt.assertions.isEqualTo
@@ -23,22 +19,13 @@ class S3ImageUploaderIT {
 
 	val imageUploader = S3ImageUploader(s3Client)
 
-	val file = File("src\\test\\resources\\test_image.jpg")
-	val imageToUpload = mock<MultipartFile>()
-
-	@BeforeEach
-	internal fun setUp() {
-		whenever(imageToUpload.resource).thenReturn(mock())
-		whenever(imageToUpload.resource.file).thenReturn(file)
-	}
+	val fileToUpload = File("src\\test\\resources\\test_image.jpg")
 
 	@Test
 	fun upload() {
 		val imageName = "testingImageName"
-		whenever(imageToUpload.resource).thenReturn(mock())
-		whenever(imageToUpload.resource.file).thenReturn(file)
 
-		imageUploader.uploadCard(imageToUpload, imageName)
+		imageUploader.uploadCard(fileToUpload, imageName)
 
 		val objects = s3Client.listObjectsV2("bang-dudb-test", "cards/${imageName}")
 

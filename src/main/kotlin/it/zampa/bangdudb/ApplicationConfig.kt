@@ -8,6 +8,7 @@ import it.zampa.bangdudb.delivery.S3ImageUploader
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import it.zampa.bangdudb.repository.CardRepository
+import it.zampa.bangdudb.utils.ImageIOImageCompressionService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
@@ -25,7 +26,7 @@ class ApplicationConfig(val cardRepository: CardRepository) {
 
 	@Bean
 	fun addCardUseCase(): AddCardUseCase {
-		return AddCardUseCase(imageUploader, cardRepository)
+		return AddCardUseCase(imageUploader, cardRepository, ImageIOImageCompressionService())
 	}
 
 }

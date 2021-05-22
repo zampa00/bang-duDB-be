@@ -4,31 +4,41 @@ import it.zampa.bangdudb.delivery.data.InputCard
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.repository.CardRepository
+import it.zampa.bangdudb.utils.ImageCompressionService
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
 
-class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardRepository) {
+class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardRepository, val imageCompressionService: ImageCompressionService) {
+
 	fun execute(card: InputCard, imgBase: MultipartFile, imgIdl: MultipartFile) {
 
-		val imgBaseHqUrl = imageUploader.uploadCard(imgBase, imgBase.resource.filename!!)
-		val imgIdlHqUrl = imageUploader.uploadCard(imgIdl, imgIdl.resource.filename!!)
+		val imgBaseHqUrl = imageUploader.uploadCard(imgBase.inputStream, imgBase.resource.filename!!)
+		val imgIdlHqUrl = imageUploader.uploadCard(imgIdl.inputStream, imgIdl.resource.filename!!)
 
-		val cardToSave: Card = card.mapToDomain(imgBaseHqUrl, imgIdlHqUrl)
+		val imgBaseLq = imageCompressionService.compress(imgBase.inputStream, imgBase.resource.filename!!.nameWithoutExtension())
+		val imgIdlLq = imageCompressionService.compress(imgIdl.inputStream, imgIdl.resource.filename!!.nameWithoutExtension())
+		val imgBaseLqUrl = imageUploader.uploadCard(imgBaseLq, imgBaseLq.name)
+		val imgIdlLqUrl = imageUploader.uploadCard(imgIdlLq, imgIdlLq.name)
+
+		val cardToSave: Card = card.mapToDomain(imgBaseHqUrl, imgIdlHqUrl, imgBaseLqUrl, imgIdlLqUrl)
 
 		cardRepository.save(cardToSave)
+
+		imgBaseLq.delete()
+		imgIdlLq.delete()
 	}
 }
 
-val baseCardUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/cards/"
+private fun String.nameWithoutExtension(): String = this.substringBeforeLast(".")
 
-private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String): Card = Card(
+private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, imgBaseLqUrl: String, imgIdlLqUrl: String): Card = Card(
 	id = this.id,
 	character_name = this.characters,
 	band = this.band,
 	card_name = this.cardName,
 	rarity = this.rarities,
 	attribute = this.attributes,
-	release_date = LocalDate.parse(this.releaseDate)!!,
+	release_date = LocalDate.parse(this.releaseDate.substring(0, 10))!!,
 	power = this.power,
 	pf = this.pf,
 	tec = this.tec,
@@ -43,8 +53,8 @@ private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String): Ca
 	is_event = this.isEvent,
 	is_birthday = this.isBirthday,
 	is_promo = this.isPromo,
-	src_base_lq = "${baseCardUrl}001_0001_1_lq.jpg",
-	src_idl_lq = "${baseCardUrl}001_0001_2_lq.jpg",
+	src_base_lq = imgBaseLqUrl,
+	src_idl_lq = imgIdlLqUrl,
 	src_base_hq = imgBaseHqUrl,
 	src_idl_hq = imgIdlHqUrl
 )
