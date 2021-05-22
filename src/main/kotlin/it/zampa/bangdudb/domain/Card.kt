@@ -2,7 +2,7 @@ package it.zampa.bangdudb.domain
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
-import java.util.*
+import java.time.LocalDate
 
 @Table("CARDS")
 data class Card(
@@ -13,7 +13,7 @@ data class Card(
 	val card_name: String,
 	val rarity: String,
 	val attribute: String,
-	val release_date: Date,
+	val release_date: LocalDate,
 
 	val power: Int,
 	val pf: Int,

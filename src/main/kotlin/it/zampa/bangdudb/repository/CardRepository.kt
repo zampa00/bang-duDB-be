@@ -4,7 +4,9 @@ import it.zampa.bangdudb.domain.Card
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
+import org.springframework.stereotype.Repository
 
+@Repository
 interface CardRepository : CrudRepository<Card, String> {
 
 	@Query("select * from cards")

@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class CardResource(val service: CardService, val addCardUseCase: AddCardUseCase) {
+class CardController(val service: CardService, val addCardUseCase: AddCardUseCase) {
 
 	private val mapper = ObjectMapper()
 		.registerModule(KotlinModule())
