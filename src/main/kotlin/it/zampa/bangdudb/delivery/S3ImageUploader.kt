@@ -6,8 +6,11 @@ import org.springframework.web.multipart.MultipartFile
 
 class S3ImageUploader(val s3Client: AmazonS3) : ImageUploader {
 
-	override fun uploadCard(img: MultipartFile) {
-		TODO("Not yet implemented")
+	val bucketName = "bang-dudb-test"
+
+	override fun uploadCard(img: MultipartFile, imageName: String) {
+		val imageToUpload = img.resource.file
+		s3Client.putObject(bucketName, "cards/${imageName}", imageToUpload)
 	}
 
 }

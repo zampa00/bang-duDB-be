@@ -3,9 +3,12 @@ package it.zampa.bangdudb.delivery
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import it.zampa.bangdudb.delivery.data.InputCard
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -13,6 +16,10 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @CrossOrigin
 class CardResource(val service: CardService, val addCardUseCase: AddCardUseCase) {
+
+	private val mapper = ObjectMapper()
+		.registerModule(KotlinModule())
+		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
 	fun index(): List<Card> = service.findCards()
@@ -49,13 +56,19 @@ class CardResource(val service: CardService, val addCardUseCase: AddCardUseCase)
 	}
 
 	@PostMapping("/addSingleCard")
-	fun test(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile) {
-		println(cardDetails)
-		val mapper = ObjectMapper().registerModule(KotlinModule())
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		val card = mapper.readValue<InputCard>(cardDetails, InputCard::class.java)
-		println(card)
-		addCardUseCase.execute(cardDetails, imgBase, imgIdl)
+	fun test(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile): ResponseEntity<String> {
+		return try {
+			val card = mapper.readValue(cardDetails, InputCard::class.java)
+
+			addCardUseCase.execute(card, imgBase, imgIdl)
+
+			ResponseEntity<String>(HttpStatus.OK)
+		} catch (e: MissingKotlinParameterException) {
+			println("the missing parameter is: ${e.parameter.name}")
+			ResponseEntity("""{
+						"missing parameter": "${e.parameter.name}"
+					}""".trimIndent(), HttpStatus.BAD_REQUEST)
+		}
 	}
 
 }
