@@ -47,8 +47,8 @@ class AddCardUseCaseTest {
 		whenever(imageUploader.uploadCard(firstCompressedFile, "001_0001_1_lq.jpg")).thenReturn("${baseCardUrl}001_0001_1_lq.jpg")
 		whenever(imageUploader.uploadCard(secondCompressedFile, "001_0001_2_lq.jpg")).thenReturn("${baseCardUrl}001_0001_2_lq.jpg")
 
-		whenever(imageCompressionService.compress(firstImageInputStream, any())).thenReturn(firstCompressedFile)
-		whenever(imageCompressionService.compress(secondImageInputStream, any())).thenReturn(secondCompressedFile)
+		whenever(imageCompressionService.compress(eq(firstImageInputStream), any())).thenReturn(firstCompressedFile)
+		whenever(imageCompressionService.compress(eq(secondImageInputStream), any())).thenReturn(secondCompressedFile)
 
 		whenever(firstCompressedFile.name).thenReturn("001_0001_1_lq.jpg")
 		whenever(secondCompressedFile.name).thenReturn("001_0001_2_lq.jpg")
@@ -122,7 +122,7 @@ class AddCardUseCaseTest {
 		)
 
 		val dbCard = Card(
-			id = "014_0001",
+			card_id = "014_0001",
 			character_name = "Nanahoshi Ren",
 			band = "Argonavis",
 			card_name = "card name",

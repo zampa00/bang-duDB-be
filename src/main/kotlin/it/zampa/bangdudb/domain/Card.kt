@@ -6,8 +6,11 @@ import java.time.LocalDate
 
 @Table("CARDS")
 data class Card(
-	@Id val id: String?,
 
+	@Id
+	val id: String? = null,
+
+	val card_id: String,
 	val character_name: String,
 	val band: String,
 	val card_name: String,

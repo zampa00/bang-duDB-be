@@ -32,7 +32,7 @@ class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardR
 private fun String.nameWithoutExtension(): String = this.substringBeforeLast(".")
 
 private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, imgBaseLqUrl: String, imgIdlLqUrl: String): Card = Card(
-	id = this.id,
+	card_id = this.id,
 	character_name = this.characters,
 	band = this.band,
 	card_name = this.cardName,

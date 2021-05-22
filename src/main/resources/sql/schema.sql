@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS cards (
-  id                            VARCHAR      NOT NULL PRIMARY KEY,
+  id VARCHAR DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY,
 
+  card_id                       VARCHAR      NOT NULL UNIQUE,
   character_name                VARCHAR      NOT NULL,
   band                          VARCHAR      NOT NULL,
   card_name                     VARCHAR      NOT NULL,
