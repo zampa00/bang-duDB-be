@@ -64,7 +64,7 @@ class AddCardUseCaseTest {
 		val baseCardUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/cards/"
 
 		val card = InputCard(
-			id = "001_0001",
+			id = "014_0001",
 
 			characters = "Nanahoshi Ren",
 			band = "Argonavis",
@@ -92,7 +92,7 @@ class AddCardUseCaseTest {
 		)
 
 		val dbCard = Card(
-			id = "001_0001",
+			id = "014_0001",
 			character_name = "Nanahoshi Ren",
 			band = "Argonavis",
 			card_name = "card name",
