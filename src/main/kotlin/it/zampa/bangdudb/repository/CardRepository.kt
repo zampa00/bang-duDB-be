@@ -43,6 +43,11 @@ interface CardRepository : CrudRepository<Card, String> {
 		@Param("is_promo") is_promo: Boolean?,
 	): List<Card>
 
+	@Query("SELECT * FROM CARDS WHERE banner_id = :banner_id")
+	fun findCardsInBanner(
+		@Param("banner_id") banner_id: String
+	): List<Card>
+
 
 }
 

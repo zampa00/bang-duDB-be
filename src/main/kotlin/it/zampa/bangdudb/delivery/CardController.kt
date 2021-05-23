@@ -55,6 +55,12 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		return service.findCard(cardId)
 	}
 
+	@GetMapping("/cardsFromBanner/{bannerId}")
+	@ResponseBody
+	fun getCardsFromBanner(@PathVariable bannerId: String): List<Card> {
+		return service.findCardsInBanner(bannerId)
+	}
+
 	@PostMapping("/addCard")
 	fun post(@RequestBody card: Card) {
 		service.addCard(card)

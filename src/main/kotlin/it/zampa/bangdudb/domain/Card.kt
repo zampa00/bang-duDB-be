@@ -10,6 +10,8 @@ data class Card(
 	@Id
 	val id: String? = null,
 
+	val banner_id: String,
+
 	val card_id: String,
 	val character_name: String,
 	val band: String,

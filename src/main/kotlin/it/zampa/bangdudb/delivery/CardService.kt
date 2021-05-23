@@ -29,6 +29,10 @@ class CardService(val db: CardRepository) {
 		)
 	}
 
+	fun findCardsInBanner(
+		banner_id: String
+	): List<Card> = db.findCardsInBanner(banner_id)
+
 	fun addCard(card: Card) {
 		db.save(card)
 	}

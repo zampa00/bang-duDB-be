@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS cards (
   id VARCHAR DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY,
 
+  banner_id                     VARCHAR,
+
   card_id                       VARCHAR      NOT NULL UNIQUE,
   character_name                VARCHAR      NOT NULL,
   band                          VARCHAR      NOT NULL,
