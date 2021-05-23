@@ -5,12 +5,18 @@ import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.repository.CardRepository
 import it.zampa.bangdudb.utils.ImageCompressionService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
 
 class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardRepository, val imageCompressionService: ImageCompressionService) {
 
+	var logger: Logger = LoggerFactory.getLogger(this::class.java)
+
 	fun execute(card: InputCard, imgBase: MultipartFile, imgIdl: MultipartFile) {
+
+		logger.info("AddCardUseCase start")
 
 		val imgBaseHqUrl = imageUploader.uploadCard(imgBase.inputStream, imgBase.resource.filename!!)
 		val imgIdlHqUrl = imageUploader.uploadCard(imgIdl.inputStream, imgIdl.resource.filename!!)
@@ -20,9 +26,15 @@ class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardR
 		val imgBaseLqUrl = imageUploader.uploadCard(imgBaseLq, imgBaseLq.name)
 		val imgIdlLqUrl = imageUploader.uploadCard(imgIdlLq, imgIdlLq.name)
 
+		logger.info("all cards uploaded")
+
 		val cardToSave: Card = card.mapToDomain(imgBaseHqUrl, imgIdlHqUrl, imgBaseLqUrl, imgIdlLqUrl)
 
+		logger.info("card mapped to domain card ${cardToSave}")
+
 		cardRepository.save(cardToSave)
+
+		logger.info("card saved")
 
 		imgBaseLq.delete()
 		imgIdlLq.delete()

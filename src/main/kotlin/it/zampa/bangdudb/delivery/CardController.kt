@@ -7,6 +7,9 @@ import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import it.zampa.bangdudb.delivery.data.InputCard
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @CrossOrigin
 class CardController(val service: CardService, val addCardUseCase: AddCardUseCase) {
+
+	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
 	private val mapper = ObjectMapper()
 		.registerModule(KotlinModule())
@@ -58,15 +63,22 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 	@PostMapping("/addSingleCard")
 	fun test(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile): ResponseEntity<String> {
 		return try {
+			logger.info("received requesto to upload a card")
 			val card = mapper.readValue(cardDetails, InputCard::class.java)
-
+			logger.info("card mapped to: ${card}")
 			addCardUseCase.execute(card, imgBase, imgIdl)
+			logger.info("done, now answering with an OK")
 
 			ResponseEntity<String>(HttpStatus.OK)
 		} catch (e: MissingKotlinParameterException) {
-			println("the missing parameter is: ${e.parameter.name}")
+			logger.warn("request is missing parameter: ${e.parameter.name}")
 			ResponseEntity("""{
-						"missing parameter": "${e.parameter.name}"
+						"error": "missing parameter: ${e.parameter.name}"
+					}""".trimIndent(), HttpStatus.BAD_REQUEST)
+		} catch (e: JdbcSQLIntegrityConstraintViolationException) {
+			logger.warn("id is already present")
+			ResponseEntity("""{
+						"error": "id already present"
 					}""".trimIndent(), HttpStatus.BAD_REQUEST)
 		}
 	}
