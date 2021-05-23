@@ -31,3 +31,16 @@ CREATE TABLE IF NOT EXISTS cards (
   src_base_hq                   VARCHAR      NOT NULL,
   src_idl_hq                    VARCHAR      NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS banners (
+  id VARCHAR DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY,
+  
+  name          VARCHAR      NOT NULL,
+  description   VARCHAR      NOT NULL,
+
+  start_date    DATE         NOT NULL,
+  end_date      DATE         NOT NULL,
+
+  image_hq      VARCHAR      NOT NULL,
+  image_lq      VARCHAR      NOT NULL
+);

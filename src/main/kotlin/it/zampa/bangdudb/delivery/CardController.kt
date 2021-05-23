@@ -57,7 +57,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 
 	@PostMapping("/addCard")
 	fun post(@RequestBody card: Card) {
-		service.post(card)
+		service.addCard(card)
 	}
 
 	@PostMapping("/addSingleCard")

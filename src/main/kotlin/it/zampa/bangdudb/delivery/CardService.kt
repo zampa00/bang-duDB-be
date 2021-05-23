@@ -29,7 +29,7 @@ class CardService(val db: CardRepository) {
 		)
 	}
 
-	fun post(card: Card) {
+	fun addCard(card: Card) {
 		db.save(card)
 	}
 
