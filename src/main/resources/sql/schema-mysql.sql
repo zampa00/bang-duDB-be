@@ -11,7 +11,7 @@ create table banners
 
 create table cards
 (
-    id                          varchar(8) primary key,
+    id                          int(5) auto_increment primary key,
     banner_id                   varchar(4)   not null,
     card_id                     varchar(8)   not null,
     character_name              varchar(128) not null,
