@@ -1,6 +1,6 @@
 create table banners
 (
-    id          int unsigned auto_increment primary key,
+    id          int(4) unsigned auto_increment primary key,
     name        varchar(255) not null,
     description varchar(255) not null,
     start_date  date         not null,
@@ -8,11 +8,10 @@ create table banners
     image_hq    varchar(255) not null,
     image_lq    varchar(255) not null
 );
-
 create table cards
 (
     id                          int(5) auto_increment primary key,
-    banner_id                   varchar(4),
+    banner_id                   int(4) unsigned,
     card_id                     varchar(8)   not null,
     character_name              varchar(128) not null,
     band                        varchar(32)  not null,
@@ -43,6 +42,5 @@ create table cards
     src_base_hq                 varchar(255) not null,
     src_idl_hq                  varchar(255) not null,
 
-    PRIMARY KEY (id),
     FOREIGN KEY (banner_id) REFERENCES banners (id)
 );
