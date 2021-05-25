@@ -2,7 +2,7 @@ package it.zampa.bangdudb.delivery.datamodel
 
 data class InputCard(
 	val id: String,
-	val banner_id: String,
+	val banner_id: Int?,
 
 	val characters: String,
 	val band: String,
