@@ -27,7 +27,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
-	fun index(): List<Card> = service.findCards()
+	fun getCards(): List<Card> = service.findCards()
 
 	@GetMapping("/searchCards")
 	@ResponseBody
@@ -61,13 +61,8 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		return service.findCardsInBanner(bannerId)
 	}
 
-	@PostMapping("/addCard")
-	fun post(@RequestBody card: Card) {
-		service.addCard(card)
-	}
-
 	@PostMapping("/addSingleCard")
-	fun test(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile): ResponseEntity<String> {
+	fun addCard(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile): ResponseEntity<String> {
 		return try {
 			logger.info("received requesto to upload a card")
 			val card = mapper.readValue(cardDetails, InputCard::class.java)

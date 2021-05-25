@@ -24,7 +24,7 @@ class BannerController(val service: BannerService, val addBannerUseCase: AddBann
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/banners")
-	fun getBanner(): List<Banner> {
+	fun getBanners(): List<Banner> {
 		return service.findBanners()
 	}
 
@@ -35,7 +35,7 @@ class BannerController(val service: BannerService, val addBannerUseCase: AddBann
 	}
 
 	@PostMapping("/addBanner")
-	fun test(@RequestParam bannerData: String, @RequestParam bannerImage: MultipartFile): ResponseEntity<String> {
+	fun addBanner(@RequestParam bannerData: String, @RequestParam bannerImage: MultipartFile): ResponseEntity<String> {
 		logger.info("received $bannerData")
 		logger.info("received image $bannerImage")
 
