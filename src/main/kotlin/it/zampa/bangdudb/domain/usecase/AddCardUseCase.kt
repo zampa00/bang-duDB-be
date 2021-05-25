@@ -47,7 +47,7 @@ private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, img
 	card_id = this.id,
 	banner_id = this.banner_id,
 	character_name = this.characters,
-	band = this.band,
+	band = this.bands,
 	card_name = this.cardName,
 	rarity = this.rarities,
 	attribute = this.attributes,

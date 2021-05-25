@@ -98,7 +98,7 @@ class AddCardUseCaseTest {
 			banner_id = 1,
 
 			characters = "Nanahoshi Ren",
-			band = "Argonavis",
+			bands = "Argonavis",
 			cardName = "card name",
 			rarities = "4*",
 			attributes = "cool",

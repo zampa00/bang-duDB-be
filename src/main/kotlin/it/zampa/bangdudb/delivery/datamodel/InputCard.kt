@@ -5,7 +5,7 @@ data class InputCard(
 	val banner_id: Int?,
 
 	val characters: String,
-	val band: String,
+	val bands: String,
 	val cardName: String,
 	val rarities: String,
 	val attributes: String,
