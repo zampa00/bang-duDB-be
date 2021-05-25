@@ -1,6 +1,6 @@
 package it.zampa.bangdudb.domain.usecase
 
-import it.zampa.bangdudb.delivery.data.InputCard
+import it.zampa.bangdudb.delivery.datamodel.InputCard
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.repository.CardRepository

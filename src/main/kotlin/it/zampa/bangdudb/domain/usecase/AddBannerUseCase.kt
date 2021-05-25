@@ -1,6 +1,6 @@
 package it.zampa.bangdudb.domain.usecase
 
-import it.zampa.bangdudb.delivery.data.InputBanner
+import it.zampa.bangdudb.delivery.datamodel.InputBanner
 import it.zampa.bangdudb.domain.Banner
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.repository.BannerRepository

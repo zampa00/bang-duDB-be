@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
-import it.zampa.bangdudb.delivery.data.InputCard
+import it.zampa.bangdudb.delivery.datamodel.InputCard
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException

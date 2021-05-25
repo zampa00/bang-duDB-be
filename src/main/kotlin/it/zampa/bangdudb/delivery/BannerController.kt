@@ -3,7 +3,7 @@ package it.zampa.bangdudb.delivery
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import it.zampa.bangdudb.delivery.data.InputBanner
+import it.zampa.bangdudb.delivery.datamodel.InputBanner
 import it.zampa.bangdudb.domain.Banner
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
 import org.slf4j.Logger
