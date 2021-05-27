@@ -12,6 +12,20 @@ create table banners
     image_lq       varchar not null
 );
 
+create table events
+(
+    id             serial  not null
+        constraint events_pk
+            primary key,
+    name           varchar not null,
+    name_jp        varchar not null,
+    description_jp varchar not null,
+    start_date     date    not null,
+    end_date       date    not null,
+    image_hq       varchar not null,
+    image_lq       varchar not null
+);
+
 create table cards
 (
     id                             serial       not null
@@ -20,6 +34,9 @@ create table cards
     banner_id                      int
         constraint cards_banners__fk
             references banners,
+    event_id                       int
+        constraint cards_events__fk
+            references events,
     card_id                        varchar(8)   not null,
     character_name                 varchar(128) not null,
     band                           varchar(32)  not null,
