@@ -34,7 +34,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 	fun getCardsFrom(
 		@RequestParam(name = "characters") characters: List<String>?,
 		@RequestParam(name = "bands") bands: List<String>?,
-		@RequestParam(name = "rarities") rarities: List<String>?,
+		@RequestParam(name = "rarities") rarities: List<Int>?,
 		@RequestParam(name = "attributes") attributes: List<String>?,
 		@RequestParam(name = "skill_session_types") skill_session_types: List<String>?,
 		@RequestParam(name = "allowGacha") is_gacha: Boolean?,
@@ -45,7 +45,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 	): List<Card> {
 		System.out.println("${rarities}")
 		return service.findCards(
-			characters, bands, rarities?.map { e -> e.toString() }, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
+			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
 		)
 	}
 
@@ -57,7 +57,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 
 	@GetMapping("/cardsFromBanner/{bannerId}")
 	@ResponseBody
-	fun getCardsFromBanner(@PathVariable bannerId: String): List<Card> {
+	fun getCardsFromBanner(@PathVariable bannerId: Int): List<Card> {
 		return service.findCardsInBanner(bannerId)
 	}
 

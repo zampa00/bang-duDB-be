@@ -18,11 +18,11 @@ interface CardRepository : CrudRepository<Card, String> {
 	): Card?
 
 	@Query("select * from cards where " +
-		"(:characters is null OR character_name in (:characters)) " +
-		"AND (:bands is null OR band in (:bands)) " +
-		"AND (:rarities is null OR rarity in (:rarities)) " +
-		"AND (:attributes is null OR attribute in (:attributes)) " +
-		"AND (:skill_session_types is null OR skill_session_type in (:skill_session_types)) " +
+		"((:characters::varchar) is null OR character_name in (:characters::varchar)) " +
+		"AND ((:bands::varchar) is null OR band in (:bands::varchar)) " +
+		"AND ((:rarities::integer) is null OR rarity in (:rarities::integer)) " +
+		"AND ((:attributes::varchar) is null OR attribute in (:attributes::varchar)) " +
+		"AND ((:skill_session_types::varchar) is null OR skill_session_type in (:skill_session_types::varchar)) " +
 		"AND (:is_gacha is null OR is_gacha = :is_gacha) " +
 		"AND (:is_unavailable_gacha is null OR is_unavailable_gacha = :is_unavailable_gacha) " +
 		"AND (:is_event is null OR is_event = :is_event) " +
@@ -33,7 +33,7 @@ interface CardRepository : CrudRepository<Card, String> {
 	fun findCards(
 		@Param("characters") characters: List<String>?,
 		@Param("bands") bands: List<String>?,
-		@Param("rarities") rarities: List<String>?,
+		@Param("rarities") rarities: List<Int>?,
 		@Param("attributes") attributes: List<String>?,
 		@Param("skill_session_types") skill_session_types: List<String>?,
 		@Param("is_gacha") is_gacha: Boolean?,
@@ -45,7 +45,7 @@ interface CardRepository : CrudRepository<Card, String> {
 
 	@Query("SELECT * FROM CARDS WHERE banner_id = :banner_id")
 	fun findCardsInBanner(
-		@Param("banner_id") banner_id: String
+		@Param("banner_id") banner_id: Int
 	): List<Card>
 
 

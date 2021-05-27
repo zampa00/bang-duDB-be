@@ -30,7 +30,7 @@ class BannerController(val service: BannerService, val addBannerUseCase: AddBann
 
 	@GetMapping("/banner/{bannerId}")
 	@ResponseBody
-	fun getBannerFromId(@PathVariable bannerId: String): Banner? {
+	fun getBannerFromId(@PathVariable bannerId: Int): Banner? {
 		return service.findBanner(bannerId)
 	}
 

@@ -14,7 +14,7 @@ class CardService(val db: CardRepository) {
 	fun findCards(
 		characters: List<String>?,
 		bands: List<String>?,
-		rarities: List<String>?,
+		rarities: List<Int>?,
 		attributes: List<String>?,
 		skill_session_types: List<String>?,
 		is_gacha: Boolean?,
@@ -30,7 +30,7 @@ class CardService(val db: CardRepository) {
 	}
 
 	fun findCardsInBanner(
-		banner_id: String
+		banner_id: Int
 	): List<Card> = db.findCardsInBanner(banner_id)
 
 	fun addCard(card: Card) {

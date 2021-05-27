@@ -14,7 +14,7 @@ interface BannerRepository : CrudRepository<Banner, String> {
 
 	@Query("select * from banners where id = :id")
 	fun findBanner(
-		@Param("id") bannerId: kotlin.String
+		@Param("id") bannerId: Int
 	): Banner?
 
 }

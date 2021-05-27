@@ -9,10 +9,6 @@ class BannerService(val db: BannerRepository) {
 
 	fun findBanners(): List<Banner> = db.findAllBanners()
 
-	fun findBanner(bannerId: String): Banner? = db.findBanner(bannerId)
-
-	fun addBanner(banner: Banner) {
-		db.save(banner)
-	}
+	fun findBanner(bannerId: Int): Banner? = db.findBanner(bannerId)
 
 }
