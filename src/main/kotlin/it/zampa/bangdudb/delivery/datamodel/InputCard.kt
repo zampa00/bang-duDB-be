@@ -7,7 +7,8 @@ data class InputCard(
 	val character: String,
 	val band: String,
 	val cardName: String,
-	val rarity: String,
+	val cardNameJp: String,
+	val rarity: Int,
 	val attribute: String,
 	val releaseDate: String,
 
@@ -17,10 +18,14 @@ data class InputCard(
 	val vi: Int,
 
 	val skillSessionName: String,
+	val skillSessionNameJp: String,
 	val skillSessionDescription: String,
+	val skillSessionDescriptionJp: String,
 	val skilltype: String,
 	val skillDailylifeName: String,
+	val skillDailylifeNameJp: String,
 	val skillDailylifeDescription: String,
+	val skillDailylifeDescriptionJp: String,
 
 	val isGacha: Boolean,
 	val isUnavailableGacha: Boolean,

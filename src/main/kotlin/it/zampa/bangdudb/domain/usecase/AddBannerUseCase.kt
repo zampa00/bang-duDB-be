@@ -43,7 +43,9 @@ class AddBannerUseCase(
 private fun InputBanner.mapToDomain(imgHqUrl: String, imgLqUrl: String): Banner {
 	return Banner(
 		name = this.name,
+		name_jp = this.nameJp,
 		description = this.description,
+		description_jp = this.descriptionJp,
 		start_date = LocalDate.parse(this.startDate)!!,
 		end_date = LocalDate.parse(this.endDate)!!,
 		image_hq = imgHqUrl,

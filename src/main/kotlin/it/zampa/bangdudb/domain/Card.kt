@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDate
 
-@Table("CARDS")
+@Table("cards")
 data class Card(
 
 	@Id
@@ -16,7 +16,8 @@ data class Card(
 	val character_name: String,
 	val band: String,
 	val card_name: String,
-	val rarity: String,
+	val card_name_jp: String,
+	val rarity: Int,
 	val attribute: String,
 	val release_date: LocalDate,
 
@@ -26,10 +27,14 @@ data class Card(
 	val vi: Int,
 
 	val skill_session_name: String,
+	val skill_session_name_jp: String,
 	val skill_session_description: String,
+	val skill_session_description_jp: String,
 	val skill_session_type: String,
 	val skill_dailylife_name: String,
+	val skill_dailylife_name_jp: String,
 	val skill_dailylife_description: String,
+	val skill_dailylife_description_jp: String,
 
 	val is_gacha: Boolean,
 	val is_unavailable_gacha: Boolean,
