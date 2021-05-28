@@ -23,7 +23,7 @@ class AddBannerUseCase(
 
 		val imgHqUrl = imageUploader.uploadBanner(bannerImage.inputStream, bannerImage.resource.filename!!)
 		val imgLqFile = imageCompressionService.compress(bannerImage.inputStream, bannerImage.resource.filename!!.nameWithoutExtension())
-		val imgLqUrl = imageUploader.uploadCard(imgLqFile, imgLqFile.name)
+		val imgLqUrl = imageUploader.uploadBanner(imgLqFile, imgLqFile.name)
 
 		logger.info("all banner's image uploaded")
 

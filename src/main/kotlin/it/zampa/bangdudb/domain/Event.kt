@@ -18,5 +18,11 @@ data class Event(
 	val end_date: LocalDate,
 
 	val image_hq: String?,
-	val image_lq: String?
+	val image_lq: String?,
+	val stamp: String,
+	val title_point: String,
+	val title_rank: String,
+	val instrument: String,
+	val accessory_point: String,
+	val accessory_rank: String
 )

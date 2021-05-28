@@ -14,16 +14,23 @@ create table banners
 
 create table events
 (
-    id             serial  not null
+    id              serial  not null
         constraint events_pk
             primary key,
-    name           varchar not null,
-    name_jp        varchar not null,
-    description_jp varchar not null,
-    start_date     date    not null,
-    end_date       date    not null,
-    image_hq       varchar not null,
-    image_lq       varchar not null
+    name            varchar not null,
+    name_jp         varchar not null,
+    description     varchar not null,
+    description_jp  varchar not null,
+    start_date      date    not null,
+    end_date        date    not null,
+    image_hq        varchar not null,
+    image_lq        varchar not null,
+    stamp           varchar not null,
+    title_point     varchar not null,
+    title_rank      varchar not null,
+    instrument      varchar not null,
+    accessory_point varchar not null,
+    accessory_rank  varchar not null
 );
 
 create table cards
