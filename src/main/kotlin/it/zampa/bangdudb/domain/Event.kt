@@ -7,7 +7,7 @@ import java.time.LocalDate
 @Table("events")
 data class Event(
 	@Id
-	val id: String? = null,
+	val id: Int? = null,
 
 	val name: String,
 	val name_jp: String,

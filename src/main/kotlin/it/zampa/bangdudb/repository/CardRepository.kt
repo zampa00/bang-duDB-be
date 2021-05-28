@@ -48,6 +48,9 @@ interface CardRepository : CrudRepository<Card, String> {
 		@Param("banner_id") banner_id: Int
 	): List<Card>
 
+	@Query("select * from cards where :event_id = event_id")
+	fun findEventCards(@Param("event_id") eventId: Int): List<Card>
+
 
 }
 

@@ -37,4 +37,8 @@ class CardService(val db: CardRepository) {
 		db.save(card)
 	}
 
+	fun findAllCardsOfEvent(eventId: Int): List<Card> {
+		return db.findEventCards(eventId)
+	}
+
 }

@@ -3,6 +3,7 @@ package it.zampa.bangdudb.delivery
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import it.zampa.bangdudb.delivery.datamodel.EventWithCards
 import it.zampa.bangdudb.delivery.datamodel.InputEvent
 import it.zampa.bangdudb.domain.Event
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
@@ -15,7 +16,11 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class EventController(val service: EventService, val addEventUseCase: AddEventUseCase) {
+class EventController(
+	val eventService: EventService,
+	val cardService: CardService,
+	val addEventUseCase: AddEventUseCase
+) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -25,13 +30,13 @@ class EventController(val service: EventService, val addEventUseCase: AddEventUs
 
 	@GetMapping("/events")
 	fun getEvents(): List<Event> {
-		return service.findEvents()
+		return eventService.findEvents()
 	}
 
 	@GetMapping("/event/{eventId}")
 	@ResponseBody
 	fun getEventFromId(@PathVariable eventId: Int): Event? {
-		return service.findEvent(eventId)
+		return eventService.findEvent(eventId)
 	}
 
 	@PostMapping("/addEvent")
@@ -60,6 +65,14 @@ class EventController(val service: EventService, val addEventUseCase: AddEventUs
 			accessoryPoints,
 			accessoryRank)
 		return ResponseEntity<String>(HttpStatus.OK)
+	}
+
+	@GetMapping("/eventDetails/{eventId}")
+	@ResponseBody
+	fun getEventWithCards(@PathVariable eventId: Int): EventWithCards {
+		val event = eventService.findEvent(eventId)
+		val cards = event?.id?.let { cardService.findAllCardsOfEvent(it) }
+		return EventWithCards(event, cards)
 	}
 
 }
