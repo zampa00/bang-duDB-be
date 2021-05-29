@@ -31,7 +31,7 @@ class EventController(
 
 	@GetMapping("/events")
 	fun getEvents(): List<EventSummary> {
-		return eventService.findEvents()
+		return eventService.findEventsSummary()
 	}
 
 	@GetMapping("/eventsSummary")
