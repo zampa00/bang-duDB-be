@@ -6,6 +6,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.file.Path
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
@@ -15,10 +16,16 @@ import kotlin.math.roundToInt
 
 class ImageIOImageCompressionService : ImageCompressionService {
 
+	var PATH = "tmp"
+
 	override fun compress(fileToCompress: InputStream, fileName: String): File {
 		val resizedImage = resizeImage(ImageIO.read(fileToCompress))
 
-		val compressedImageFile = File("src\\test\\resources\\${fileName}_lq.jpg")
+		val directory = File(PATH)
+		if (!directory.exists()) directory.mkdir()
+
+		val path = Path.of("", PATH, "${fileName}_lq.jpg")
+		val compressedImageFile = path.toFile()
 		val outputStream: OutputStream = FileOutputStream(compressedImageFile)
 		val imageOutputStream = ImageIO.createImageOutputStream(outputStream)
 
