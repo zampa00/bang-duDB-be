@@ -3,6 +3,8 @@ package it.zampa.bangdudb.delivery
 import it.zampa.bangdudb.delivery.datamodel.CardSummary
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.repository.CardRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
@@ -40,6 +42,10 @@ class CardService(val db: CardRepository) {
 
 	fun findAllCardsOfEvent(eventId: Int): List<CardSummary> {
 		return db.findEventCards(eventId)
+	}
+
+	fun findPage(page: Int, size: Int): Page<Card> {
+		return db.findAll(PageRequest.of(page, size))
 	}
 
 }

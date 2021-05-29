@@ -10,6 +10,7 @@ import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -27,7 +28,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
-	fun getCards(): List<Card> = service.findCards()
+	fun getCards(@RequestParam page: Int, @RequestParam items: Int): Page<Card> = service.findPage(page, items)
 
 	@GetMapping("/searchCards")
 	@ResponseBody
@@ -53,12 +54,6 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 	@ResponseBody
 	fun getCardFromId(@PathVariable cardId: String): Card? {
 		return service.findCard(cardId)
-	}
-
-	@GetMapping("/cardsFromBanner/{bannerId}")
-	@ResponseBody
-	fun getCardsFromBanner(@PathVariable bannerId: Int): List<Card> {
-		return service.findCardsInBanner(bannerId)
 	}
 
 	@PostMapping("/addSingleCard")
