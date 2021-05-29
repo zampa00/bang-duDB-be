@@ -96,6 +96,7 @@ class AddCardUseCaseTest {
 		val card = InputCard(
 			id = "014_0001",
 			banner_id = 1,
+			event_id = 1,
 
 			character = "Nanahoshi Ren",
 			band = "Argonavis",
@@ -130,6 +131,7 @@ class AddCardUseCaseTest {
 		val dbCard = Card(
 			card_id = "014_0001",
 			banner_id = 1,
+			event_id = 1,
 			character_name = "Nanahoshi Ren",
 			band = "Argonavis",
 			card_name = "card name",

@@ -46,6 +46,7 @@ private fun String.nameWithoutExtension(): String = this.substringBeforeLast("."
 private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, imgBaseLqUrl: String, imgIdlLqUrl: String): Card = Card(
 	card_id = this.id,
 	banner_id = this.banner_id,
+	event_id = this.event_id,
 	character_name = this.character,
 	band = this.band,
 	card_name = this.cardName,

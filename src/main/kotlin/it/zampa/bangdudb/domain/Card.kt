@@ -11,6 +11,7 @@ data class Card(
 	val id: String? = null,
 
 	val banner_id: Int?,
+	val event_id: Int?,
 
 	val card_id: String,
 	val character_name: String,

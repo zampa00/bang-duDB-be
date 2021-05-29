@@ -1,5 +1,6 @@
 package it.zampa.bangdudb.repository
 
+import it.zampa.bangdudb.delivery.datamodel.CardSummary
 import it.zampa.bangdudb.domain.Card
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
@@ -48,8 +49,17 @@ interface CardRepository : CrudRepository<Card, String> {
 		@Param("banner_id") banner_id: Int
 	): List<Card>
 
-	@Query("select * from cards where :event_id = event_id")
-	fun findEventCards(@Param("event_id") eventId: Int): List<Card>
+	@Query("select card_id, " +
+		"character_name, " +
+		"band, card_name, " +
+		"card_name_jp, " +
+		"rarity, " +
+		"attribute, " +
+		"src_base_lq, " +
+		"src_idl_lq " +
+		"from cards " +
+		"where :event_id = id")
+	fun findEventCards(@Param("event_id") eventId: Int): List<CardSummary>
 
 
 }

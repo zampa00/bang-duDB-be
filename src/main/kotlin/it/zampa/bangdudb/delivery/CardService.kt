@@ -1,5 +1,6 @@
 package it.zampa.bangdudb.delivery
 
+import it.zampa.bangdudb.delivery.datamodel.CardSummary
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.repository.CardRepository
 import org.springframework.stereotype.Service
@@ -37,7 +38,7 @@ class CardService(val db: CardRepository) {
 		db.save(card)
 	}
 
-	fun findAllCardsOfEvent(eventId: Int): List<Card> {
+	fun findAllCardsOfEvent(eventId: Int): List<CardSummary> {
 		return db.findEventCards(eventId)
 	}
 

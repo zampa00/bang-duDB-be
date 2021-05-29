@@ -3,6 +3,7 @@ package it.zampa.bangdudb.delivery
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import it.zampa.bangdudb.delivery.datamodel.EventSummary
 import it.zampa.bangdudb.delivery.datamodel.EventWithCards
 import it.zampa.bangdudb.delivery.datamodel.InputEvent
 import it.zampa.bangdudb.domain.Event
@@ -29,8 +30,13 @@ class EventController(
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/events")
-	fun getEvents(): List<Event> {
+	fun getEvents(): List<EventSummary> {
 		return eventService.findEvents()
+	}
+
+	@GetMapping("/eventsSummary")
+	fun getEventsSummary(): List<EventSummary> {
+		return eventService.findEventsSummary()
 	}
 
 	@GetMapping("/event/{eventId}")
