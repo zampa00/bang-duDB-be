@@ -16,7 +16,7 @@ import kotlin.math.roundToInt
 
 class ImageIOImageCompressionService : ImageCompressionService {
 
-	var PATH = "tmp"
+	private var PATH: String = "tmp"
 
 	override fun compress(fileToCompress: InputStream, fileName: String): File {
 		val resizedImage = resizeImage(ImageIO.read(fileToCompress))
@@ -24,8 +24,8 @@ class ImageIOImageCompressionService : ImageCompressionService {
 		val directory = File(PATH)
 		if (!directory.exists()) directory.mkdir()
 
-		val path = Path.of("", PATH, "${fileName}_lq.jpg")
-		val compressedImageFile = path.toFile()
+		val path: Path = Path.of("", PATH, "${fileName}_lq.jpg")
+		val compressedImageFile: File = path.toFile()
 		val outputStream: OutputStream = FileOutputStream(compressedImageFile)
 		val imageOutputStream = ImageIO.createImageOutputStream(outputStream)
 
