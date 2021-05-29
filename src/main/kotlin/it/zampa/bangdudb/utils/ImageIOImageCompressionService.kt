@@ -7,6 +7,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.nio.file.Path
+import java.nio.file.Paths
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
@@ -24,7 +25,7 @@ class ImageIOImageCompressionService : ImageCompressionService {
 		val directory = File(PATH)
 		if (!directory.exists()) directory.mkdir()
 
-		val path: Path = Path.of("", PATH, "${fileName}_lq.jpg")
+		val path: Path = Paths.get("", PATH, "${fileName}_lq.jpg")
 		val compressedImageFile: File = path.toFile()
 		val outputStream: OutputStream = FileOutputStream(compressedImageFile)
 		val imageOutputStream = ImageIO.createImageOutputStream(outputStream)
