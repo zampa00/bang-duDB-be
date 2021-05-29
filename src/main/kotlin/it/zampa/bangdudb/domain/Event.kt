@@ -1,14 +1,12 @@
 package it.zampa.bangdudb.domain
 
 import java.time.LocalDate
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "events")
 class Event(
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	val id: Int? = null,
 
 	val name: String,

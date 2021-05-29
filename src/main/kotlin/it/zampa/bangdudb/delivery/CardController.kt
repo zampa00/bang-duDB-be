@@ -28,7 +28,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
-	fun getCards(@RequestParam page: Int, @RequestParam items: Int): Page<Card> = service.findPage(page, items)
+	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Page<Card> = service.findPage(page, size)
 
 	@GetMapping("/searchCards")
 	@ResponseBody
