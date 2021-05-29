@@ -1,13 +1,13 @@
 package it.zampa.bangdudb.domain
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDate
+import javax.persistence.*
 
-@Table("cards")
+@Entity
+@Table(name = "cards")
 data class Card(
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	val id: String? = null,
 
 	val banner_id: Int?,

@@ -1,11 +1,13 @@
 package it.zampa.bangdudb.domain
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDate
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
 
-@Table("events")
-data class Event(
+@Entity
+@Table(name = "events")
+class Event(
 	@Id
 	val id: Int? = null,
 

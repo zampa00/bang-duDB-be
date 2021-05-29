@@ -1,22 +1,22 @@
 package it.zampa.bangdudb.domain
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDate
+import javax.persistence.*
 
-@Table("banners")
-data class Banner(
-	@Id
-	val id: String? = null,
+@Entity
+@Table(name = "banners")
+class Banner(
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	var id: String? = null,
 
-	val name: String,
-	val name_jp: String,
-	val description: String,
-	val description_jp: String,
+	var name: String,
+	var name_jp: String,
+	var description: String,
+	var description_jp: String,
 
-	val start_date: LocalDate,
-	val end_date: LocalDate,
+	var start_date: LocalDate,
+	var end_date: LocalDate,
 
-	val image_hq: String?,
-	val image_lq: String?
+	var image_hq: String?,
+	var image_lq: String?
 )

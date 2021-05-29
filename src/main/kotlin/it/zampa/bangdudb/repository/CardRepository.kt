@@ -2,18 +2,18 @@ package it.zampa.bangdudb.repository
 
 import it.zampa.bangdudb.delivery.datamodel.CardSummary
 import it.zampa.bangdudb.domain.Card
-import org.springframework.data.jdbc.repository.query.Query
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CardRepository : CrudRepository<Card, String> {
+interface CardRepository : PagingAndSortingRepository<Card, String> {
 
-	@Query("select * from cards")
+	@Query("select * from cards", nativeQuery = true)
 	fun findCards(): List<Card>
 
-	@Query("select * from cards where card_id = :id")
+	@Query("select * from cards where card_id = :id", nativeQuery = true)
 	fun findCard(
 		@Param("id") cardId: String
 	): Card?
@@ -29,7 +29,7 @@ interface CardRepository : CrudRepository<Card, String> {
 		"AND (:is_event is null OR is_event = :is_event) " +
 		"AND (:is_birthday is null OR is_birthday = :is_birthday) " +
 		"AND (:is_promo is null OR is_promo = :is_promo) " +
-		""
+		"", nativeQuery = true
 	)
 	fun findCards(
 		@Param("characters") characters: List<String>?,
@@ -44,7 +44,7 @@ interface CardRepository : CrudRepository<Card, String> {
 		@Param("is_promo") is_promo: Boolean?,
 	): List<Card>
 
-	@Query("SELECT * FROM CARDS WHERE banner_id = :banner_id")
+	@Query("SELECT * FROM CARDS WHERE banner_id = :banner_id", nativeQuery = true)
 	fun findCardsInBanner(
 		@Param("banner_id") banner_id: Int
 	): List<Card>
@@ -58,7 +58,7 @@ interface CardRepository : CrudRepository<Card, String> {
 		"src_base_lq, " +
 		"src_idl_lq " +
 		"from cards " +
-		"where :event_id = id")
+		"where :event_id = id", nativeQuery = true)
 	fun findEventCards(@Param("event_id") eventId: Int): List<CardSummary>
 
 
