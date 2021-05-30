@@ -18,18 +18,17 @@ interface CardRepository : PagingAndSortingRepository<Card, String> {
 		@Param("id") cardId: String
 	): Card?
 
-	@Query("select * from cards where " +
-		"((:characters::varchar) is null OR character_name in (:characters::varchar)) " +
-		"AND ((:bands::varchar) is null OR band in (:bands::varchar)) " +
-		"AND ((:rarities::integer) is null OR rarity in (:rarities::integer)) " +
-		"AND ((:attributes::varchar) is null OR attribute in (:attributes::varchar)) " +
-		"AND ((:skill_session_types::varchar) is null OR skill_session_type in (:skill_session_types::varchar)) " +
-		"AND (:is_gacha is null OR is_gacha = :is_gacha) " +
+
+	@Query("SELECT c FROM Card c WHERE ((:characters) is null OR c.character_name in (:characters)) " +
+		"AND ((:bands) is null OR c.band in (:bands)) " +
+		"AND ((:rarities) is null OR c.rarity in (:rarities)) " +
+		"AND ((:attributes) is null OR c.attribute in (:attributes)) " +
+		"AND ((:skill_session_types) is null OR c.skill_session_type in (:skill_session_types)) " +
+		"AND ((:is_gacha) is null OR c.is_gacha = :is_gacha) " +
 		"AND (:is_unavailable_gacha is null OR is_unavailable_gacha = :is_unavailable_gacha) " +
 		"AND (:is_event is null OR is_event = :is_event) " +
 		"AND (:is_birthday is null OR is_birthday = :is_birthday) " +
-		"AND (:is_promo is null OR is_promo = :is_promo) " +
-		"", nativeQuery = true
+		"AND (:is_promo is null OR is_promo = :is_promo)"
 	)
 	fun findCards(
 		@Param("characters") characters: List<String>?,
@@ -49,16 +48,7 @@ interface CardRepository : PagingAndSortingRepository<Card, String> {
 		@Param("banner_id") banner_id: Int
 	): List<Card>
 
-	@Query("select card_id, " +
-		"character_name, " +
-		"band, card_name, " +
-		"card_name_jp, " +
-		"rarity, " +
-		"attribute, " +
-		"src_base_lq, " +
-		"src_idl_lq " +
-		"from cards " +
-		"where :event_id = id", nativeQuery = true)
+	@Query("SELECT c.card_id, c.character_name, c.band, c.card_name, c.card_name_jp, c.rarity, c.attribute, c.src_base_lq, c.src_idl_lq FROM Card c WHERE c.event_id = :event_id")
 	fun findEventCards(@Param("event_id") eventId: Int): List<CardSummary>
 
 

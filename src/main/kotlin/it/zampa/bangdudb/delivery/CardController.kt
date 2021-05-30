@@ -44,7 +44,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		@RequestParam(name = "allowEvent") is_birthday: Boolean?,
 		@RequestParam(name = "allowPromo") is_promo: Boolean?,
 	): List<Card> {
-		System.out.println("${rarities}")
+		System.out.println("$characters")
 		return service.findCards(
 			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
 		)
