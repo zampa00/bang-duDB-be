@@ -78,16 +78,40 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 	fun findCardsPaginatedFilteredBy(
 		page: Int,
 		resultsPerPage: Int,
-		characters: List<String>?,
-		bands: List<String>?
+		characters: List<String>? = null,
+		bands: List<String>? = null,
+		rarities: List<Int>? = null,
+		attributes: List<String>? = null,
+		skill_session_types: List<String>? = null,
+		is_gacha: Boolean? = null,
+		is_unavailable_gacha: Boolean? = null,
+		is_event: Boolean? = null,
+		is_birthday: Boolean? = null,
+		is_promo: Boolean? = null,
 	): PaginatedCards = try {
 		val sqlParameterSource = MapSqlParameterSource()
 			.addValue("characters", characters)
 			.addValue("bands", bands)
+			.addValue("rarities", rarities)
+			.addValue("attributes", attributes)
+			.addValue("skill_session_types", skill_session_types)
+			.addValue("is_gacha", is_gacha)
+			.addValue("is_unavailable_gacha", is_unavailable_gacha)
+			.addValue("is_event", is_event)
+			.addValue("is_birthday", is_birthday)
+			.addValue("is_promo", is_promo)
 			.addValue("page", page)
 			.addValue("resultsPerPage", resultsPerPage)
 		val whereClause = "WHERE ((:characters::text) is null OR character_name in (:characters::text)) " +
-			"AND ((:bands::text) is null OR band in (:bands::text)) "
+			"AND ((:bands::text) is null OR band in (:bands::text)) " +
+			"AND ((:rarities::integer) is null OR rarity in (:rarities::integer)) " +
+			"AND ((:attributes::text) is null OR attribute in (:attributes::text)) " +
+			"AND ((:skill_session_types::text) is null OR skill_session_type in (:skill_session_types::text)) " +
+			"AND (:is_gacha::boolean is null OR is_gacha = :is_gacha::boolean) " +
+			"AND (:is_unavailable_gacha::boolean is null OR is_unavailable_gacha = :is_unavailable_gacha::boolean) " +
+			"AND (:is_event::boolean is null OR is_event = :is_event::boolean) " +
+			"AND (:is_birthday::boolean is null OR is_birthday = :is_birthday::boolean) " +
+			"AND (:is_promo::boolean is null OR is_promo = :is_promo::boolean) "
 		PaginatedCards(
 			cardSummary = jdbcTemplate.queryForList(
 				"SELECT * FROM $TABLE_NAME " +
