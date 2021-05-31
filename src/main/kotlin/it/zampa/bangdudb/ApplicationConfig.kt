@@ -11,11 +11,16 @@ import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
 import it.zampa.bangdudb.repository.BannerRepository
 import it.zampa.bangdudb.repository.CardRepository
+import it.zampa.bangdudb.repository.DbCardRepository
 import it.zampa.bangdudb.repository.EventRepository
 import it.zampa.bangdudb.utils.ImageIOImageCompressionService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
+import javax.sql.DataSource
 
 @Configuration
 @Service
@@ -25,12 +30,24 @@ class ApplicationConfig(
 	val eventRepository: EventRepository,
 ) {
 
+	@Autowired
+	private lateinit var dataSource: DataSource
+
+	@Bean
+	@Primary
+	fun jdbcTemplate(): JdbcTemplate {
+		return JdbcTemplate(dataSource)
+	}
+
 	val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
 		.withRegion(Regions.EU_WEST_1)
 		.withCredentials(ProfileCredentialsProvider("bang-dudb"))
 		.build()
 	val imageUploader: ImageUploader = S3ImageUploader(s3Client)
 	val imageCompressionService = ImageIOImageCompressionService()
+
+	@Bean
+	fun cardRepository2(jdbcTemplate: JdbcTemplate) = DbCardRepository(jdbcTemplate)
 
 	@Bean
 	fun addCardUseCase(): AddCardUseCase =

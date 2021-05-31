@@ -1,4 +1,4 @@
-create table banners
+create table if not exists banners
 (
     id             serial  not null
         constraint banners_pk
@@ -12,7 +12,7 @@ create table banners
     image_lq       varchar not null
 );
 
-create table events
+create table if not exists events
 (
     id              serial  not null
         constraint events_pk
@@ -33,7 +33,7 @@ create table events
     accessory_rank  varchar not null
 );
 
-create table cards
+create table if not exists cards
 (
     id                             serial       not null
         constraint cards_pk
