@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
 import javax.sql.DataSource
 
@@ -35,8 +35,8 @@ class ApplicationConfig(
 
 	@Bean
 	@Primary
-	fun jdbcTemplate(): JdbcTemplate {
-		return JdbcTemplate(dataSource)
+	fun namedParameterJdbcTemplate(): NamedParameterJdbcTemplate {
+		return NamedParameterJdbcTemplate(dataSource)
 	}
 
 	val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
@@ -47,7 +47,7 @@ class ApplicationConfig(
 	val imageCompressionService = ImageIOImageCompressionService()
 
 	@Bean
-	fun cardRepository2(jdbcTemplate: JdbcTemplate) = DbCardRepository(jdbcTemplate)
+	fun cardRepository2(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbCardRepository(namedParameterJdbcTemplate)
 
 	@Bean
 	fun addCardUseCase(): AddCardUseCase =
