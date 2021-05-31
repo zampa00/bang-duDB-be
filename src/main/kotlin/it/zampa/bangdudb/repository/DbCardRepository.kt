@@ -75,12 +75,19 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 			PaginatedCards(emptyList(), 0)
 		}
 
-	fun findCardsPaginatedFilteredBy(page: Int, resultsPerPage: Int, characters: String): PaginatedCards = try {
+	fun findCardsPaginatedFilteredBy(
+		page: Int,
+		resultsPerPage: Int,
+		characters: List<String>?,
+		bands: List<String>?
+	): PaginatedCards = try {
 		val sqlParameterSource = MapSqlParameterSource()
 			.addValue("characters", characters)
+			.addValue("bands", bands)
 			.addValue("page", page)
 			.addValue("resultsPerPage", resultsPerPage)
-		val whereClause = "WHERE ((:characters) is null OR character_name in (:characters)) "
+		val whereClause = "WHERE ((:characters::text) is null OR character_name in (:characters::text)) " +
+			"AND ((:bands::text) is null OR band in (:bands::text)) "
 		PaginatedCards(
 			cardSummary = jdbcTemplate.queryForList(
 				"SELECT * FROM $TABLE_NAME " +

@@ -50,7 +50,23 @@ class DbCardRepositoryTest : SpringTestParent() {
 
 	@Test
 	fun `retrieve a paginated summary after single character filter`() {
-		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = "FELIX")
+		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = listOf("FELIX"), bands = null)
+		assertEquals(2, cards.totalPages)
+		assertEquals(2, cards.cardSummary.size)
+		assertEquals("124_0001", cards.cardSummary.first().card_id)
+	}
+
+	@Test
+	fun `retrieve a paginated summary after two character filter`() {
+		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = listOf("FELIX", "Ren"), bands = null)
+		assertEquals(3, cards.totalPages)
+		assertEquals(3, cards.cardSummary.size)
+		assertEquals("124_0001", cards.cardSummary.first().card_id)
+	}
+
+	@Test
+	fun `retrieve a paginate summary for band`() {
+		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = null, bands = listOf("Fantôme Iris"))
 		assertEquals(2, cards.totalPages)
 		assertEquals(2, cards.cardSummary.size)
 		assertEquals("124_0001", cards.cardSummary.first().card_id)
