@@ -1,9 +1,9 @@
 package it.zampa.bangdudb.domain.usecase
 
-import it.zampa.bangdudb.delivery.datamodel.InputEvent
+import it.zampa.bangdudb.delivery.datamodel.`in`.InputEvent
 import it.zampa.bangdudb.domain.Event
-import it.zampa.bangdudb.domain.ImageUploader
-import it.zampa.bangdudb.repository.EventRepository
+import it.zampa.bangdudb.domain.repository.EventRepository
+import it.zampa.bangdudb.domain.service.ImageUploader
 import it.zampa.bangdudb.utils.ImageCompressionService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

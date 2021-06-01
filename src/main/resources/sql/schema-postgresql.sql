@@ -5,6 +5,7 @@ create table if not exists banners
             primary key,
     name           varchar not null,
     name_jp        varchar not null,
+    description    varchar not null,
     description_jp varchar not null,
     start_date     date    not null,
     end_date       date    not null,

@@ -1,4 +1,4 @@
-package it.zampa.bangdudb.delivery.datamodel
+package it.zampa.bangdudb.delivery.datamodel.out
 
 import it.zampa.bangdudb.domain.Event
 

@@ -1,15 +1,15 @@
-package it.zampa.bangdudb.delivery
+package it.zampa.bangdudb.delivery.controller
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
-import it.zampa.bangdudb.delivery.datamodel.CardSummary
-import it.zampa.bangdudb.delivery.datamodel.InputCard
-import it.zampa.bangdudb.delivery.datamodel.Paginated
+import it.zampa.bangdudb.delivery.datamodel.`in`.InputCard
+import it.zampa.bangdudb.delivery.datamodel.out.CardSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Card
+import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
-import it.zampa.bangdudb.repository.CardRepository
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

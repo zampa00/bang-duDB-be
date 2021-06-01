@@ -1,14 +1,14 @@
-package it.zampa.bangdudb.delivery
+package it.zampa.bangdudb.delivery.controller
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import it.zampa.bangdudb.delivery.datamodel.EventSummary
-import it.zampa.bangdudb.delivery.datamodel.InputEvent
-import it.zampa.bangdudb.delivery.datamodel.Paginated
+import it.zampa.bangdudb.delivery.datamodel.`in`.InputEvent
+import it.zampa.bangdudb.delivery.datamodel.out.EventSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Event
+import it.zampa.bangdudb.domain.repository.EventRepository
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
-import it.zampa.bangdudb.repository.EventRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

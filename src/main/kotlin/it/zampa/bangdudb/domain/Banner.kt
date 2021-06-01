@@ -1,13 +1,9 @@
 package it.zampa.bangdudb.domain
 
 import java.time.LocalDate
-import javax.persistence.*
 
-@Entity
-@Table(name = "banners")
 class Banner(
-	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-	var id: String? = null,
+	var id: Int? = null,
 
 	var name: String,
 	var name_jp: String,

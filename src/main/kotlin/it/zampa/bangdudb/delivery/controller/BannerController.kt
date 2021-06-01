@@ -1,10 +1,13 @@
-package it.zampa.bangdudb.delivery
+package it.zampa.bangdudb.delivery.controller
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import it.zampa.bangdudb.delivery.datamodel.InputBanner
+import it.zampa.bangdudb.delivery.datamodel.`in`.InputBanner
+import it.zampa.bangdudb.delivery.datamodel.out.BannerSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Banner
+import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class BannerController(val service: BannerService, val addBannerUseCase: AddBannerUseCase) {
+class BannerController(val bannerRepository: BannerRepository, val addBannerUseCase: AddBannerUseCase) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -24,14 +27,14 @@ class BannerController(val service: BannerService, val addBannerUseCase: AddBann
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/banners")
-	fun getBanners(): List<Banner> {
-		return service.findBanners()
+	fun getBanners(): Paginated<BannerSummary> {
+		return bannerRepository.findBannersPaginated(0, 3)
 	}
 
 	@GetMapping("/banner/{bannerId}")
 	@ResponseBody
 	fun getBannerFromId(@PathVariable bannerId: Int): Banner? {
-		return service.findBanner(bannerId)
+		return bannerRepository.findById(bannerId)
 	}
 
 	@PostMapping("/addBanner")

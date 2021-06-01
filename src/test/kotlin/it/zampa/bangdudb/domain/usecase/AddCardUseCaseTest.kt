@@ -1,9 +1,9 @@
 package it.zampa.bangdudb.domain.usecase
 
-import it.zampa.bangdudb.delivery.datamodel.InputCard
+import it.zampa.bangdudb.delivery.datamodel.`in`.InputCard
 import it.zampa.bangdudb.domain.Card
-import it.zampa.bangdudb.domain.ImageUploader
-import it.zampa.bangdudb.repository.CardRepository
+import it.zampa.bangdudb.domain.repository.CardRepository
+import it.zampa.bangdudb.domain.service.ImageUploader
 import it.zampa.bangdudb.utils.ImageCompressionService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

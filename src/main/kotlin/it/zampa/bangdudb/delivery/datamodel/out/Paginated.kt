@@ -1,4 +1,4 @@
-package it.zampa.bangdudb.delivery.datamodel
+package it.zampa.bangdudb.delivery.datamodel.out
 
 data class Paginated<T>(
 	val summary: List<T>,

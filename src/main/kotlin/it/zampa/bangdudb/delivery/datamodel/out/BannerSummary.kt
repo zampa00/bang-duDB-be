@@ -1,6 +1,6 @@
-package it.zampa.bangdudb.delivery.datamodel
+package it.zampa.bangdudb.delivery.datamodel.out
 
-data class EventSummary(
+data class BannerSummary(
 	val id: Int,
 	val name: String,
 	val name_jp: String,

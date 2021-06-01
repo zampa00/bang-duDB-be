@@ -1,9 +1,9 @@
 package it.zampa.bangdudb.delivery.repository
 
-import it.zampa.bangdudb.delivery.datamodel.CardSummary
-import it.zampa.bangdudb.delivery.datamodel.Paginated
+import it.zampa.bangdudb.delivery.datamodel.out.CardSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Card
-import it.zampa.bangdudb.repository.CardRepository
+import it.zampa.bangdudb.domain.repository.CardRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate

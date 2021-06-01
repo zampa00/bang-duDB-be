@@ -1,7 +1,7 @@
-package it.zampa.bangdudb.repository
+package it.zampa.bangdudb.domain.repository
 
-import it.zampa.bangdudb.delivery.datamodel.CardSummary
-import it.zampa.bangdudb.delivery.datamodel.Paginated
+import it.zampa.bangdudb.delivery.datamodel.out.CardSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Card
 
 interface CardRepository {

@@ -1,8 +1,8 @@
-package it.zampa.bangdudb.delivery
+package it.zampa.bangdudb.delivery.service
 
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
-import it.zampa.bangdudb.domain.ImageUploader
+import it.zampa.bangdudb.domain.service.ImageUploader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File

@@ -1,9 +1,9 @@
 package it.zampa.bangdudb.delivery.repository
 
-import it.zampa.bangdudb.delivery.datamodel.EventSummary
-import it.zampa.bangdudb.delivery.datamodel.Paginated
+import it.zampa.bangdudb.delivery.datamodel.out.EventSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Event
-import it.zampa.bangdudb.repository.EventRepository
+import it.zampa.bangdudb.domain.repository.EventRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate

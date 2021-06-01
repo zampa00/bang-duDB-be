@@ -1,4 +1,4 @@
-package it.zampa.bangdudb.delivery.datamodel
+package it.zampa.bangdudb.delivery.datamodel.`in`
 
 data class InputEvent(
 	val name: String,

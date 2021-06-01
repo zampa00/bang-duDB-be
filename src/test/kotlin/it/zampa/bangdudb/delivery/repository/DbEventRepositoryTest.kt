@@ -1,21 +1,20 @@
-package it.zampa.bangdudb.repository
+package it.zampa.bangdudb.delivery.repository
 
 import it.zampa.bangdudb.SpringTestParent
-import it.zampa.bangdudb.delivery.datamodel.EventSummary
-import it.zampa.bangdudb.delivery.datamodel.Paginated
-import it.zampa.bangdudb.delivery.repository.DbEventRepository
+import it.zampa.bangdudb.delivery.datamodel.out.EventSummary
+import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Event
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDate
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
 class DbEventRepositoryTest : SpringTestParent() {
 
 	@Autowired

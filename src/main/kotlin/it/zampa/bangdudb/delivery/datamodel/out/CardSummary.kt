@@ -1,4 +1,4 @@
-package it.zampa.bangdudb.delivery.datamodel
+package it.zampa.bangdudb.delivery.datamodel.out
 
 data class CardSummary(
 	val card_id: String,
