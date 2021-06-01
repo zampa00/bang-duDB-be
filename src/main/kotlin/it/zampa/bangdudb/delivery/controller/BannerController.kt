@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputBanner
 import it.zampa.bangdudb.delivery.datamodel.out.BannerSummary
+import it.zampa.bangdudb.delivery.datamodel.out.BannerWithCards
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
-import it.zampa.bangdudb.domain.Banner
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
+import it.zampa.bangdudb.domain.usecase.SearchBannerUseCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -18,7 +19,11 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class BannerController(val bannerRepository: BannerRepository, val addBannerUseCase: AddBannerUseCase) {
+class BannerController(
+	val bannerRepository: BannerRepository,
+	val addBannerUseCase: AddBannerUseCase,
+	val searchBannerUseCase: SearchBannerUseCase
+) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -32,9 +37,8 @@ class BannerController(val bannerRepository: BannerRepository, val addBannerUseC
 
 	@GetMapping("/banner/{bannerId}")
 	@ResponseBody
-	fun getBannerFromId(@PathVariable bannerId: Int): Banner? {
-		return bannerRepository.findById(bannerId)
-	}
+	fun getBannerFromId(@PathVariable bannerId: Int): BannerWithCards =
+		searchBannerUseCase.search(bannerId)
 
 	@PostMapping("/addBanner")
 	fun addBanner(@RequestParam bannerData: String, @RequestParam bannerImage: MultipartFile): ResponseEntity<String> {

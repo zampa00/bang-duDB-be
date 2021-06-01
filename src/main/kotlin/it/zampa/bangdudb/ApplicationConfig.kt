@@ -14,10 +14,7 @@ import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.repository.EventRepository
 import it.zampa.bangdudb.domain.service.ImageCompressionService
 import it.zampa.bangdudb.domain.service.ImageUploader
-import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
-import it.zampa.bangdudb.domain.usecase.AddCardUseCase
-import it.zampa.bangdudb.domain.usecase.AddEventUseCase
-import it.zampa.bangdudb.domain.usecase.SearchEventUseCase
+import it.zampa.bangdudb.domain.usecase.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -96,5 +93,12 @@ class ApplicationConfig {
 		eventRepository: EventRepository,
 	): SearchEventUseCase =
 		SearchEventUseCase(cardRepository, eventRepository)
+
+	@Bean
+	fun searchBannerUseCase(
+		cardRepository: CardRepository,
+		bannerRepository: BannerRepository,
+	): SearchBannerUseCase =
+		SearchBannerUseCase(cardRepository, bannerRepository)
 
 }
