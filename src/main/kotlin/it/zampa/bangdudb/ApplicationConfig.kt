@@ -12,6 +12,7 @@ import it.zampa.bangdudb.delivery.service.S3ImageUploader
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.repository.EventRepository
+import it.zampa.bangdudb.domain.service.ImageCompressionService
 import it.zampa.bangdudb.domain.service.ImageUploader
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
@@ -37,37 +38,54 @@ class ApplicationConfig {
 		return NamedParameterJdbcTemplate(dataSource)
 	}
 
-	val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
+	@Bean
+	fun s3Client(): AmazonS3 = AmazonS3ClientBuilder.standard()
 		.withRegion(Regions.EU_WEST_1)
 		.withCredentials(ProfileCredentialsProvider("bang-dudb"))
 		.build()
-	val imageUploader: ImageUploader = S3ImageUploader(s3Client)
-	val imageCompressionService = ImageIOImageCompressionService()
 
 	@Bean
-	fun cardRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbCardRepository(namedParameterJdbcTemplate)
+	fun imageUploader(
+		s3Client: AmazonS3
+	): ImageUploader = S3ImageUploader(s3Client)
 
 	@Bean
-	fun eventRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbEventRepository(namedParameterJdbcTemplate)
+	fun imageCompressionService() =
+		ImageIOImageCompressionService()
 
 	@Bean
-	fun bannerRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbBannerRepository(namedParameterJdbcTemplate)
+	fun cardRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) =
+		DbCardRepository(namedParameterJdbcTemplate)
+
+	@Bean
+	fun eventRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) =
+		DbEventRepository(namedParameterJdbcTemplate)
+
+	@Bean
+	fun bannerRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) =
+		DbBannerRepository(namedParameterJdbcTemplate)
 
 	@Bean
 	fun addCardUseCase(
-		cardRepository: CardRepository
+		cardRepository: CardRepository,
+		imageUploader: ImageUploader,
+		imageCompressionService: ImageCompressionService,
 	): AddCardUseCase =
 		AddCardUseCase(imageUploader, cardRepository, imageCompressionService)
 
 	@Bean
 	fun addBannerUseCase(
-		bannerRepository: BannerRepository
+		bannerRepository: BannerRepository,
+		imageUploader: ImageUploader,
+		imageCompressionService: ImageCompressionService,
 	): AddBannerUseCase =
 		AddBannerUseCase(imageUploader, bannerRepository, imageCompressionService)
 
 	@Bean
 	fun addEventUseCase(
-		eventRepository: EventRepository
+		eventRepository: EventRepository,
+		imageUploader: ImageUploader,
+		imageCompressionService: ImageCompressionService,
 	): AddEventUseCase =
 		AddEventUseCase(imageUploader, eventRepository, imageCompressionService)
 
