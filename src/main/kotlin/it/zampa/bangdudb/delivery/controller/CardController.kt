@@ -30,7 +30,8 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
-	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<CardSummary> = cardRepository.findCardsPaginated(page, size)
+	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<CardSummary> =
+		cardRepository.findCardsPaginated(page, size)
 
 	@GetMapping("/searchCards")
 	@ResponseBody
@@ -45,8 +46,10 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 		@RequestParam(name = "allowEvent") is_event: Boolean?,
 		@RequestParam(name = "allowEvent") is_birthday: Boolean?,
 		@RequestParam(name = "allowPromo") is_promo: Boolean?,
+		@RequestParam page: Int,
+		@RequestParam size: Int
 	): Paginated<CardSummary> {
-		return cardRepository.findCardsPaginatedFilteredBy(3, 0,
+		return cardRepository.findCardsPaginatedFilteredBy(page, size,
 			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
 		)
 	}

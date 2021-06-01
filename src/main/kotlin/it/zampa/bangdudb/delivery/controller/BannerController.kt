@@ -27,9 +27,8 @@ class BannerController(val bannerRepository: BannerRepository, val addBannerUseC
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/banners")
-	fun getBanners(): Paginated<BannerSummary> {
-		return bannerRepository.findBannersPaginated(0, 3)
-	}
+	fun getBanners(@RequestParam page: Int, @RequestParam size: Int): Paginated<BannerSummary> =
+		bannerRepository.findBannersPaginated(page, size)
 
 	@GetMapping("/banner/{bannerId}")
 	@ResponseBody

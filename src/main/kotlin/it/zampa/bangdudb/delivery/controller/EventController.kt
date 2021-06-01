@@ -30,8 +30,8 @@ class EventController(
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/events")
-	fun getEvents(): Paginated<EventSummary> {
-		return eventRepository.findEventsPaginated(0, 3)
+	fun getEvents(@RequestParam page: Int, @RequestParam size: Int): Paginated<EventSummary> {
+		return eventRepository.findEventsPaginated(page, size)
 	}
 
 	@GetMapping("/event/{eventId}")
