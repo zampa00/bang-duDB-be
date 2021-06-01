@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import it.zampa.bangdudb.delivery.datamodel.InputCard
+import it.zampa.bangdudb.delivery.datamodel.PaginatedCards
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
+import it.zampa.bangdudb.repository.CardRepository
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class CardController(val service: CardService, val addCardUseCase: AddCardUseCase) {
+class CardController(val cardRepository: CardRepository, val addCardUseCase: AddCardUseCase) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -28,7 +29,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
-	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Page<Card> = service.findPage(page, size)
+	fun getCards(@RequestParam page: Int, @RequestParam size: Int): PaginatedCards = cardRepository.findCardsPaginated(page, size)
 
 	@GetMapping("/searchCards")
 	@ResponseBody
@@ -43,9 +44,8 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 		@RequestParam(name = "allowEvent") is_event: Boolean?,
 		@RequestParam(name = "allowEvent") is_birthday: Boolean?,
 		@RequestParam(name = "allowPromo") is_promo: Boolean?,
-	): List<Card> {
-		System.out.println("$characters")
-		return service.findCards(
+	): PaginatedCards {
+		return cardRepository.findCardsPaginatedFilteredBy(3, 0,
 			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
 		)
 	}
@@ -53,7 +53,7 @@ class CardController(val service: CardService, val addCardUseCase: AddCardUseCas
 	@GetMapping("/card/{cardId}")
 	@ResponseBody
 	fun getCardFromId(@PathVariable cardId: String): Card? {
-		return service.findCard(cardId)
+		return cardRepository.findById(cardId)
 	}
 
 	@PostMapping("/addSingleCard")

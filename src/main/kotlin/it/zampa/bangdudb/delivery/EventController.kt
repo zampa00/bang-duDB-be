@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.EventSummary
-import it.zampa.bangdudb.delivery.datamodel.EventWithCards
 import it.zampa.bangdudb.delivery.datamodel.InputEvent
 import it.zampa.bangdudb.domain.Event
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile
 @CrossOrigin
 class EventController(
 	val eventService: EventService,
-	val cardService: CardService,
 	val addEventUseCase: AddEventUseCase
 ) {
 
@@ -73,12 +71,12 @@ class EventController(
 		return ResponseEntity<String>(HttpStatus.OK)
 	}
 
-	@GetMapping("/eventDetails/{eventId}")
-	@ResponseBody
-	fun getEventWithCards(@PathVariable eventId: Int): EventWithCards {
-		val event = eventService.findEvent(eventId)
-		val cards = event?.id?.let { cardService.findAllCardsOfEvent(it) }
-		return EventWithCards(event, cards)
-	}
+//	@GetMapping("/eventDetails/{eventId}")
+//	@ResponseBody
+//	fun getEventWithCards(@PathVariable eventId: Int): EventWithCards {
+//		val event = eventService.findEvent(eventId)
+//		val cards = event?.id?.let { cardService.findAllCardsOfEvent(it) }
+//		return EventWithCards(event, cards)
+//	}
 
 }

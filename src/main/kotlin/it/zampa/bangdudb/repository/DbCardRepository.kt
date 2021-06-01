@@ -7,11 +7,11 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
-class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
+class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepository {
 
 	val TABLE_NAME: String = "cards"
 
-	fun findById(cardId: String) =
+	override fun findById(cardId: String) =
 		try {
 			jdbcTemplate.queryForObject(
 				"SELECT * FROM $TABLE_NAME WHERE id = :cardId",
@@ -57,7 +57,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 			null
 		}
 
-	fun findCardsPaginated(page: Int, resultsPerPage: Int): PaginatedCards =
+	override fun findCardsPaginated(page: Int, resultsPerPage: Int): PaginatedCards =
 		try {
 			PaginatedCards(
 				cardSummary = jdbcTemplate.queryForList(
@@ -75,19 +75,19 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 			PaginatedCards(emptyList(), 0)
 		}
 
-	fun findCardsPaginatedFilteredBy(
+	override fun findCardsPaginatedFilteredBy(
 		page: Int,
 		resultsPerPage: Int,
-		characters: List<String>? = null,
-		bands: List<String>? = null,
-		rarities: List<Int>? = null,
-		attributes: List<String>? = null,
-		skill_session_types: List<String>? = null,
-		is_gacha: Boolean? = null,
-		is_unavailable_gacha: Boolean? = null,
-		is_event: Boolean? = null,
-		is_birthday: Boolean? = null,
-		is_promo: Boolean? = null,
+		characters: List<String>?,
+		bands: List<String>?,
+		rarities: List<Int>?,
+		attributes: List<String>?,
+		skill_session_types: List<String>?,
+		is_gacha: Boolean?,
+		is_unavailable_gacha: Boolean?,
+		is_event: Boolean?,
+		is_birthday: Boolean?,
+		is_promo: Boolean?,
 	): PaginatedCards = try {
 		val sqlParameterSource = MapSqlParameterSource()
 			.addValue("characters", characters)
@@ -128,7 +128,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 		PaginatedCards(emptyList(), 0)
 	}
 
-	fun save(card: Card) {
+	override fun save(card: Card) {
 		jdbcTemplate.update("INSERT INTO $TABLE_NAME" +
 			"( " +
 			"id, " +

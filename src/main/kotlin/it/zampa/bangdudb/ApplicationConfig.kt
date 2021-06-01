@@ -25,7 +25,6 @@ import javax.sql.DataSource
 @Configuration
 @Service
 class ApplicationConfig(
-	val cardRepository: CardRepository,
 	val bannerRepository: BannerRepository,
 	val eventRepository: EventRepository,
 ) {
@@ -47,10 +46,12 @@ class ApplicationConfig(
 	val imageCompressionService = ImageIOImageCompressionService()
 
 	@Bean
-	fun cardRepository2(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbCardRepository(namedParameterJdbcTemplate)
+	fun cardRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbCardRepository(namedParameterJdbcTemplate)
 
 	@Bean
-	fun addCardUseCase(): AddCardUseCase =
+	fun addCardUseCase(
+		cardRepository: CardRepository
+	): AddCardUseCase =
 		AddCardUseCase(imageUploader, cardRepository, imageCompressionService)
 
 	@Bean
