@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import it.zampa.bangdudb.delivery.repository.DbBannerRepository
 import it.zampa.bangdudb.delivery.repository.DbCardRepository
 import it.zampa.bangdudb.delivery.repository.DbEventRepository
+import it.zampa.bangdudb.delivery.service.ImageIOImageCompressionService
 import it.zampa.bangdudb.delivery.service.S3ImageUploader
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.repository.CardRepository
@@ -15,7 +16,6 @@ import it.zampa.bangdudb.domain.service.ImageUploader
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
-import it.zampa.bangdudb.utils.ImageIOImageCompressionService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

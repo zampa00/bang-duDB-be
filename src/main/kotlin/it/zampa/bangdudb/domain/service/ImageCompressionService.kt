@@ -1,4 +1,4 @@
-package it.zampa.bangdudb.utils
+package it.zampa.bangdudb.domain.service
 
 import java.io.File
 import java.io.InputStream

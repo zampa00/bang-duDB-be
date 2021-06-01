@@ -1,5 +1,6 @@
-package it.zampa.bangdudb.utils
+package it.zampa.bangdudb.delivery.service
 
+import it.zampa.bangdudb.domain.service.ImageCompressionService
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.io.File

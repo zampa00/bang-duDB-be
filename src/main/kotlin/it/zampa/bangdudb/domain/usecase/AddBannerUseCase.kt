@@ -3,8 +3,8 @@ package it.zampa.bangdudb.domain.usecase
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputBanner
 import it.zampa.bangdudb.domain.Banner
 import it.zampa.bangdudb.domain.repository.BannerRepository
+import it.zampa.bangdudb.domain.service.ImageCompressionService
 import it.zampa.bangdudb.domain.service.ImageUploader
-import it.zampa.bangdudb.utils.ImageCompressionService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.multipart.MultipartFile
