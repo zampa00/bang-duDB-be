@@ -2,6 +2,7 @@ package it.zampa.bangdudb.repository
 
 import it.zampa.bangdudb.SpringTestParent
 import it.zampa.bangdudb.delivery.datamodel.PaginatedCards
+import it.zampa.bangdudb.domain.Card
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
+import java.time.LocalDate
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DbCardRepositoryTest : SpringTestParent() {
@@ -86,5 +88,50 @@ class DbCardRepositoryTest : SpringTestParent() {
 		assertEquals(4, cards.totalPages)
 		assertEquals(3, cards.cardSummary.size)
 		assertEquals("124_0001", cards.cardSummary.first().card_id)
+	}
+
+	@Test
+	fun insert() {
+		repository.save(CARD)
+		val cards = repository.findCardsPaginated(0, 3)
+		assertEquals(5, cards.totalPages)
+	}
+
+	companion object {
+		val CARD = Card(
+			id = 10,
+			card_id = "014_0001",
+			banner_id = null,
+			event_id = null,
+			character_name = "Nanahoshi Ren",
+			band = "Argonavis",
+			card_name = "card name",
+			card_name_jp = "card name jp",
+			rarity = 4,
+			attribute = "cool",
+			release_date = LocalDate.parse("2021-01-21")!!,
+			power = 1,
+			pf = 1,
+			tec = 1,
+			vi = 1,
+			skill_session_name = "skill session name",
+			skill_session_name_jp = "skill session name jp",
+			skill_session_description = "skill session description",
+			skill_session_description_jp = "skill session description jp",
+			skill_session_type = "scorer",
+			skill_dailylife_name = "skill daily life name",
+			skill_dailylife_name_jp = "skill daily life name jp",
+			skill_dailylife_description = "skill daily life description",
+			skill_dailylife_description_jp = "skill daily life description jp",
+			is_gacha = false,
+			is_unavailable_gacha = false,
+			is_event = false,
+			is_birthday = false,
+			is_promo = false,
+			src_base_lq = "001_0001_1_lq.jpg",
+			src_idl_lq = "001_0001_2_lq.jpg",
+			src_base_hq = "001_0001_1.png",
+			src_idl_hq = "001_0001_2.png"
+		)
 	}
 }
