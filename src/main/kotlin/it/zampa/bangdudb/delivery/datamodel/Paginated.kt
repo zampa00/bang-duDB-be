@@ -1,6 +1,6 @@
 package it.zampa.bangdudb.delivery.datamodel
 
-data class PaginatedCards(
-	val cardSummary: List<CardSummary>,
+data class Paginated<T>(
+	val summary: List<T>,
 	val totalPages: Int
 )

@@ -1,12 +1,13 @@
 package it.zampa.bangdudb.repository
 
-import it.zampa.bangdudb.delivery.datamodel.PaginatedCards
+import it.zampa.bangdudb.delivery.datamodel.CardSummary
+import it.zampa.bangdudb.delivery.datamodel.Paginated
 import it.zampa.bangdudb.domain.Card
 
 interface CardRepository {
 	fun save(card: Card)
 	fun findById(cardId: String): Card?
-	fun findCardsPaginated(page: Int, resultsPerPage: Int): PaginatedCards
+	fun findCardsPaginated(page: Int, resultsPerPage: Int): Paginated<CardSummary>
 	fun findCardsPaginatedFilteredBy(
 		page: Int,
 		resultsPerPage: Int,
@@ -20,5 +21,5 @@ interface CardRepository {
 		is_event: Boolean? = null,
 		is_birthday: Boolean? = null,
 		is_promo: Boolean? = null,
-	): PaginatedCards
+	): Paginated<CardSummary>
 }

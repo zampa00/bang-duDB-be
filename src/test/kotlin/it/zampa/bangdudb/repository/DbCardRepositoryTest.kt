@@ -1,7 +1,8 @@
 package it.zampa.bangdudb.repository
 
 import it.zampa.bangdudb.SpringTestParent
-import it.zampa.bangdudb.delivery.datamodel.PaginatedCards
+import it.zampa.bangdudb.delivery.datamodel.CardSummary
+import it.zampa.bangdudb.delivery.datamodel.Paginated
 import it.zampa.bangdudb.domain.Card
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -44,50 +45,50 @@ class DbCardRepositoryTest : SpringTestParent() {
 
 	@Test
 	fun `retrieve a paginated summary of all cards`() {
-		val cards: PaginatedCards = repository.findCardsPaginated(page = 0, resultsPerPage = 3)
+		val cards: Paginated<CardSummary> = repository.findCardsPaginated(page = 0, resultsPerPage = 3)
 		assertEquals(4, cards.totalPages)
-		assertEquals(3, cards.cardSummary.size)
-		assertEquals("124_0001", cards.cardSummary.first().card_id)
+		assertEquals(3, cards.summary.size)
+		assertEquals("124_0001", cards.summary.first().card_id)
 	}
 
 	@Test
 	fun `retrieve a paginated summary after single character filter`() {
-		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = listOf("FELIX"))
+		val cards: Paginated<CardSummary> = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = listOf("FELIX"))
 		assertEquals(2, cards.totalPages)
-		assertEquals(2, cards.cardSummary.size)
-		assertEquals("124_0001", cards.cardSummary.first().card_id)
+		assertEquals(2, cards.summary.size)
+		assertEquals("124_0001", cards.summary.first().card_id)
 	}
 
 	@Test
 	fun `retrieve a paginated summary after two character filter`() {
-		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = listOf("FELIX", "Ren"))
+		val cards: Paginated<CardSummary> = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, characters = listOf("FELIX", "Ren"))
 		assertEquals(3, cards.totalPages)
-		assertEquals(3, cards.cardSummary.size)
-		assertEquals("124_0001", cards.cardSummary.first().card_id)
+		assertEquals(3, cards.summary.size)
+		assertEquals("124_0001", cards.summary.first().card_id)
 	}
 
 	@Test
 	fun `retrieve a paginate summary for band`() {
-		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, bands = listOf("Fantôme Iris"))
+		val cards: Paginated<CardSummary> = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, bands = listOf("Fantôme Iris"))
 		assertEquals(2, cards.totalPages)
-		assertEquals(2, cards.cardSummary.size)
-		assertEquals("124_0001", cards.cardSummary.first().card_id)
+		assertEquals(2, cards.summary.size)
+		assertEquals("124_0001", cards.summary.first().card_id)
 	}
 
 	@Test
 	fun `retrieve a paginate summary for rarities`() {
-		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, rarities = listOf(4))
+		val cards: Paginated<CardSummary> = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, rarities = listOf(4))
 		assertEquals(4, cards.totalPages)
-		assertEquals(3, cards.cardSummary.size)
-		assertEquals("124_0001", cards.cardSummary.first().card_id)
+		assertEquals(3, cards.summary.size)
+		assertEquals("124_0001", cards.summary.first().card_id)
 	}
 
 	@Test
 	fun `retrieve a paginate summary for a boolean`() {
-		val cards: PaginatedCards = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, is_birthday = true)
+		val cards: Paginated<CardSummary> = repository.findCardsPaginatedFilteredBy(page = 0, resultsPerPage = 3, is_birthday = true)
 		assertEquals(4, cards.totalPages)
-		assertEquals(3, cards.cardSummary.size)
-		assertEquals("124_0001", cards.cardSummary.first().card_id)
+		assertEquals(3, cards.summary.size)
+		assertEquals("124_0001", cards.summary.first().card_id)
 	}
 
 	@Test

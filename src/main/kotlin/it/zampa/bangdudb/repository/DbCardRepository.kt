@@ -1,7 +1,7 @@
 package it.zampa.bangdudb.repository
 
 import it.zampa.bangdudb.delivery.datamodel.CardSummary
-import it.zampa.bangdudb.delivery.datamodel.PaginatedCards
+import it.zampa.bangdudb.delivery.datamodel.Paginated
 import it.zampa.bangdudb.domain.Card
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
@@ -57,10 +57,10 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			null
 		}
 
-	override fun findCardsPaginated(page: Int, resultsPerPage: Int): PaginatedCards =
+	override fun findCardsPaginated(page: Int, resultsPerPage: Int): Paginated<CardSummary> =
 		try {
-			PaginatedCards(
-				cardSummary = jdbcTemplate.queryForList(
+			Paginated(
+				summary = jdbcTemplate.queryForList(
 					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :page",
 					MapSqlParameterSource()
 						.addValue("page", page)
@@ -72,7 +72,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			)
 
 		} catch (ex: EmptyResultDataAccessException) {
-			PaginatedCards(emptyList(), 0)
+			Paginated(emptyList(), 0)
 		}
 
 	override fun findCardsPaginatedFilteredBy(
@@ -88,7 +88,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		is_event: Boolean?,
 		is_birthday: Boolean?,
 		is_promo: Boolean?,
-	): PaginatedCards = try {
+	): Paginated<CardSummary> = try {
 		val sqlParameterSource = MapSqlParameterSource()
 			.addValue("characters", characters)
 			.addValue("bands", bands)
@@ -112,8 +112,8 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			"AND (:is_event::boolean is null OR is_event = :is_event::boolean) " +
 			"AND (:is_birthday::boolean is null OR is_birthday = :is_birthday::boolean) " +
 			"AND (:is_promo::boolean is null OR is_promo = :is_promo::boolean) "
-		PaginatedCards(
-			cardSummary = jdbcTemplate.queryForList(
+		Paginated(
+			summary = jdbcTemplate.queryForList(
 				"SELECT * FROM $TABLE_NAME " +
 					whereClause +
 					"LIMIT :resultsPerPage OFFSET :page",
@@ -125,7 +125,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		)
 
 	} catch (ex: EmptyResultDataAccessException) {
-		PaginatedCards(emptyList(), 0)
+		Paginated(emptyList(), 0)
 	}
 
 	override fun save(card: Card) {

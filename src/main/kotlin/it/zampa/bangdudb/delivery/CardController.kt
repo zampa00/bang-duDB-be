@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
+import it.zampa.bangdudb.delivery.datamodel.CardSummary
 import it.zampa.bangdudb.delivery.datamodel.InputCard
-import it.zampa.bangdudb.delivery.datamodel.PaginatedCards
+import it.zampa.bangdudb.delivery.datamodel.Paginated
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import it.zampa.bangdudb.repository.CardRepository
@@ -29,7 +30,7 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/cards")
-	fun getCards(@RequestParam page: Int, @RequestParam size: Int): PaginatedCards = cardRepository.findCardsPaginated(page, size)
+	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<CardSummary> = cardRepository.findCardsPaginated(page, size)
 
 	@GetMapping("/searchCards")
 	@ResponseBody
@@ -44,7 +45,7 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 		@RequestParam(name = "allowEvent") is_event: Boolean?,
 		@RequestParam(name = "allowEvent") is_birthday: Boolean?,
 		@RequestParam(name = "allowPromo") is_promo: Boolean?,
-	): PaginatedCards {
+	): Paginated<CardSummary> {
 		return cardRepository.findCardsPaginatedFilteredBy(3, 0,
 			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
 		)
