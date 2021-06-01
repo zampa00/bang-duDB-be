@@ -5,13 +5,14 @@ import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import it.zampa.bangdudb.delivery.S3ImageUploader
+import it.zampa.bangdudb.delivery.repository.DbCardRepository
+import it.zampa.bangdudb.delivery.repository.DbEventRepository
 import it.zampa.bangdudb.domain.ImageUploader
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
 import it.zampa.bangdudb.repository.BannerRepository
 import it.zampa.bangdudb.repository.CardRepository
-import it.zampa.bangdudb.repository.DbCardRepository
 import it.zampa.bangdudb.repository.EventRepository
 import it.zampa.bangdudb.utils.ImageIOImageCompressionService
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,7 +27,6 @@ import javax.sql.DataSource
 @Service
 class ApplicationConfig(
 	val bannerRepository: BannerRepository,
-	val eventRepository: EventRepository,
 ) {
 
 	@Autowired
@@ -49,6 +49,9 @@ class ApplicationConfig(
 	fun cardRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbCardRepository(namedParameterJdbcTemplate)
 
 	@Bean
+	fun eventRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) = DbEventRepository(namedParameterJdbcTemplate)
+
+	@Bean
 	fun addCardUseCase(
 		cardRepository: CardRepository
 	): AddCardUseCase =
@@ -59,7 +62,9 @@ class ApplicationConfig(
 		AddBannerUseCase(imageUploader, bannerRepository, imageCompressionService)
 
 	@Bean
-	fun addEventUseCase(): AddEventUseCase =
+	fun addEventUseCase(
+		eventRepository: EventRepository
+	): AddEventUseCase =
 		AddEventUseCase(imageUploader, eventRepository, imageCompressionService)
 
 }

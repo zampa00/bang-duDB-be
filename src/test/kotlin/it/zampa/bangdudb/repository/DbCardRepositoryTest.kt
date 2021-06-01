@@ -3,6 +3,7 @@ package it.zampa.bangdudb.repository
 import it.zampa.bangdudb.SpringTestParent
 import it.zampa.bangdudb.delivery.datamodel.CardSummary
 import it.zampa.bangdudb.delivery.datamodel.Paginated
+import it.zampa.bangdudb.delivery.repository.DbCardRepository
 import it.zampa.bangdudb.domain.Card
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals

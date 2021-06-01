@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.EventSummary
 import it.zampa.bangdudb.delivery.datamodel.InputEvent
+import it.zampa.bangdudb.delivery.datamodel.Paginated
 import it.zampa.bangdudb.domain.Event
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
+import it.zampa.bangdudb.repository.EventRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -17,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @CrossOrigin
 class EventController(
-	val eventService: EventService,
+	val eventRepository: EventRepository,
 	val addEventUseCase: AddEventUseCase
 ) {
 
@@ -28,19 +30,14 @@ class EventController(
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/events")
-	fun getEvents(): List<EventSummary> {
-		return eventService.findEventsSummary()
-	}
-
-	@GetMapping("/eventsSummary")
-	fun getEventsSummary(): List<EventSummary> {
-		return eventService.findEventsSummary()
+	fun getEvents(): Paginated<EventSummary> {
+		return eventRepository.findEventsPaginated(0, 3)
 	}
 
 	@GetMapping("/event/{eventId}")
 	@ResponseBody
 	fun getEventFromId(@PathVariable eventId: Int): Event? {
-		return eventService.findEvent(eventId)
+		return eventRepository.findById(eventId)
 	}
 
 	@PostMapping("/addEvent")

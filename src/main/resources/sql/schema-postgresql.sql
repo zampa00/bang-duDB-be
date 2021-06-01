@@ -14,7 +14,7 @@ create table if not exists banners
 
 create table if not exists events
 (
-    id              serial  not null
+    id              serial
         constraint events_pk
             primary key,
     name            varchar not null,
@@ -74,3 +74,6 @@ create table if not exists cards
     src_base_hq                    varchar      not null,
     src_idl_hq                     varchar      not null
 );
+
+create sequence if not exists event_sequence
+    as int;
