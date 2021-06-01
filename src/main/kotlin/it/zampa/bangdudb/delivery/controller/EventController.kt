@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputEvent
 import it.zampa.bangdudb.delivery.datamodel.out.EventSummary
+import it.zampa.bangdudb.delivery.datamodel.out.EventWithCards
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
-import it.zampa.bangdudb.domain.Event
 import it.zampa.bangdudb.domain.repository.EventRepository
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
+import it.zampa.bangdudb.domain.usecase.SearchEventUseCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -20,7 +21,8 @@ import org.springframework.web.multipart.MultipartFile
 @CrossOrigin
 class EventController(
 	val eventRepository: EventRepository,
-	val addEventUseCase: AddEventUseCase
+	val addEventUseCase: AddEventUseCase,
+	val searchEventUseCase: SearchEventUseCase
 ) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -36,9 +38,8 @@ class EventController(
 
 	@GetMapping("/event/{eventId}")
 	@ResponseBody
-	fun getEventFromId(@PathVariable eventId: Int): Event? {
-		return eventRepository.findById(eventId)
-	}
+	fun getEventFromId(@PathVariable eventId: Int): EventWithCards =
+		searchEventUseCase.search(eventId)
 
 	@PostMapping("/addEvent")
 	fun addEvent(

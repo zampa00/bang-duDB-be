@@ -7,6 +7,7 @@ import it.zampa.bangdudb.domain.repository.CardRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import java.sql.ResultSet
 
 class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepository {
 
@@ -19,43 +20,23 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 				MapSqlParameterSource()
 					.addValue("cardId", cardId)
 			) { resultSet, _ ->
-				Card(
-					id = resultSet.getString("id"),
-					banner_id = resultSet.getInt("banner_id"),
-					event_id = resultSet.getInt("event_id"),
-					character_name = resultSet.getString("character_name"),
-					band = resultSet.getString("band"),
-					card_name = resultSet.getString("card_name"),
-					card_name_jp = resultSet.getString("card_name_jp"),
-					rarity = resultSet.getInt("rarity"),
-					attribute = resultSet.getString("attribute"),
-					release_date = resultSet.getDate("release_date").toLocalDate(),
-					power = resultSet.getInt("power"),
-					pf = resultSet.getInt("pf"),
-					tec = resultSet.getInt("tec"),
-					vi = resultSet.getInt("vi"),
-					skill_session_name = resultSet.getString("skill_session_name"),
-					skill_session_name_jp = resultSet.getString("skill_session_name_jp"),
-					skill_session_description = resultSet.getString("skill_session_description"),
-					skill_session_description_jp = resultSet.getString("skill_session_description_jp"),
-					skill_session_type = resultSet.getString("skill_session_type"),
-					skill_dailylife_name = resultSet.getString("skill_dailylife_name"),
-					skill_dailylife_name_jp = resultSet.getString("skill_dailylife_name_jp"),
-					skill_dailylife_description = resultSet.getString("skill_dailylife_description"),
-					skill_dailylife_description_jp = resultSet.getString("skill_dailylife_description_jp"),
-					is_gacha = resultSet.getBoolean("is_gacha"),
-					is_unavailable_gacha = resultSet.getBoolean("is_unavailable_gacha"),
-					is_event = resultSet.getBoolean("is_event"),
-					is_birthday = resultSet.getBoolean("is_birthday"),
-					is_promo = resultSet.getBoolean("is_promo"),
-					src_base_lq = resultSet.getString("src_base_lq"),
-					src_idl_lq = resultSet.getString("src_idl_lq"),
-					src_base_hq = resultSet.getString("src_base_hq"),
-					src_idl_hq = resultSet.getString("src_idl_hq"),
-				)
+				mapToCard(resultSet)
 			}
 		} catch (ex: EmptyResultDataAccessException) {
 			null
+		}
+
+	override fun findCardsFromEvent(eventId: Int): List<CardSummary> =
+		try {
+			jdbcTemplate.queryForList(
+				"SELECT * FROM $TABLE_NAME WHERE event_id = :eventId",
+				MapSqlParameterSource()
+					.addValue("eventId", eventId)
+			).map {
+				mapToCardSummary(it)
+			}
+		} catch (ex: EmptyResultDataAccessException) {
+			emptyList()
 		}
 
 	override fun findCardsPaginated(page: Int, resultsPerPage: Int): Paginated<CardSummary> =
@@ -247,4 +228,38 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		src_idl_lq = it["src_idl_lq"] as String,
 	)
 
+	private fun mapToCard(resultSet: ResultSet) = Card(
+		id = resultSet.getString("id"),
+		banner_id = resultSet.getInt("banner_id"),
+		event_id = resultSet.getInt("event_id"),
+		character_name = resultSet.getString("character_name"),
+		band = resultSet.getString("band"),
+		card_name = resultSet.getString("card_name"),
+		card_name_jp = resultSet.getString("card_name_jp"),
+		rarity = resultSet.getInt("rarity"),
+		attribute = resultSet.getString("attribute"),
+		release_date = resultSet.getDate("release_date").toLocalDate(),
+		power = resultSet.getInt("power"),
+		pf = resultSet.getInt("pf"),
+		tec = resultSet.getInt("tec"),
+		vi = resultSet.getInt("vi"),
+		skill_session_name = resultSet.getString("skill_session_name"),
+		skill_session_name_jp = resultSet.getString("skill_session_name_jp"),
+		skill_session_description = resultSet.getString("skill_session_description"),
+		skill_session_description_jp = resultSet.getString("skill_session_description_jp"),
+		skill_session_type = resultSet.getString("skill_session_type"),
+		skill_dailylife_name = resultSet.getString("skill_dailylife_name"),
+		skill_dailylife_name_jp = resultSet.getString("skill_dailylife_name_jp"),
+		skill_dailylife_description = resultSet.getString("skill_dailylife_description"),
+		skill_dailylife_description_jp = resultSet.getString("skill_dailylife_description_jp"),
+		is_gacha = resultSet.getBoolean("is_gacha"),
+		is_unavailable_gacha = resultSet.getBoolean("is_unavailable_gacha"),
+		is_event = resultSet.getBoolean("is_event"),
+		is_birthday = resultSet.getBoolean("is_birthday"),
+		is_promo = resultSet.getBoolean("is_promo"),
+		src_base_lq = resultSet.getString("src_base_lq"),
+		src_idl_lq = resultSet.getString("src_idl_lq"),
+		src_base_hq = resultSet.getString("src_base_hq"),
+		src_idl_hq = resultSet.getString("src_idl_hq"),
+	)
 }
