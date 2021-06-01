@@ -15,7 +15,7 @@ interface CardRepository : PagingAndSortingRepository<Card, String> {
 	@Query("select * from cards", nativeQuery = true)
 	fun findCards(): List<Card>
 
-	@Query("select * from cards where card_id = :id", nativeQuery = true)
+	@Query("select * from cards where id = :id", nativeQuery = true)
 	fun findCard(
 		@Param("id") cardId: String
 	): Card?
@@ -76,7 +76,7 @@ interface CardRepository : PagingAndSortingRepository<Card, String> {
 		@Param("banner_id") banner_id: Int
 	): List<Card>
 
-	@Query("SELECT c.card_id, c.character_name, c.band, c.card_name, c.card_name_jp, c.rarity, c.attribute, c.src_base_lq, c.src_idl_lq FROM Card c WHERE c.event_id = :event_id")
+	@Query("SELECT c.id, c.character_name, c.band, c.card_name, c.card_name_jp, c.rarity, c.attribute, c.src_base_lq, c.src_idl_lq FROM Card c WHERE c.event_id = :event_id")
 	fun findEventCards(@Param("event_id") eventId: Int): List<CardSummary>
 
 

@@ -35,7 +35,7 @@ create table if not exists events
 
 create table if not exists cards
 (
-    id                             serial       not null
+    id                             varchar(8)   not null
         constraint cards_pk
             primary key,
     banner_id                      int
@@ -44,7 +44,6 @@ create table if not exists cards
     event_id                       int
         constraint cards_events__fk
             references events,
-    card_id                        varchar(8)   not null,
     character_name                 varchar(128) not null,
     band                           varchar(32)  not null,
     card_name                      varchar(128) not null,

@@ -14,14 +14,14 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 	fun findById(cardId: String) =
 		try {
 			jdbcTemplate.queryForObject(
-				"SELECT * FROM $TABLE_NAME WHERE card_id = :cardId",
+				"SELECT * FROM $TABLE_NAME WHERE id = :cardId",
 				MapSqlParameterSource()
 					.addValue("cardId", cardId)
 			) { resultSet, _ ->
 				Card(
+					id = resultSet.getString("id"),
 					banner_id = resultSet.getInt("banner_id"),
 					event_id = resultSet.getInt("event_id"),
-					card_id = resultSet.getString("card_id"),
 					character_name = resultSet.getString("character_name"),
 					band = resultSet.getString("band"),
 					card_name = resultSet.getString("card_name"),
@@ -134,7 +134,6 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 			"id, " +
 			"banner_id, " +
 			"event_id, " +
-			"card_id, " +
 			"character_name, " +
 			"band, " +
 			"card_name, " +
@@ -169,7 +168,6 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 			":id, " +
 			":banner_id, " +
 			":event_id, " +
-			":card_id, " +
 			":character_name, " +
 			":band, " +
 			":card_name, " +
@@ -204,7 +202,6 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 				.addValue("id", card.id)
 				.addValue("banner_id", card.banner_id)
 				.addValue("event_id", card.event_id)
-				.addValue("card_id", card.card_id)
 				.addValue("character_name", card.character_name)
 				.addValue("band", card.band)
 				.addValue("card_name", card.card_name)
@@ -238,7 +235,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 	}
 
 	private fun mapToCardSummary(it: MutableMap<String, Any>) = CardSummary(
-		card_id = it["card_id"] as String,
+		card_id = it["id"] as String,
 		character_name = it["character_name"] as String,
 		band = it["band"] as String,
 		card_name = it["card_name"] as String,

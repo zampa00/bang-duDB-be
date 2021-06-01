@@ -8,12 +8,11 @@ import javax.persistence.*
 data class Card(
 
 	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-	val id: Int? = null,
+	val id: String,
 
 	val banner_id: Int?,
 	val event_id: Int?,
 
-	val card_id: String,
 	val character_name: String,
 	val band: String,
 	val card_name: String,
