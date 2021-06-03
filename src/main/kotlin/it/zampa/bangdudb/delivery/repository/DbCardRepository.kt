@@ -43,9 +43,9 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :page",
+					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
 					MapSqlParameterSource()
-						.addValue("page", page)
+						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
 				).map {
 					mapToCardSummary(it)
@@ -82,7 +82,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			.addValue("is_event", is_event)
 			.addValue("is_birthday", is_birthday)
 			.addValue("is_promo", is_promo)
-			.addValue("page", page)
+			.addValue("offset", page * resultsPerPage)
 			.addValue("resultsPerPage", resultsPerPage)
 		val whereClause = "WHERE ((:characters::text) is null OR character_name in (:characters::text)) " +
 			"AND ((:bands::text) is null OR band in (:bands::text)) " +
@@ -98,7 +98,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			summary = jdbcTemplate.queryForList(
 				"SELECT * FROM $TABLE_NAME " +
 					whereClause +
-					"LIMIT :resultsPerPage OFFSET :page",
+					"LIMIT :resultsPerPage OFFSET :offset",
 				sqlParameterSource
 			).map {
 				mapToCardSummary(it)

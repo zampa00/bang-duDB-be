@@ -33,7 +33,7 @@ class EventController(
 
 	@GetMapping("/events")
 	fun getEvents(@RequestParam page: Int, @RequestParam size: Int): Paginated<EventSummary> {
-		return eventRepository.findEventsPaginated(page, size)
+		return eventRepository.findEventsPaginated(page - 1, size)
 	}
 
 	@GetMapping("/event/{eventId}")

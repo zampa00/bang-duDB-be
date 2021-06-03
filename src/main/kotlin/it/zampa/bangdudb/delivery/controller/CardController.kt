@@ -31,7 +31,7 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 
 	@GetMapping("/cards")
 	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<CardSummary> =
-		cardRepository.findCardsPaginated(page, size)
+		cardRepository.findCardsPaginated(page - 1, size)
 
 	@GetMapping("/searchCards")
 	@ResponseBody
@@ -49,7 +49,7 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 		@RequestParam page: Int,
 		@RequestParam size: Int
 	): Paginated<CardSummary> {
-		return cardRepository.findCardsPaginatedFilteredBy(page, size,
+		return cardRepository.findCardsPaginatedFilteredBy(page - 1, size,
 			characters, bands, rarities, attributes, skill_session_types, is_gacha, is_unavailable_gacha, is_event, is_birthday, is_promo
 		)
 	}

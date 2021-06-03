@@ -33,7 +33,7 @@ class BannerController(
 
 	@GetMapping("/banners")
 	fun getBanners(@RequestParam page: Int, @RequestParam size: Int): Paginated<BannerSummary> =
-		bannerRepository.findBannersPaginated(page, size)
+		bannerRepository.findBannersPaginated(page - 1, size)
 
 	@GetMapping("/banner/{bannerId}")
 	@ResponseBody

@@ -39,9 +39,9 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :page",
+					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
 					MapSqlParameterSource()
-						.addValue("page", page)
+						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
 				).map {
 					mapToBannerSummary(it)
@@ -87,7 +87,7 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 
 		jdbcTemplate.update(insertQuery, sqlParameterSource)
 	}
-	
+
 	private fun mapToBannerSummary(it: Map<String, Any>) = BannerSummary(
 		id = it["id"] as Int,
 		name = it["name"] as String,

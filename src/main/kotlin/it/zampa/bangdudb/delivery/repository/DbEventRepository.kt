@@ -46,9 +46,9 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :page",
+					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
 					MapSqlParameterSource()
-						.addValue("page", page)
+						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
 				).map {
 					mapToEventSummary(it)
