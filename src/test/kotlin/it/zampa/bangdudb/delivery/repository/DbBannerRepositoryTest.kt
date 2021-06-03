@@ -25,10 +25,10 @@ class DbBannerRepositoryTest : SpringTestParent() {
 
 	@BeforeEach
 	fun setUp() {
-		jdbcTemplate.update("INSERT INTO public.banners (id, name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq) VALUES (1, 'name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq' );")
-		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq' );")
-		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq' );")
-		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (id, name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES (1, 'name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
 	}
 
 	@AfterEach
@@ -53,14 +53,14 @@ class DbBannerRepositoryTest : SpringTestParent() {
 
 	@Test
 	fun insert() {
-		repository.save(EVENT)
+		repository.save(BANNER)
 		val banners = repository.findBannersPaginated(0, 3)
 		println(banners.summary.first().id)
 		assertEquals(5, banners.totalPages)
 	}
 
 	companion object {
-		val EVENT = Banner(
+		val BANNER = Banner(
 			id = 10,
 			name = "",
 			name_jp = "",
@@ -68,8 +68,7 @@ class DbBannerRepositoryTest : SpringTestParent() {
 			description_jp = "",
 			start_date = LocalDate.now(),
 			end_date = LocalDate.now(),
-			image_hq = "",
-			image_lq = ""
+			image_hq = ""
 		)
 	}
 }

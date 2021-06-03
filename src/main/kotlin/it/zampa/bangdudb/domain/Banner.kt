@@ -14,5 +14,4 @@ class Banner(
 	var end_date: LocalDate,
 
 	var image_hq: String?,
-	var image_lq: String?
 )

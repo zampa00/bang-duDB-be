@@ -77,7 +77,7 @@ class ApplicationConfig {
 		imageUploader: ImageUploader,
 		imageCompressionService: ImageCompressionService,
 	): AddBannerUseCase =
-		AddBannerUseCase(imageUploader, bannerRepository, imageCompressionService)
+		AddBannerUseCase(imageUploader, bannerRepository)
 
 	@Bean
 	fun addEventUseCase(

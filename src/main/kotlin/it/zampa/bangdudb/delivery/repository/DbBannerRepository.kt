@@ -29,7 +29,6 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 					start_date = resultSet.getDate("start_date").toLocalDate(),
 					end_date = resultSet.getDate("end_date").toLocalDate(),
 					image_hq = resultSet.getString("image_hq"),
-					image_lq = resultSet.getString("image_lq"),
 				)
 			}
 		} catch (ex: EmptyResultDataAccessException) {
@@ -71,8 +70,7 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 			"description_jp, " +
 			"start_date, " +
 			"end_date, " +
-			"image_hq, " +
-			"image_lq " +
+			"image_hq" +
 			")" +
 			" VALUES( " +
 			":name, " +
@@ -81,8 +79,7 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 			":description_jp, " +
 			":start_date, " +
 			":end_date, " +
-			":image_hq, " +
-			":image_lq" +
+			":image_hq" +
 			")"
 		val sqlParameterSource = MapSqlParameterSource()
 			.addValue("name", banner.name)
@@ -92,7 +89,6 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 			.addValue("start_date", banner.start_date)
 			.addValue("end_date", banner.end_date)
 			.addValue("image_hq", banner.image_hq)
-			.addValue("image_lq", banner.image_lq)
 
 		jdbcTemplate.update(insertQuery, sqlParameterSource)
 	}
@@ -101,7 +97,7 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 		id = it["id"] as Int,
 		name = it["name"] as String,
 		name_jp = it["name_jp"] as String,
-		image_lq = it["image_lq"] as String,
+		image_hq = it["image_hq"] as String,
 	)
 
 	private fun mapToListItem(it: Map<String, Any>) = ListItem(

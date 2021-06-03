@@ -9,8 +9,7 @@ create table if not exists banners
     description_jp varchar not null,
     start_date     date    not null,
     end_date       date    not null,
-    image_hq       varchar not null,
-    image_lq       varchar not null
+    image_hq       varchar not null
 );
 
 create table if not exists events
