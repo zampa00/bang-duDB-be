@@ -17,7 +17,7 @@ class BangdudbTestConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/bangdudb-test?createDatabaseIfNotExist=true");
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/bangdudbtest?createDatabaseIfNotExist=true");
 		dataSource.setUsername("springuser");
 		dataSource.setPassword("ThePassword1!");
 
