@@ -1,6 +1,7 @@
 package it.zampa.bangdudb.delivery.repository
 
 import it.zampa.bangdudb.delivery.datamodel.out.EventSummary
+import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Event
 import it.zampa.bangdudb.domain.repository.EventRepository
@@ -40,6 +41,14 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 			}
 		} catch (ex: EmptyResultDataAccessException) {
 			null
+		}
+
+	override fun findEventsForListing(): List<ListItem> =
+		jdbcTemplate.queryForList(
+			"SELECT * FROM $TABLE_NAME",
+			MapSqlParameterSource()
+		).map {
+			mapToListItem(it)
 		}
 
 	override fun findEventsPaginated(page: Int, resultsPerPage: Int): Paginated<EventSummary> =
@@ -119,6 +128,11 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 		name = it["name"] as String,
 		name_jp = it["name_jp"] as String,
 		image_lq = it["image_lq"] as String,
+	)
+
+	private fun mapToListItem(it: Map<String, Any>) = ListItem(
+		id = it["id"] as Int,
+		name = it["name"] as String
 	)
 
 }

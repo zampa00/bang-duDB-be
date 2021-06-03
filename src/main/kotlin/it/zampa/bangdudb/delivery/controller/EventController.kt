@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputEvent
 import it.zampa.bangdudb.delivery.datamodel.out.EventSummary
 import it.zampa.bangdudb.delivery.datamodel.out.EventWithCards
+import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.repository.EventRepository
 import it.zampa.bangdudb.domain.usecase.AddEventUseCase
@@ -40,6 +41,11 @@ class EventController(
 	@ResponseBody
 	fun getEventFromId(@PathVariable eventId: Int): EventWithCards =
 		searchEventUseCase.search(eventId)
+
+	@GetMapping("/eventsIds")
+	@ResponseBody
+	fun getAllEventsIds(): List<ListItem> =
+		searchEventUseCase.getAllEventsIds()
 
 	@PostMapping("/addEvent")
 	fun addEvent(

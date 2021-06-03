@@ -60,6 +60,14 @@ class DbEventRepositoryTest : SpringTestParent() {
 		assertEquals(5, events.totalPages)
 	}
 
+	@Test
+	fun `should retrieve a minimal item list`() {
+		val list = repository.findEventsForListing()
+		assertEquals(4, list.size)
+		assertEquals(1, list.first().id)
+		assertEquals("name", list.first().name)
+	}
+
 	companion object {
 		val EVENT = Event(
 			id = 10,

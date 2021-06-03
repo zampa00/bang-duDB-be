@@ -2,13 +2,14 @@ package it.zampa.bangdudb.domain.usecase
 
 import it.zampa.bangdudb.delivery.datamodel.out.CardSummary
 import it.zampa.bangdudb.delivery.datamodel.out.EventWithCards
+import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.domain.Event
 import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.repository.EventRepository
 
 class SearchEventUseCase(
-	val cardRepository: CardRepository,
-	val eventRepository: EventRepository
+	private val cardRepository: CardRepository,
+	private val eventRepository: EventRepository
 ) {
 
 	fun search(eventId: Int): EventWithCards {
@@ -19,5 +20,8 @@ class SearchEventUseCase(
 			cards = cards
 		)
 	}
+
+	fun getAllEventsIds(): List<ListItem> =
+		eventRepository.findEventsForListing()
 
 }
