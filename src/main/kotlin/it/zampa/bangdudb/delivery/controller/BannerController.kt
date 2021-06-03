@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputBanner
 import it.zampa.bangdudb.delivery.datamodel.out.BannerSummary
 import it.zampa.bangdudb.delivery.datamodel.out.BannerWithCards
+import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
@@ -39,6 +40,11 @@ class BannerController(
 	@ResponseBody
 	fun getBannerFromId(@PathVariable bannerId: Int): BannerWithCards =
 		searchBannerUseCase.search(bannerId)
+
+	@GetMapping("/bannersList")
+	@ResponseBody
+	fun getBannersList(): List<ListItem> =
+		searchBannerUseCase.getAllBannersIds()
 
 	@PostMapping("/addBanner")
 	fun addBanner(@RequestParam bannerData: String, @RequestParam bannerImage: MultipartFile): ResponseEntity<String> {

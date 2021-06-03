@@ -42,9 +42,9 @@ class EventController(
 	fun getEventFromId(@PathVariable eventId: Int): EventWithCards =
 		searchEventUseCase.search(eventId)
 
-	@GetMapping("/eventsIds")
+	@GetMapping("/eventsList")
 	@ResponseBody
-	fun getAllEventsIds(): List<ListItem> =
+	fun getEventsList(): List<ListItem> =
 		searchEventUseCase.getAllEventsIds()
 
 	@PostMapping("/addEvent")

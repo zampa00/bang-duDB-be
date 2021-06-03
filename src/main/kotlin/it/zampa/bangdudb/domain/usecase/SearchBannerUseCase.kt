@@ -2,13 +2,14 @@ package it.zampa.bangdudb.domain.usecase
 
 import it.zampa.bangdudb.delivery.datamodel.out.BannerWithCards
 import it.zampa.bangdudb.delivery.datamodel.out.CardSummary
+import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.domain.Banner
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.repository.CardRepository
 
 class SearchBannerUseCase(
-	val cardRepository: CardRepository,
-	val bannerRepository: BannerRepository
+	private val cardRepository: CardRepository,
+	private val bannerRepository: BannerRepository
 ) {
 
 	fun search(bannerId: Int): BannerWithCards {
@@ -19,5 +20,8 @@ class SearchBannerUseCase(
 			cards = cards
 		)
 	}
+
+	fun getAllBannersIds(): List<ListItem> =
+		bannerRepository.findBannersForListing()
 
 }

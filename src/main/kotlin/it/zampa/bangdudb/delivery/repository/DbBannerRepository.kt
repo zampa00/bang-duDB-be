@@ -1,6 +1,7 @@
 package it.zampa.bangdudb.delivery.repository
 
 import it.zampa.bangdudb.delivery.datamodel.out.BannerSummary
+import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Banner
 import it.zampa.bangdudb.domain.repository.BannerRepository
@@ -33,6 +34,14 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 			}
 		} catch (ex: EmptyResultDataAccessException) {
 			null
+		}
+
+	override fun findBannersForListing(): List<ListItem> =
+		jdbcTemplate.queryForList(
+			"SELECT * FROM $TABLE_NAME",
+			MapSqlParameterSource()
+		).map {
+			mapToListItem(it)
 		}
 
 	override fun findBannersPaginated(page: Int, resultsPerPage: Int): Paginated<BannerSummary> =
@@ -93,5 +102,10 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 		name = it["name"] as String,
 		name_jp = it["name_jp"] as String,
 		image_lq = it["image_lq"] as String,
+	)
+
+	private fun mapToListItem(it: Map<String, Any>) = ListItem(
+		id = it["id"] as Int,
+		name = it["name"] as String
 	)
 }
