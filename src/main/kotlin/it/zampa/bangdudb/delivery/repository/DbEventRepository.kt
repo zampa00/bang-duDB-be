@@ -30,7 +30,6 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 					start_date = resultSet.getDate("start_date").toLocalDate(),
 					end_date = resultSet.getDate("end_date").toLocalDate(),
 					image_hq = resultSet.getString("image_hq"),
-					image_lq = resultSet.getString("image_lq"),
 					stamp = resultSet.getString("stamp"),
 					title_point = resultSet.getString("title_point"),
 					title_rank = resultSet.getString("title_rank"),
@@ -80,7 +79,6 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 			"start_date, " +
 			"end_date, " +
 			"image_hq, " +
-			"image_lq, " +
 			"stamp, " +
 			"title_point, " +
 			"title_rank, " +
@@ -96,7 +94,6 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 			":start_date, " +
 			":end_date, " +
 			":image_hq, " +
-			":image_lq, " +
 			":stamp, " +
 			":title_point, " +
 			":title_rank, " +
@@ -112,7 +109,6 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 			.addValue("start_date", event.start_date)
 			.addValue("end_date", event.end_date)
 			.addValue("image_hq", event.image_hq)
-			.addValue("image_lq", event.image_lq)
 			.addValue("stamp", event.stamp)
 			.addValue("title_point", event.title_point)
 			.addValue("title_rank", event.title_rank)
@@ -127,7 +123,7 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 		id = it["id"] as Int,
 		name = it["name"] as String,
 		name_jp = it["name_jp"] as String,
-		image_lq = it["image_lq"] as String,
+		image_hq = it["image_hq"] as String,
 	)
 
 	private fun mapToListItem(it: Map<String, Any>) = ListItem(

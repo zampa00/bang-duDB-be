@@ -31,8 +31,6 @@ class AddEventUseCase(
 		logger.info("AddEventUseCase start")
 
 		val bannerHqUrl = imageUploader.uploadEvent(banner.inputStream, banner.resource.filename!!)
-		val bannerLqFile = imageCompressionService.compress(banner.inputStream, banner.resource.filename!!.nameWithoutExtension())
-		val bannerLqUrl = imageUploader.uploadEvent(bannerLqFile, bannerLqFile.name)
 		val stampUrl = imageUploader.uploadEvent(stamp.inputStream, stamp.resource.filename!!)
 		val titlePointsUrl = imageUploader.uploadEvent(titlePoints.inputStream, stamp.resource.filename!!)
 		val titleRankUrl = imageUploader.uploadEvent(titleRank.inputStream, titleRank.resource.filename!!)
@@ -44,7 +42,6 @@ class AddEventUseCase(
 
 		val eventToSave: Event = eventData.mapToDomain(
 			bannerHqUrl,
-			bannerLqUrl,
 			stampUrl,
 			titlePointsUrl,
 			titleRankUrl,
@@ -58,15 +55,12 @@ class AddEventUseCase(
 		eventRepository.save(eventToSave)
 
 		logger.info("event saved")
-
-		bannerLqFile.delete()
 	}
 
 }
 
 private fun InputEvent.mapToDomain(
 	imgHqUrl: String,
-	imgLqUrl: String,
 	stampUrl: String,
 	titlePointsUrl: String,
 	titleRankUrl: String,
@@ -82,7 +76,6 @@ private fun InputEvent.mapToDomain(
 		start_date = LocalDate.parse(this.startDate)!!,
 		end_date = LocalDate.parse(this.endDate)!!,
 		image_hq = imgHqUrl,
-		image_lq = imgLqUrl,
 		stamp = stampUrl,
 		title_point = titlePointsUrl,
 		title_rank = titleRankUrl,

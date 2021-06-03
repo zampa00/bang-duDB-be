@@ -25,10 +25,10 @@ class DbEventRepositoryTest : SpringTestParent() {
 
 	@BeforeEach
 	fun setUp() {
-		jdbcTemplate.update("INSERT INTO public.events (id, name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES (1, 'name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq','stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
-		jdbcTemplate.update("INSERT INTO public.events (name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq','stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
-		jdbcTemplate.update("INSERT INTO public.events (name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq','stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
-		jdbcTemplate.update("INSERT INTO public.events (name, name_jp, description, description_jp, start_date, end_date, image_hq, image_lq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','image_lq','stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
+		jdbcTemplate.update("INSERT INTO public.events (id, name, name_jp, description, description_jp, start_date, end_date, image_hq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES (1, 'name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq','stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
+		jdbcTemplate.update("INSERT INTO public.events (name, name_jp, description, description_jp, start_date, end_date, image_hq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq', 'stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
+		jdbcTemplate.update("INSERT INTO public.events (name, name_jp, description, description_jp, start_date, end_date, image_hq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq', 'stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
+		jdbcTemplate.update("INSERT INTO public.events (name, name_jp, description, description_jp, start_date, end_date, image_hq, stamp, title_point, title_rank, instrument, accessory_point, accessory_rank) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq', 'stamp','title_point','title_rank','instrument','accessory_point','accessory_rank' );")
 	}
 
 	@AfterEach
@@ -78,7 +78,6 @@ class DbEventRepositoryTest : SpringTestParent() {
 			start_date = LocalDate.now(),
 			end_date = LocalDate.now(),
 			image_hq = "",
-			image_lq = "",
 			stamp = "",
 			title_point = "",
 			title_rank = "",

@@ -24,7 +24,6 @@ create table if not exists events
     start_date      date    not null,
     end_date        date    not null,
     image_hq        varchar not null,
-    image_lq        varchar not null,
     stamp           varchar not null,
     title_point     varchar not null,
     title_rank      varchar not null,
