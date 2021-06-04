@@ -74,5 +74,15 @@ create table if not exists cards
     src_idl_hq                     varchar      not null
 );
 
-create sequence if not exists event_sequence
-    as int;
+create table if not exists songs
+(
+    id           serial  not null
+        constraint songs_pk
+            primary key,
+    name         varchar not null,
+    name_jp      varchar not null,
+    band         varchar not null,
+    is_cover     boolean not null,
+    release_date date    not null,
+    image        varchar not null
+);

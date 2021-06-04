@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import it.zampa.bangdudb.delivery.repository.DbBannerRepository
 import it.zampa.bangdudb.delivery.repository.DbCardRepository
 import it.zampa.bangdudb.delivery.repository.DbEventRepository
+import it.zampa.bangdudb.delivery.repository.DbSongRepository
 import it.zampa.bangdudb.delivery.service.ImageIOImageCompressionService
 import it.zampa.bangdudb.delivery.service.S3ImageUploader
 import it.zampa.bangdudb.domain.repository.BannerRepository
@@ -62,6 +63,10 @@ class ApplicationConfig {
 	@Bean
 	fun bannerRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) =
 		DbBannerRepository(namedParameterJdbcTemplate)
+
+	@Bean
+	fun songRepository(namedParameterJdbcTemplate: NamedParameterJdbcTemplate) =
+		DbSongRepository(namedParameterJdbcTemplate)
 
 	@Bean
 	fun addCardUseCase(
