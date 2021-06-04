@@ -3,7 +3,6 @@ package it.zampa.bangdudb.domain
 import java.time.LocalDate
 
 data class Song(
-	val id: Int? = null,
 	val name: String,
 	val name_jp: String,
 	val band: String,
