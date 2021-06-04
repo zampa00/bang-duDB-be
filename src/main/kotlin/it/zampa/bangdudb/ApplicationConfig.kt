@@ -13,6 +13,7 @@ import it.zampa.bangdudb.delivery.service.S3ImageUploader
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.repository.EventRepository
+import it.zampa.bangdudb.domain.repository.SongRepository
 import it.zampa.bangdudb.domain.service.ImageCompressionService
 import it.zampa.bangdudb.domain.service.ImageUploader
 import it.zampa.bangdudb.domain.usecase.*
@@ -91,6 +92,13 @@ class ApplicationConfig {
 		imageCompressionService: ImageCompressionService,
 	): AddEventUseCase =
 		AddEventUseCase(imageUploader, eventRepository, imageCompressionService)
+
+	@Bean
+	fun addSongUseCase(
+		songRepository: SongRepository,
+		imageUploader: ImageUploader
+	): AddSongUseCase =
+		AddSongUseCase(imageUploader, songRepository)
 
 	@Bean
 	fun searchEventUseCase(
