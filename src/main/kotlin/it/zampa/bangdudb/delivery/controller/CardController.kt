@@ -61,12 +61,17 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 	}
 
 	@PostMapping("/addSingleCard")
-	fun addCard(@RequestParam cardDetails: String, @RequestParam imgBase: MultipartFile, @RequestParam imgIdl: MultipartFile): ResponseEntity<String> {
+	fun addCard(
+		@RequestParam cardDetails: String,
+		@RequestParam imgBase: MultipartFile,
+		@RequestParam imgIdl: MultipartFile,
+		@RequestParam imgAvatar: MultipartFile,
+	): ResponseEntity<String> {
 		return try {
 			logger.info("received requesto to upload a card")
 			val card = mapper.readValue(cardDetails, InputCard::class.java)
 			logger.info("card mapped to: ${card}")
-			addCardUseCase.execute(card, imgBase, imgIdl)
+			addCardUseCase.execute(card, imgBase, imgIdl, imgAvatar)
 			logger.info("done, now answering with an OK")
 
 			ResponseEntity<String>(HttpStatus.OK)

@@ -14,12 +14,13 @@ class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardR
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-	fun execute(card: InputCard, imgBase: MultipartFile, imgIdl: MultipartFile) {
+	fun execute(card: InputCard, imgBase: MultipartFile, imgIdl: MultipartFile, imgAvatar: MultipartFile) {
 
 		logger.info("AddCardUseCase start")
 
 		val imgBaseHqUrl = imageUploader.upload(imgBase.inputStream, imgBase.resource.filename!!)
 		val imgIdlHqUrl = imageUploader.upload(imgIdl.inputStream, imgIdl.resource.filename!!)
+		val imgAvatarUrl = imageUploader.upload(imgAvatar.inputStream, imgAvatar.resource.filename!!)
 
 		val imgBaseLq = imageCompressionService.compress(imgBase.inputStream, imgBase.resource.filename!!.nameWithoutExtension())
 		val imgIdlLq = imageCompressionService.compress(imgIdl.inputStream, imgIdl.resource.filename!!.nameWithoutExtension())
@@ -28,7 +29,7 @@ class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardR
 
 		logger.info("all cards uploaded")
 
-		val cardToSave: Card = card.mapToDomain(imgBaseHqUrl, imgIdlHqUrl, imgBaseLqUrl, imgIdlLqUrl)
+		val cardToSave: Card = card.mapToDomain(imgBaseHqUrl, imgIdlHqUrl, imgBaseLqUrl, imgIdlLqUrl, imgAvatarUrl)
 
 		logger.info("card mapped to domain card ${cardToSave}")
 
@@ -43,7 +44,7 @@ class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardR
 
 private fun String.nameWithoutExtension(): String = this.substringBeforeLast(".")
 
-private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, imgBaseLqUrl: String, imgIdlLqUrl: String): Card = Card(
+private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, imgBaseLqUrl: String, imgIdlLqUrl: String, imgAvatarUrl: String): Card = Card(
 	id = this.id,
 	banner_id = this.banner_id,
 	event_id = this.event_id,
@@ -75,5 +76,6 @@ private fun InputCard.mapToDomain(imgBaseHqUrl: String, imgIdlHqUrl: String, img
 	src_base_lq = imgBaseLqUrl,
 	src_idl_lq = imgIdlLqUrl,
 	src_base_hq = imgBaseHqUrl,
-	src_idl_hq = imgIdlHqUrl
+	src_idl_hq = imgIdlHqUrl,
+	src_avatar = imgAvatarUrl
 )

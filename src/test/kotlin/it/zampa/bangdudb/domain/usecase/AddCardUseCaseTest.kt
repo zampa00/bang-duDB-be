@@ -28,6 +28,10 @@ class AddCardUseCaseTest {
 	val secondImageToUploadName = "secondImageName"
 	val secondImageInputStream = mock<InputStream>()
 
+	val avatarImageToUpload = mock<MultipartFile>()
+	val avatarImageToUploadName = "avatarImageName"
+	val avatarImageInputStream = mock<InputStream>()
+
 	val firstCompressedFile = mock<File>()
 	val secondCompressedFile = mock<File>()
 
@@ -42,8 +46,13 @@ class AddCardUseCaseTest {
 		whenever(secondImageToUpload.inputStream).thenReturn(secondImageInputStream)
 		whenever(secondImageToUpload.resource.filename).thenReturn(secondImageToUploadName)
 
+		whenever(avatarImageToUpload.resource).thenReturn(mock())
+		whenever(avatarImageToUpload.inputStream).thenReturn(avatarImageInputStream)
+		whenever(avatarImageToUpload.resource.filename).thenReturn(avatarImageToUploadName)
+
 		whenever(imageUploader.upload(firstImageInputStream, firstImageToUploadName)).thenReturn("${baseCardUrl}001_0001_1.png")
 		whenever(imageUploader.upload(secondImageInputStream, secondImageToUploadName)).thenReturn("${baseCardUrl}001_0001_2.png")
+		whenever(imageUploader.upload(avatarImageInputStream, avatarImageToUploadName)).thenReturn("${baseCardUrl}avatar.png")
 		whenever(imageUploader.upload(firstCompressedFile, "001_0001_1_lq.jpg")).thenReturn("${baseCardUrl}001_0001_1_lq.jpg")
 		whenever(imageUploader.upload(secondCompressedFile, "001_0001_2_lq.jpg")).thenReturn("${baseCardUrl}001_0001_2_lq.jpg")
 
@@ -56,36 +65,36 @@ class AddCardUseCaseTest {
 
 	@Test
 	fun `should call the upload service on the first image`() {
-		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+		usecase.execute(card, firstImageToUpload, secondImageToUpload, avatarImageToUpload)
 
 		verify(imageUploader).upload(firstImageInputStream, firstImageToUploadName)
 	}
 
 	@Test
 	fun `should call the upload service on the second image`() {
-		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+		usecase.execute(card, firstImageToUpload, secondImageToUpload, avatarImageToUpload)
 
 		verify(imageUploader).upload(secondImageInputStream, secondImageToUploadName)
 	}
 
 	@Test
 	fun `should resize the images`() {
-		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+		usecase.execute(card, firstImageToUpload, secondImageToUpload, avatarImageToUpload)
 
 		verify(imageCompressionService, times(2)).compress(any(), any())
 	}
 
 	@Test
-	fun `should upload 4 images in total`() {
-		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+	fun `should upload 5 images in total`() {
+		usecase.execute(card, firstImageToUpload, secondImageToUpload, avatarImageToUpload)
 
 		verify(imageUploader, times(2)).upload(any<File>(), any())
-		verify(imageUploader, times(2)).upload(any<InputStream>(), any())
+		verify(imageUploader, times(3)).upload(any<InputStream>(), any())
 	}
 
 	@Test
 	fun `should save the card on db`() {
-		usecase.execute(card, firstImageToUpload, secondImageToUpload)
+		usecase.execute(card, firstImageToUpload, secondImageToUpload, avatarImageToUpload)
 
 		verify(cardRepository).save(dbCard)
 	}
@@ -160,7 +169,8 @@ class AddCardUseCaseTest {
 			src_base_lq = "${baseCardUrl}001_0001_1_lq.jpg",
 			src_idl_lq = "${baseCardUrl}001_0001_2_lq.jpg",
 			src_base_hq = "${baseCardUrl}001_0001_1.png",
-			src_idl_hq = "${baseCardUrl}001_0001_2.png"
+			src_idl_hq = "${baseCardUrl}001_0001_2.png",
+			src_avatar = "${baseCardUrl}avatar.png"
 		)
 	}
 

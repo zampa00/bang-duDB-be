@@ -71,7 +71,8 @@ create table if not exists cards
     src_base_lq                    varchar      not null,
     src_idl_lq                     varchar      not null,
     src_base_hq                    varchar      not null,
-    src_idl_hq                     varchar      not null
+    src_idl_hq                     varchar      not null,
+    src_avatar                     varchar      not null
 );
 
 create table if not exists songs

@@ -45,6 +45,7 @@ data class Card(
 	val src_base_lq: String,
 	val src_idl_lq: String,
 	val src_base_hq: String,
-	val src_idl_hq: String
+	val src_idl_hq: String,
+	val src_avatar: String,
 )
 

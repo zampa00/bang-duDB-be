@@ -144,7 +144,8 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			"src_base_lq, " +
 			"src_idl_lq, " +
 			"src_base_hq, " +
-			"src_idl_hq " +
+			"src_idl_hq, " +
+			"src_avatar " +
 			")" +
 			" VALUES( " +
 			":id, " +
@@ -178,7 +179,8 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			":src_base_lq, " +
 			":src_idl_lq, " +
 			":src_base_hq, " +
-			":src_idl_hq " +
+			":src_idl_hq, " +
+			":src_avatar " +
 			")",
 			MapSqlParameterSource()
 				.addValue("id", card.id)
@@ -213,6 +215,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 				.addValue("src_idl_lq", card.src_idl_lq)
 				.addValue("src_base_hq", card.src_base_hq)
 				.addValue("src_idl_hq", card.src_idl_hq)
+				.addValue("src_avatar", card.src_avatar)
 		)
 	}
 
@@ -261,5 +264,6 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		src_idl_lq = resultSet.getString("src_idl_lq"),
 		src_base_hq = resultSet.getString("src_base_hq"),
 		src_idl_hq = resultSet.getString("src_idl_hq"),
+		src_avatar = resultSet.getString("src_avatar")
 	)
 }
