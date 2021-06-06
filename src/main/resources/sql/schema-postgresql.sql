@@ -86,7 +86,7 @@ create table if not exists songs
     composer     varchar not null,
     arranger     varchar not null,
     difficulty   varchar not null,
-    other_info   varchar not null,
+    other_info   varchar,
     is_cover     boolean not null,
     release_date date    not null,
     image        varchar not null

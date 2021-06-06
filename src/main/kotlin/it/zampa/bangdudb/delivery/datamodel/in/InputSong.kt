@@ -8,7 +8,7 @@ data class InputSong(
 	val composer: String,
 	val arranger: String,
 	val difficulty: String,
-	val other_info: String,
+	val other_info: String?,
 	val song_type: String,
 	val release_date: String,
 )

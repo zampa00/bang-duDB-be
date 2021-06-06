@@ -10,7 +10,7 @@ data class Song(
 	val composer: String,
 	val arranger: String,
 	val difficulty: String,
-	val other_info: String,
+	val other_info: String?,
 	val is_cover: Boolean,
 	val release_date: LocalDate,
 	val image: String?
