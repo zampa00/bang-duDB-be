@@ -14,7 +14,7 @@ class SearchBannerUseCase(
 
 	fun search(bannerId: Int): BannerWithCards {
 		val banner: Banner? = bannerRepository.findById(bannerId)
-		val cards: List<CardSummary>? = banner?.id?.let { cardRepository.findCardsFromEvent(it) }
+		val cards: List<CardSummary>? = banner?.id?.let { cardRepository.findCardsFromBanner(it) }
 		return BannerWithCards(
 			banner = banner,
 			cards = cards
