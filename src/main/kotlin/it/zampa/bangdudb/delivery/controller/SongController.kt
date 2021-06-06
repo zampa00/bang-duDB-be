@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputSong
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.delivery.datamodel.out.SongSummary
+import it.zampa.bangdudb.domain.Song
 import it.zampa.bangdudb.domain.repository.SongRepository
 import it.zampa.bangdudb.domain.usecase.AddSongUseCase
 import org.slf4j.Logger
@@ -25,6 +26,12 @@ class SongController(val songRepository: SongRepository, val addSongUseCase: Add
 	private val mapper = ObjectMapper()
 		.registerModule(KotlinModule())
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+
+	@GetMapping("/song/{songId}")
+	@ResponseBody
+	fun getCardFromId(@PathVariable songId: Int): Song? {
+		return songRepository.findById(songId)
+	}
 
 	@GetMapping("/songs")
 	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<SongSummary> =
