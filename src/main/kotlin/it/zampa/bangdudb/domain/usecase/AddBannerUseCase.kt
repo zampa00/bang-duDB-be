@@ -19,7 +19,7 @@ class AddBannerUseCase(
 	fun execute(bannerData: InputBanner, bannerImage: MultipartFile) {
 		logger.info("AddBannerUseCase start")
 
-		val imgHqUrl = imageUploader.uploadBanner(bannerImage.inputStream, bannerImage.resource.filename!!)
+		val imgHqUrl = imageUploader.upload(bannerImage.inputStream, bannerImage.resource.filename!!)
 
 		logger.info("all banner's image uploaded")
 

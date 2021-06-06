@@ -8,49 +8,25 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.InputStream
 
-class S3ImageUploader(val s3Client: AmazonS3) : ImageUploader {
+class S3ImageUploader(
+	val s3Client: AmazonS3,
+	val bucketName: String,
+	val baseUrl: String,
+	val directory: String
+) : ImageUploader {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-	val bucketName = "bang-dudb-test"
-	val baseCardUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/cards/"
-	val baseBannerUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/banners/"
-	val baseEventUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/events/"
-
-	override fun uploadCard(img: File, imageName: String): String {
+	override fun upload(img: File, imageName: String): String {
 		logger.info("uploading $imageName to s3")
-		s3Client.putObject(bucketName, "cards/${imageName}", img)
-		return baseCardUrl + imageName
+		s3Client.putObject(bucketName, "${directory}/${imageName}", img)
+		return baseUrl + imageName
 	}
 
-	override fun uploadCard(img: InputStream, imageName: String): String {
+	override fun upload(img: InputStream, imageName: String): String {
 		logger.info("uploading $imageName to s3")
-		s3Client.putObject(bucketName, "cards/${imageName}", img, ObjectMetadata())
-		return baseCardUrl + imageName
-	}
-
-	override fun uploadBanner(img: File, imageName: String): String {
-		logger.info("uploading $imageName to s3")
-		s3Client.putObject(bucketName, "banners/${imageName}", img)
-		return baseBannerUrl + imageName
-	}
-
-	override fun uploadBanner(img: InputStream, imageName: String): String {
-		logger.info("uploading $imageName to s3")
-		s3Client.putObject(bucketName, "banners/${imageName}", img, ObjectMetadata())
-		return baseBannerUrl + imageName
-	}
-
-	override fun uploadEvent(img: File, imageName: String): String {
-		logger.info("uploading $imageName to s3")
-		s3Client.putObject(bucketName, "events/${imageName}", img)
-		return baseEventUrl + imageName
-	}
-
-	override fun uploadEvent(img: InputStream, imageName: String): String {
-		logger.info("uploading $imageName to s3")
-		s3Client.putObject(bucketName, "events/${imageName}", img, ObjectMetadata())
-		return baseEventUrl + imageName
+		s3Client.putObject(bucketName, "${directory}/${imageName}", img, ObjectMetadata())
+		return baseUrl + imageName
 	}
 
 }

@@ -15,7 +15,6 @@ import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.repository.EventRepository
 import it.zampa.bangdudb.domain.repository.SongRepository
 import it.zampa.bangdudb.domain.service.ImageCompressionService
-import it.zampa.bangdudb.domain.service.ImageUploader
 import it.zampa.bangdudb.domain.usecase.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -32,6 +31,13 @@ class ApplicationConfig {
 	@Autowired
 	private lateinit var dataSource: DataSource
 
+	private val bucketName = "bang-dudb-test"
+	private val bucketUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/"
+	private val cardsDirectory = "cards"
+	private val eventsDirectory = "events"
+	private val bannersDirectory = "banners"
+	private val songsDirectory = "songs"
+
 	@Bean
 	@Primary
 	fun namedParameterJdbcTemplate(): NamedParameterJdbcTemplate {
@@ -43,11 +49,6 @@ class ApplicationConfig {
 		.withRegion(Regions.EU_WEST_1)
 		.withCredentials(ProfileCredentialsProvider("bang-dudb"))
 		.build()
-
-	@Bean
-	fun imageUploader(
-		s3Client: AmazonS3
-	): ImageUploader = S3ImageUploader(s3Client)
 
 	@Bean
 	fun imageCompressionService() =
@@ -72,33 +73,46 @@ class ApplicationConfig {
 	@Bean
 	fun addCardUseCase(
 		cardRepository: CardRepository,
-		imageUploader: ImageUploader,
+		s3Client: AmazonS3,
 		imageCompressionService: ImageCompressionService,
 	): AddCardUseCase =
-		AddCardUseCase(imageUploader, cardRepository, imageCompressionService)
+		AddCardUseCase(
+			S3ImageUploader(s3Client, bucketName, bucketUrl, cardsDirectory),
+			cardRepository,
+			imageCompressionService
+		)
 
 	@Bean
 	fun addBannerUseCase(
 		bannerRepository: BannerRepository,
-		imageUploader: ImageUploader,
+		s3Client: AmazonS3,
 		imageCompressionService: ImageCompressionService,
 	): AddBannerUseCase =
-		AddBannerUseCase(imageUploader, bannerRepository)
+		AddBannerUseCase(
+			S3ImageUploader(s3Client, bucketName, bucketUrl, bannersDirectory),
+			bannerRepository
+		)
 
 	@Bean
 	fun addEventUseCase(
 		eventRepository: EventRepository,
-		imageUploader: ImageUploader,
+		s3Client: AmazonS3,
 		imageCompressionService: ImageCompressionService,
 	): AddEventUseCase =
-		AddEventUseCase(imageUploader, eventRepository, imageCompressionService)
+		AddEventUseCase(
+			S3ImageUploader(s3Client, bucketName, bucketUrl, eventsDirectory),
+			eventRepository
+		)
 
 	@Bean
 	fun addSongUseCase(
 		songRepository: SongRepository,
-		imageUploader: ImageUploader
+		s3Client: AmazonS3
 	): AddSongUseCase =
-		AddSongUseCase(imageUploader, songRepository)
+		AddSongUseCase(
+			S3ImageUploader(s3Client, bucketName, bucketUrl, songsDirectory),
+			songRepository
+		)
 
 	@Bean
 	fun searchEventUseCase(

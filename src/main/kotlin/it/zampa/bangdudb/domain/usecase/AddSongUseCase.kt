@@ -19,7 +19,7 @@ class AddSongUseCase(
 	fun execute(songData: InputSong, songImage: MultipartFile) {
 		logger.info("AddSongUseCase start")
 
-		val imgHqUrl = imageUploader.uploadBanner(songImage.inputStream, songImage.resource.filename!!)
+		val imgHqUrl = imageUploader.upload(songImage.inputStream, songImage.resource.filename!!)
 
 		logger.info("all song's image uploaded")
 

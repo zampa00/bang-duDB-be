@@ -18,13 +18,13 @@ class AddCardUseCase(val imageUploader: ImageUploader, val cardRepository: CardR
 
 		logger.info("AddCardUseCase start")
 
-		val imgBaseHqUrl = imageUploader.uploadCard(imgBase.inputStream, imgBase.resource.filename!!)
-		val imgIdlHqUrl = imageUploader.uploadCard(imgIdl.inputStream, imgIdl.resource.filename!!)
+		val imgBaseHqUrl = imageUploader.upload(imgBase.inputStream, imgBase.resource.filename!!)
+		val imgIdlHqUrl = imageUploader.upload(imgIdl.inputStream, imgIdl.resource.filename!!)
 
 		val imgBaseLq = imageCompressionService.compress(imgBase.inputStream, imgBase.resource.filename!!.nameWithoutExtension())
 		val imgIdlLq = imageCompressionService.compress(imgIdl.inputStream, imgIdl.resource.filename!!.nameWithoutExtension())
-		val imgBaseLqUrl = imageUploader.uploadCard(imgBaseLq, imgBaseLq.name)
-		val imgIdlLqUrl = imageUploader.uploadCard(imgIdlLq, imgIdlLq.name)
+		val imgBaseLqUrl = imageUploader.upload(imgBaseLq, imgBaseLq.name)
+		val imgIdlLqUrl = imageUploader.upload(imgIdlLq, imgIdlLq.name)
 
 		logger.info("all cards uploaded")
 

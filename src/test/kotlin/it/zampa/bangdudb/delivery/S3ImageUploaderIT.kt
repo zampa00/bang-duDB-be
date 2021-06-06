@@ -18,21 +18,24 @@ class S3ImageUploaderIT {
 		.withCredentials(ProfileCredentialsProvider("bang-dudb"))
 		.build()
 
-	val imageUploader = S3ImageUploader(s3Client)
+	private val testDirectory = "test"
+	private val bucketName = "bang-dudb-test"
+	private val baseCardUrl = "https://bang-dudb-test.s3-eu-west-1.amazonaws.com/${testDirectory}/"
+	private val imageUploader = S3ImageUploader(s3Client, bucketName, baseCardUrl, testDirectory)
 
-	val fileToUpload = File("src\\test\\resources\\test_image.jpg")
+	private val fileToUpload = File("src\\test\\resources\\test_image.jpg")
 
 	@Test
 	fun upload() {
 		val imageName = "testingImageName"
 
-		imageUploader.uploadCard(fileToUpload, imageName)
+		imageUploader.upload(fileToUpload, imageName)
 
-		val objects = s3Client.listObjectsV2("bang-dudb-test", "cards/${imageName}")
+		val objects = s3Client.listObjectsV2(bucketName, "${testDirectory}/${imageName}")
 
 		expectThat(objects.objectSummaries).hasSize(1)
-		expectThat(objects.objectSummaries.first().key).isEqualTo("cards/${imageName}")
+		expectThat(objects.objectSummaries.first().key).isEqualTo("${testDirectory}/${imageName}")
 
-		s3Client.deleteObject("bang-dudb-test", "cards/${imageName}")
+		s3Client.deleteObject("bang-dudb-test", "${testDirectory}/${imageName}")
 	}
 }

@@ -42,10 +42,10 @@ class AddCardUseCaseTest {
 		whenever(secondImageToUpload.inputStream).thenReturn(secondImageInputStream)
 		whenever(secondImageToUpload.resource.filename).thenReturn(secondImageToUploadName)
 
-		whenever(imageUploader.uploadCard(firstImageInputStream, firstImageToUploadName)).thenReturn("${baseCardUrl}001_0001_1.png")
-		whenever(imageUploader.uploadCard(secondImageInputStream, secondImageToUploadName)).thenReturn("${baseCardUrl}001_0001_2.png")
-		whenever(imageUploader.uploadCard(firstCompressedFile, "001_0001_1_lq.jpg")).thenReturn("${baseCardUrl}001_0001_1_lq.jpg")
-		whenever(imageUploader.uploadCard(secondCompressedFile, "001_0001_2_lq.jpg")).thenReturn("${baseCardUrl}001_0001_2_lq.jpg")
+		whenever(imageUploader.upload(firstImageInputStream, firstImageToUploadName)).thenReturn("${baseCardUrl}001_0001_1.png")
+		whenever(imageUploader.upload(secondImageInputStream, secondImageToUploadName)).thenReturn("${baseCardUrl}001_0001_2.png")
+		whenever(imageUploader.upload(firstCompressedFile, "001_0001_1_lq.jpg")).thenReturn("${baseCardUrl}001_0001_1_lq.jpg")
+		whenever(imageUploader.upload(secondCompressedFile, "001_0001_2_lq.jpg")).thenReturn("${baseCardUrl}001_0001_2_lq.jpg")
 
 		whenever(imageCompressionService.compress(eq(firstImageInputStream), any())).thenReturn(firstCompressedFile)
 		whenever(imageCompressionService.compress(eq(secondImageInputStream), any())).thenReturn(secondCompressedFile)
@@ -58,14 +58,14 @@ class AddCardUseCaseTest {
 	fun `should call the upload service on the first image`() {
 		usecase.execute(card, firstImageToUpload, secondImageToUpload)
 
-		verify(imageUploader).uploadCard(firstImageInputStream, firstImageToUploadName)
+		verify(imageUploader).upload(firstImageInputStream, firstImageToUploadName)
 	}
 
 	@Test
 	fun `should call the upload service on the second image`() {
 		usecase.execute(card, firstImageToUpload, secondImageToUpload)
 
-		verify(imageUploader).uploadCard(secondImageInputStream, secondImageToUploadName)
+		verify(imageUploader).upload(secondImageInputStream, secondImageToUploadName)
 	}
 
 	@Test
@@ -79,8 +79,8 @@ class AddCardUseCaseTest {
 	fun `should upload 4 images in total`() {
 		usecase.execute(card, firstImageToUpload, secondImageToUpload)
 
-		verify(imageUploader, times(2)).uploadCard(any<File>(), any())
-		verify(imageUploader, times(2)).uploadCard(any<InputStream>(), any())
+		verify(imageUploader, times(2)).upload(any<File>(), any())
+		verify(imageUploader, times(2)).upload(any<InputStream>(), any())
 	}
 
 	@Test
