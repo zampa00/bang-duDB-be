@@ -3,6 +3,7 @@ package it.zampa.bangdudb.delivery.datamodel.out
 import java.time.LocalDate
 
 data class SongSummary(
+	val id: Int,
 	val name: String,
 	val name_jp: String,
 	val band: String,

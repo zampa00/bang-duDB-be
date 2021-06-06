@@ -7,10 +7,24 @@ import it.zampa.bangdudb.domain.repository.SongRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import java.sql.ResultSet
 
 class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepository {
 
 	val TABLE_NAME: String = "songs"
+
+	override fun findById(songId: Int): Song? =
+		try {
+			jdbcTemplate.queryForObject(
+				"SELECT * FROM $TABLE_NAME WHERE id = :songId",
+				MapSqlParameterSource()
+					.addValue("songId", songId)
+			) { resultSet, _ ->
+				mapToSong(resultSet)
+			}
+		} catch (ex: EmptyResultDataAccessException) {
+			null
+		}
 
 	override fun findSongsPaginated(page: Int, resultsPerPage: Int): Paginated<SongSummary> =
 		try {
@@ -103,12 +117,27 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 	}
 
 	private fun mapToSongSummary(it: MutableMap<String, Any>) = SongSummary(
+		id = it["id"] as Int,
 		name = it["name"] as String,
 		name_jp = it["name_jp"] as String,
 		band = it["band"] as String,
 		is_cover = it["is_cover"] as Boolean,
 		release_date = (it["release_date"] as java.sql.Date).toLocalDate(),
 		image = it["image"] as String,
+	)
+
+	private fun mapToSong(resultSet: ResultSet) = Song(
+		name = resultSet.getString("name"),
+		name_jp = resultSet.getString("name_jp"),
+		band = resultSet.getString("band"),
+		lyricist = resultSet.getString("lyricist"),
+		composer = resultSet.getString("composer"),
+		arranger = resultSet.getString("arranger"),
+		difficulty = resultSet.getString("difficulty"),
+		other_info = resultSet.getString("other_info"),
+		is_cover = resultSet.getBoolean("is_cover"),
+		release_date = resultSet.getDate("release_date").toLocalDate(),
+		image = resultSet.getString("image"),
 	)
 
 }

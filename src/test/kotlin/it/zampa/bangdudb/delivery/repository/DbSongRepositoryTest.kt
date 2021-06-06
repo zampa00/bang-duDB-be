@@ -4,6 +4,7 @@ import it.zampa.bangdudb.SpringTestParent
 import it.zampa.bangdudb.domain.Song
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +23,7 @@ class DbSongRepositoryTest : SpringTestParent() {
 
 	@BeforeEach
 	fun setUp() {
-		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song1', 'jp', 'argonavis', '', '', '', '', '', true, '2021-01-01', 'image');")
+		jdbcTemplate.update("INSERT INTO public.songs (id, name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES (1, 'song1', 'jp', 'argonavis', '', '', '', '', '', true, '2021-01-01', 'image');")
 		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song2', 'jp', 'argonavis', '', '', '', '', '', false, '2021-02-01', 'image');")
 		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song3', 'jp', 'cyaron', '', '', '', '', '', true, '2021-03-01', 'image');")
 		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song4', 'jp', 'azalea', '', '', '', '', '', true, '2021-04-01', 'image');")
@@ -31,6 +32,13 @@ class DbSongRepositoryTest : SpringTestParent() {
 	@AfterEach
 	fun tearDown() {
 		jdbcTemplate.update("DELETE FROM songs")
+	}
+
+	@Test
+	fun `retrieve a song from id`() {
+		val song = repository.findById(1)
+		assertNotNull(song)
+		assertEquals("song1", song?.name)
 	}
 
 	@Test

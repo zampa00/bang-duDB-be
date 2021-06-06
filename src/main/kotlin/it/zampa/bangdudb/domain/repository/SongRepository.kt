@@ -6,6 +6,7 @@ import it.zampa.bangdudb.domain.Song
 
 interface SongRepository {
 	fun save(song: Song)
+	fun findById(songId: Int): Song?
 	fun findSongsPaginated(page: Int, resultsPerPage: Int): Paginated<SongSummary>
 	fun findSongsPaginatedFilteredBy(
 		page: Int,
