@@ -10,4 +10,5 @@ data class CardSummary(
 	val attribute: String,
 	val src_base_lq: String,
 	val src_idl_lq: String,
+	val src_avatar: String,
 )

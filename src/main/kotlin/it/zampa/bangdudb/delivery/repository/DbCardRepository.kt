@@ -242,6 +242,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		attribute = it["attribute"] as String,
 		src_base_lq = it["src_base_lq"] as String,
 		src_idl_lq = it["src_idl_lq"] as String,
+		src_avatar = it["src_avatar"] as String,
 	)
 
 	private fun mapToCard(resultSet: ResultSet) = Card(
