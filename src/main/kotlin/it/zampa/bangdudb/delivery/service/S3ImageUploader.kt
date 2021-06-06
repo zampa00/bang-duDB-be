@@ -20,13 +20,16 @@ class S3ImageUploader(
 	override fun upload(img: File, imageName: String): String {
 		logger.info("uploading $imageName to s3")
 		s3Client.putObject(bucketName, "${directory}/${imageName}", img)
-		return baseUrl + imageName
+		return "${baseUrl.withoutLastSlash()}/${directory}/${imageName}"
 	}
 
 	override fun upload(img: InputStream, imageName: String): String {
 		logger.info("uploading $imageName to s3")
 		s3Client.putObject(bucketName, "${directory}/${imageName}", img, ObjectMetadata())
-		return baseUrl + imageName
+		return "${baseUrl.withoutLastSlash()}/${directory}/${imageName}"
 	}
 
 }
+
+private fun String.withoutLastSlash(): String =
+	if (this.endsWith("/")) this.substringBeforeLast("/") else this
