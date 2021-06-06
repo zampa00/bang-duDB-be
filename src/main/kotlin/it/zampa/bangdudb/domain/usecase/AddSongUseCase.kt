@@ -39,6 +39,11 @@ private fun InputSong.mapToDomain(imgHqUrl: String): Song {
 		name = this.name,
 		name_jp = this.name_jp,
 		band = this.band,
+		lyricist = this.lyricist,
+		composer = this.composer,
+		arranger = this.arranger,
+		difficulty = this.difficulty,
+		other_info = this.other_info,
 		release_date = LocalDate.parse(this.release_date)!!,
 		is_cover = this.song_type == "cover",
 		image = imgHqUrl

@@ -1,6 +1,7 @@
 package it.zampa.bangdudb.delivery.repository
 
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
+import it.zampa.bangdudb.delivery.datamodel.out.SongSummary
 import it.zampa.bangdudb.domain.Song
 import it.zampa.bangdudb.domain.repository.SongRepository
 import org.springframework.dao.EmptyResultDataAccessException
@@ -11,7 +12,7 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 
 	val TABLE_NAME: String = "songs"
 
-	override fun findSongsPaginated(page: Int, resultsPerPage: Int): Paginated<Song> =
+	override fun findSongsPaginated(page: Int, resultsPerPage: Int): Paginated<SongSummary> =
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
@@ -20,7 +21,7 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
 				).map {
-					mapToSong(it)
+					mapToSongSummary(it)
 				},
 				totalPages = jdbcTemplate.queryForObject("SELECT COUNT(id) FROM $TABLE_NAME", MapSqlParameterSource(), Integer::class.java) as Int
 			)
@@ -34,7 +35,7 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 		resultsPerPage: Int,
 		bands: List<String>?,
 		is_cover: Boolean?
-	): Paginated<Song> = try {
+	): Paginated<SongSummary> = try {
 		val sqlParameterSource = MapSqlParameterSource()
 			.addValue("bands", bands)
 			.addValue("is_cover", is_cover)
@@ -49,7 +50,7 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 					"LIMIT :resultsPerPage OFFSET :offset",
 				sqlParameterSource
 			).map {
-				mapToSong(it)
+				mapToSongSummary(it)
 			},
 			totalPages = jdbcTemplate.queryForObject("SELECT COUNT(id) FROM $TABLE_NAME $whereClause", sqlParameterSource, Integer::class.java) as Int
 		)
@@ -64,6 +65,11 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 			"name, " +
 			"name_jp, " +
 			"band, " +
+			"lyricist, " +
+			"composer, " +
+			"arranger, " +
+			"difficulty, " +
+			"other_info, " +
 			"is_cover, " +
 			"release_date, " +
 			"image " +
@@ -72,6 +78,11 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 			":name, " +
 			":name_jp, " +
 			":band, " +
+			":lyricist, " +
+			":composer, " +
+			":arranger, " +
+			":difficulty, " +
+			":other_info, " +
 			":is_cover, " +
 			":release_date, " +
 			":image " +
@@ -80,13 +91,18 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 				.addValue("name", song.name)
 				.addValue("name_jp", song.name_jp)
 				.addValue("band", song.band)
+				.addValue("lyricist", song.lyricist)
+				.addValue("composer", song.composer)
+				.addValue("arranger", song.arranger)
+				.addValue("difficulty", song.difficulty)
+				.addValue("other_info", song.other_info)
 				.addValue("is_cover", song.is_cover)
 				.addValue("release_date", song.release_date)
 				.addValue("image", song.image)
 		)
 	}
 
-	private fun mapToSong(it: MutableMap<String, Any>) = Song(
+	private fun mapToSongSummary(it: MutableMap<String, Any>) = SongSummary(
 		name = it["name"] as String,
 		name_jp = it["name_jp"] as String,
 		band = it["band"] as String,

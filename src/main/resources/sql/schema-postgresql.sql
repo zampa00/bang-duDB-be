@@ -82,6 +82,11 @@ create table if not exists songs
     name         varchar not null,
     name_jp      varchar not null,
     band         varchar not null,
+    lyricist     varchar not null,
+    composer     varchar not null,
+    arranger     varchar not null,
+    difficulty   varchar not null,
+    other_info   varchar not null,
     is_cover     boolean not null,
     release_date date    not null,
     image        varchar not null

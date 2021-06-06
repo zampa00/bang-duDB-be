@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import it.zampa.bangdudb.delivery.datamodel.`in`.InputSong
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
-import it.zampa.bangdudb.domain.Song
+import it.zampa.bangdudb.delivery.datamodel.out.SongSummary
 import it.zampa.bangdudb.domain.repository.SongRepository
 import it.zampa.bangdudb.domain.usecase.AddSongUseCase
 import org.slf4j.Logger
@@ -27,7 +27,7 @@ class SongController(val songRepository: SongRepository, val addSongUseCase: Add
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	@GetMapping("/songs")
-	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<Song> =
+	fun getCards(@RequestParam page: Int, @RequestParam size: Int): Paginated<SongSummary> =
 		songRepository.findSongsPaginated(page - 1, size)
 
 	@GetMapping("/searchSongs")
@@ -37,7 +37,7 @@ class SongController(val songRepository: SongRepository, val addSongUseCase: Add
 		@RequestParam(name = "isCover") is_cover: Boolean?,
 		@RequestParam page: Int,
 		@RequestParam size: Int
-	): Paginated<Song> {
+	): Paginated<SongSummary> {
 		return songRepository.findSongsPaginatedFilteredBy(page - 1, size,
 			bands, is_cover
 		)
