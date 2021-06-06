@@ -8,6 +8,7 @@ interface CardRepository {
 	fun save(card: Card)
 	fun findById(cardId: String): Card?
 	fun findCardsFromEvent(eventId: Int): List<CardSummary>
+	fun findCardsFromBanner(bannerId: Int): List<CardSummary>
 	fun findCardsPaginated(page: Int, resultsPerPage: Int): Paginated<CardSummary>
 	fun findCardsPaginatedFilteredBy(
 		page: Int,

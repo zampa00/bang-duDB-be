@@ -39,6 +39,19 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			emptyList()
 		}
 
+	override fun findCardsFromBanner(bannerId: Int): List<CardSummary> =
+		try {
+			jdbcTemplate.queryForList(
+				"SELECT * FROM $TABLE_NAME WHERE banner_id = :bannerId",
+				MapSqlParameterSource()
+					.addValue("bannerId", bannerId)
+			).map {
+				mapToCardSummary(it)
+			}
+		} catch (ex: EmptyResultDataAccessException) {
+			emptyList()
+		}
+
 	override fun findCardsPaginated(page: Int, resultsPerPage: Int): Paginated<CardSummary> =
 		try {
 			Paginated(
