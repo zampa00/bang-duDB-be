@@ -123,6 +123,69 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		Paginated(emptyList(), 0)
 	}
 
+	override fun editCard(card: Card) {
+		// UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a > 0;
+		val query = "UPDATE $TABLE_NAME SET " +
+			"banner_id = :banner_id, " +
+			"event_id = :event_id, " +
+			"character_name = :character_name, " +
+			"band = :band, " +
+			"card_name = :card_name, " +
+			"card_name_jp = :card_name_jp, " +
+			"rarity = :rarity, " +
+			"attribute = :attribute, " +
+			"release_date = :release_date, " +
+			"power = :power, " +
+			"pf = :pf, " +
+			"tec = :tec, " +
+			"vi = :vi, " +
+			"skill_session_name = :skill_session_name, " +
+			"skill_session_name_jp = :skill_session_name_jp, " +
+			"skill_session_description = :skill_session_description, " +
+			"skill_session_description_jp = :skill_session_description_jp, " +
+			"skill_session_type = :skill_session_type, " +
+			"skill_dailylife_name = :skill_dailylife_name, " +
+			"skill_dailylife_name_jp = :skill_dailylife_name_jp, " +
+			"skill_dailylife_description = :skill_dailylife_description, " +
+			"skill_dailylife_description_jp = :skill_dailylife_description_jp, " +
+			"is_gacha = :is_gacha, " +
+			"is_unavailable_gacha = :is_unavailable_gacha, " +
+			"is_event = :is_event, " +
+			"is_birthday = :is_birthday, " +
+			"is_promo = :is_promo " +
+			" WHERE id = :id"
+		jdbcTemplate.update(query,
+			MapSqlParameterSource()
+				.addValue("id", card.id)
+				.addValue("banner_id", card.banner_id)
+				.addValue("event_id", card.event_id)
+				.addValue("character_name", card.character_name)
+				.addValue("band", card.band)
+				.addValue("card_name", card.card_name)
+				.addValue("card_name_jp", card.card_name_jp)
+				.addValue("rarity", card.rarity)
+				.addValue("attribute", card.attribute)
+				.addValue("release_date", card.release_date)
+				.addValue("power", card.power)
+				.addValue("pf", card.pf)
+				.addValue("tec", card.tec)
+				.addValue("vi", card.vi)
+				.addValue("skill_session_name", card.skill_session_name)
+				.addValue("skill_session_name_jp", card.skill_session_name_jp)
+				.addValue("skill_session_description", card.skill_session_description)
+				.addValue("skill_session_description_jp", card.skill_session_description_jp)
+				.addValue("skill_session_type", card.skill_session_type)
+				.addValue("skill_dailylife_name", card.skill_dailylife_name)
+				.addValue("skill_dailylife_name_jp", card.skill_dailylife_name_jp)
+				.addValue("skill_dailylife_description", card.skill_dailylife_description)
+				.addValue("skill_dailylife_description_jp", card.skill_dailylife_description_jp)
+				.addValue("is_gacha", card.is_gacha)
+				.addValue("is_unavailable_gacha", card.is_unavailable_gacha)
+				.addValue("is_event", card.is_event)
+				.addValue("is_birthday", card.is_birthday)
+				.addValue("is_promo", card.is_promo))
+	}
+
 	override fun save(card: Card) {
 		jdbcTemplate.update("INSERT INTO $TABLE_NAME" +
 			"( " +

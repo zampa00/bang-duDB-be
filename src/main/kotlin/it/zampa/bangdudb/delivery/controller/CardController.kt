@@ -10,6 +10,7 @@ import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.Card
 import it.zampa.bangdudb.domain.repository.CardRepository
 import it.zampa.bangdudb.domain.usecase.AddCardUseCase
+import it.zampa.bangdudb.domain.usecase.EditCardUseCase
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -21,7 +22,11 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class CardController(val cardRepository: CardRepository, val addCardUseCase: AddCardUseCase) {
+class CardController(
+	val cardRepository: CardRepository,
+	val addCardUseCase: AddCardUseCase,
+	val editCardUseCase: EditCardUseCase,
+) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -68,9 +73,9 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 		@RequestParam imgAvatar: MultipartFile,
 	): ResponseEntity<String> {
 		return try {
-			logger.info("received requesto to upload a card")
+			logger.info("received request to upload a card")
 			val card = mapper.readValue(cardDetails, InputCard::class.java)
-			logger.info("card mapped to: ${card}")
+			logger.info("card mapped to: $card")
 			addCardUseCase.execute(card, imgBase, imgIdl, imgAvatar)
 			logger.info("done, now answering with an OK")
 
@@ -86,6 +91,18 @@ class CardController(val cardRepository: CardRepository, val addCardUseCase: Add
 						"error": "id already present"
 					}""".trimIndent(), HttpStatus.BAD_REQUEST)
 		}
+	}
+
+	@PostMapping("/editCard")
+	fun editCard(
+		@RequestParam cardDetails: String,
+	): ResponseEntity<String> {
+		logger.info("received request to edit a card")
+		val card = mapper.readValue(cardDetails, InputCard::class.java)
+		editCardUseCase.execute(card)
+		logger.info("done, now answering with an OK")
+
+		return ResponseEntity<String>(HttpStatus.OK)
 	}
 
 }

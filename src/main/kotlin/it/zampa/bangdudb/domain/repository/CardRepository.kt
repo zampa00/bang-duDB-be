@@ -24,4 +24,6 @@ interface CardRepository {
 		is_birthday: Boolean? = null,
 		is_promo: Boolean? = null,
 	): Paginated<CardSummary>
+
+	fun editCard(newCard: Card)
 }

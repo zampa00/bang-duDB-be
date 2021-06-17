@@ -115,6 +115,12 @@ class ApplicationConfig {
 		)
 
 	@Bean
+	fun editCardUseCase(
+		cardRepository: CardRepository
+	): EditCardUseCase =
+		EditCardUseCase(cardRepository)
+
+	@Bean
 	fun searchEventUseCase(
 		cardRepository: CardRepository,
 		eventRepository: EventRepository,

@@ -98,6 +98,14 @@ class DbCardRepositoryTest : SpringTestParent() {
 		assertEquals(5, cards.totalPages)
 	}
 
+	@Test
+	fun update() {
+		repository.save(CARD)
+		repository.editCard(CARD.copy(character_name = "another dude"))
+		val updatedCard = repository.findById(CARD.id)!!
+		assertEquals("another dude", updatedCard.character_name)
+	}
+
 	companion object {
 		val CARD = Card(
 			id = "014_0001",
