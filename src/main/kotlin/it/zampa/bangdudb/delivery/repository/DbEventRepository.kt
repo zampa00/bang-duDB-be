@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRepository {
 
 	val TABLE_NAME: String = "events"
+	val ORDER_QUERY: String = "ORDER BY start_date DESC"
 
 	override fun findById(eventId: Int): Event? =
 		try {
@@ -44,7 +45,7 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 
 	override fun findEventsForListing(): List<ListItem> =
 		jdbcTemplate.queryForList(
-			"SELECT * FROM $TABLE_NAME",
+			"SELECT * FROM $TABLE_NAME $ORDER_QUERY",
 			MapSqlParameterSource()
 		).map {
 			mapToListItem(it)
@@ -54,7 +55,7 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
+					"SELECT * FROM $TABLE_NAME $ORDER_QUERY LIMIT :resultsPerPage OFFSET :offset",
 					MapSqlParameterSource()
 						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
