@@ -1,10 +1,10 @@
 package it.zampa.bangdudb.domain
 
 import java.time.LocalDate
-import javax.persistence.*
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
-@Entity
-@Table(name = "cards")
 data class Card(
 
 	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)

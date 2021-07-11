@@ -2,7 +2,7 @@ package it.zampa.bangdudb.domain
 
 import java.time.LocalDate
 
-class Event(
+data class Event(
 	val id: Int? = null,
 	val name: String,
 	val name_jp: String,

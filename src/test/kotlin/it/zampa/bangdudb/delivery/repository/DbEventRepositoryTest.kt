@@ -68,22 +68,29 @@ class DbEventRepositoryTest : SpringTestParent() {
 		assertEquals("name", list.first().name)
 	}
 
+	@Test
+	fun update() {
+		repository.editEvent(EVENT.copy(id = 1, name = "new name"))
+		val updatedEvent = repository.findById(1)!!
+		assertEquals("new name", updatedEvent.name)
+	}
+
 	companion object {
 		val EVENT = Event(
 			id = 10,
-			name = "",
-			name_jp = "",
-			description = "",
-			description_jp = "",
+			name = "name",
+			name_jp = "name_jp",
+			description = "description",
+			description_jp = "description_jp",
 			start_date = LocalDate.now(),
 			end_date = LocalDate.now(),
-			image_hq = "",
-			stamp = "",
-			title_point = "",
-			title_rank = "",
-			instrument = "",
-			accessory_point = "",
-			accessory_rank = "",
+			image_hq = "image_hq",
+			stamp = "stamp",
+			title_point = "title_point",
+			title_rank = "title_rank",
+			instrument = "instrument",
+			accessory_point = "accessory_point",
+			accessory_rank = "accessory_rank",
 		)
 	}
 }

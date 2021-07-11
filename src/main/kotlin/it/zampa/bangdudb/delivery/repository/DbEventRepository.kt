@@ -119,6 +119,28 @@ class DbEventRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : EventRep
 		jdbcTemplate.update(INSERT_QUERY, sqlParameterSource)
 	}
 
+	override fun editEvent(event: Event) {
+		val editQuery = "UPDATE $TABLE_NAME SET " +
+			"name = :name," +
+			"name_jp = :name_jp," +
+			"description = :description," +
+			"description_jp = :description_jp," +
+			"start_date = :start_date," +
+			"end_date = :end_date" +
+			" WHERE id = :id"
+
+		val sqlParameterSource = MapSqlParameterSource()
+			.addValue("id", event.id)
+			.addValue("name", event.name)
+			.addValue("name_jp", event.name_jp)
+			.addValue("description", event.description)
+			.addValue("description_jp", event.description_jp)
+			.addValue("start_date", event.start_date)
+			.addValue("end_date", event.end_date)
+
+		jdbcTemplate.update(editQuery, sqlParameterSource)
+	}
+
 	private fun mapToEventSummary(it: Map<String, Any>) = EventSummary(
 		id = it["id"] as Int,
 		name = it["name"] as String,

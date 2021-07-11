@@ -10,4 +10,5 @@ interface EventRepository {
 	fun findEventsForListing(): List<ListItem>
 	fun findEventsPaginated(page: Int, resultsPerPage: Int): Paginated<EventSummary>
 	fun save(event: Event)
+	fun editEvent(event: Event)
 }
