@@ -127,6 +127,12 @@ class ApplicationConfig {
 		EditEventUseCase(eventRepository)
 
 	@Bean
+	fun editBannerUseCase(
+		bannerRepository: BannerRepository
+	): EditBannerUseCase =
+		EditBannerUseCase(bannerRepository)
+
+	@Bean
 	fun searchEventUseCase(
 		cardRepository: CardRepository,
 		eventRepository: EventRepository,

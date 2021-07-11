@@ -2,7 +2,7 @@ package it.zampa.bangdudb.domain
 
 import java.time.LocalDate
 
-class Banner(
+data class Banner(
 	var id: Int? = null,
 
 	var name: String,

@@ -10,4 +10,5 @@ interface BannerRepository {
 	fun findBannersForListing(): List<ListItem>
 	fun findBannersPaginated(page: Int, resultsPerPage: Int): Paginated<BannerSummary>
 	fun save(banner: Banner)
+	fun editBanner(banner: Banner)
 }

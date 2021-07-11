@@ -59,16 +59,23 @@ class DbBannerRepositoryTest : SpringTestParent() {
 		assertEquals(5, banners.totalPages)
 	}
 
+	@Test
+	fun update() {
+		repository.editBanner(BANNER.copy(id = 1, name = "new name"))
+		val updatedBanner = repository.findById(1)!!
+		assertEquals("new name", updatedBanner.name)
+	}
+
 	companion object {
 		val BANNER = Banner(
 			id = 10,
-			name = "",
-			name_jp = "",
-			description = "",
-			description_jp = "",
+			name = "name",
+			name_jp = "name_jp",
+			description = "description",
+			description_jp = "description_jp",
 			start_date = LocalDate.now(),
 			end_date = LocalDate.now(),
-			image_hq = ""
+			image_hq = "image_hq"
 		)
 	}
 }

@@ -10,6 +10,7 @@ import it.zampa.bangdudb.delivery.datamodel.out.ListItem
 import it.zampa.bangdudb.delivery.datamodel.out.Paginated
 import it.zampa.bangdudb.domain.repository.BannerRepository
 import it.zampa.bangdudb.domain.usecase.AddBannerUseCase
+import it.zampa.bangdudb.domain.usecase.EditBannerUseCase
 import it.zampa.bangdudb.domain.usecase.SearchBannerUseCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,7 +24,8 @@ import org.springframework.web.multipart.MultipartFile
 class BannerController(
 	val bannerRepository: BannerRepository,
 	val addBannerUseCase: AddBannerUseCase,
-	val searchBannerUseCase: SearchBannerUseCase
+	val searchBannerUseCase: SearchBannerUseCase,
+	val editBannerUseCase: EditBannerUseCase
 ) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -56,6 +58,19 @@ class BannerController(
 		logger.info("mapped to $banner")
 
 		addBannerUseCase.execute(banner, bannerImage)
+		return ResponseEntity<String>(HttpStatus.OK)
+	}
+
+	@PostMapping("/editBanner")
+	fun editBanner(
+		@RequestParam bannerData: String,
+	): ResponseEntity<String> {
+		logger.info("received request to edit a banner")
+		val banner = mapper.readValue(bannerData, InputBanner::class.java)
+		logger.info("mapped request to $banner")
+		editBannerUseCase.execute(banner)
+		logger.info("done, now answering with an OK")
+
 		return ResponseEntity<String>(HttpStatus.OK)
 	}
 

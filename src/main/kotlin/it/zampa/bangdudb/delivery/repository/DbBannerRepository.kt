@@ -93,6 +93,27 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 		jdbcTemplate.update(insertQuery, sqlParameterSource)
 	}
 
+	override fun editBanner(banner: Banner) {
+		val editQuery = "UPDATE $TABLE_NAME SET " +
+			"name = :name, " +
+			"name_jp = :name_jp, " +
+			"description = :description, " +
+			"description_jp = :description_jp, " +
+			"start_date = :start_date, " +
+			"end_date = :end_date " +
+			" WHERE id = :id"
+		val sqlParameterSource = MapSqlParameterSource()
+			.addValue("id", banner.id)
+			.addValue("name", banner.name)
+			.addValue("name_jp", banner.name_jp)
+			.addValue("description", banner.description)
+			.addValue("description_jp", banner.description_jp)
+			.addValue("start_date", banner.start_date)
+			.addValue("end_date", banner.end_date)
+
+		jdbcTemplate.update(editQuery, sqlParameterSource)
+	}
+
 	private fun mapToBannerSummary(it: Map<String, Any>) = BannerSummary(
 		id = it["id"] as Int,
 		name = it["name"] as String,
