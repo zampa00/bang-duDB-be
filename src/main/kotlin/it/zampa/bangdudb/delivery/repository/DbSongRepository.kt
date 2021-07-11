@@ -12,6 +12,7 @@ import java.sql.ResultSet
 class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepository {
 
 	val TABLE_NAME: String = "songs"
+	val ORDER_QUERY = "ORDER BY release_date DESC"
 
 	override fun findById(songId: Int): Song? =
 		try {
@@ -30,7 +31,7 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
+					"SELECT * FROM $TABLE_NAME $ORDER_QUERY LIMIT :resultsPerPage OFFSET :offset",
 					MapSqlParameterSource()
 						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
@@ -61,6 +62,7 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 			summary = jdbcTemplate.queryForList(
 				"SELECT * FROM $TABLE_NAME " +
 					whereClause +
+					" $ORDER_QUERY " +
 					"LIMIT :resultsPerPage OFFSET :offset",
 				sqlParameterSource
 			).map {

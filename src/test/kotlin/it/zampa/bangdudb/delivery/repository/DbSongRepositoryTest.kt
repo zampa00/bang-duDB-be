@@ -21,12 +21,16 @@ class DbSongRepositoryTest : SpringTestParent() {
 	@Autowired
 	private lateinit var repository: DbSongRepository
 
+	private val jan1st = LocalDate.parse("2021-01-01")
+	private val jan2nd = LocalDate.parse("2021-01-02")
+	private val jan3rd = LocalDate.parse("2021-01-03")
+
 	@BeforeEach
 	fun setUp() {
-		jdbcTemplate.update("INSERT INTO public.songs (id, name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES (1, 'song1', 'jp', 'argonavis', '', '', '', '', '', true, '2021-01-01', 'image');")
-		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song2', 'jp', 'argonavis', '', '', '', '', '', false, '2021-02-01', 'image');")
-		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song3', 'jp', 'cyaron', '', '', '', '', '', true, '2021-03-01', 'image');")
-		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song4', 'jp', 'azalea', '', '', '', '', '', true, '2021-04-01', 'image');")
+		jdbcTemplate.update("INSERT INTO public.songs (id, name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES (1, 'song1', 'jp', 'argonavis', '', '', '', '', '', true, '$jan1st', 'image');")
+		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song2', 'jp', 'argonavis', '', '', '', '', '', false, '$jan1st', 'image');")
+		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song3', 'jp', 'cyaron', '', '', '', '', '', true, '$jan1st', 'image');")
+		jdbcTemplate.update("INSERT INTO public.songs (name, name_jp, band, lyricist, composer, arranger, difficulty, other_info, is_cover, release_date, image) VALUES ('song4', 'jp', 'azalea', '', '', '', '', '', true, '$jan1st', 'image');")
 	}
 
 	@AfterEach
@@ -78,6 +82,14 @@ class DbSongRepositoryTest : SpringTestParent() {
 		repository.save(SONG)
 		val songs = repository.findSongsPaginated(0, 3)
 		assertEquals(5, songs.totalPages)
+	}
+
+	@Test
+	fun `most recent songs are first`() {
+		repository.save(SONG.copy(name = "2nd", release_date = jan2nd))
+		repository.save(SONG.copy(name = "3rd", release_date = jan3rd))
+		val songs = repository.findSongsPaginated(0, 3)
+		assertEquals("3rd", songs.summary.first().name)
 	}
 
 	companion object {
