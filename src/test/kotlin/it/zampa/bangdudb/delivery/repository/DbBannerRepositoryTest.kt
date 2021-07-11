@@ -23,12 +23,16 @@ class DbBannerRepositoryTest : SpringTestParent() {
 	@Autowired
 	private lateinit var repository: DbBannerRepository
 
+	private val jan1st = LocalDate.parse("2021-01-01")
+	private val jan2nd = LocalDate.parse("2021-01-02")
+	private val jan3rd = LocalDate.parse("2021-01-03")
+
 	@BeforeEach
 	fun setUp() {
-		jdbcTemplate.update("INSERT INTO public.banners (id, name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES (1, 'name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
-		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
-		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
-		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','2021-06-01','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (id, name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES (1, 'name','name_jp','description','description_jp','$jan1st','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','$jan1st','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','$jan1st','2021-06-06','image_hq' );")
+		jdbcTemplate.update("INSERT INTO public.banners (name, name_jp, description, description_jp, start_date, end_date, image_hq) VALUES ('name','name_jp','description','description_jp','$jan1st','2021-06-06','image_hq' );")
 	}
 
 	@AfterEach
@@ -49,6 +53,14 @@ class DbBannerRepositoryTest : SpringTestParent() {
 		assertEquals(4, banners.totalPages)
 		assertEquals(3, banners.summary.size)
 		assertEquals(1, banners.summary.first().id)
+	}
+
+	@Test
+	fun `most recent banner first`() {
+		repository.save(BANNER.copy(name = "2nd", start_date = jan2nd))
+		repository.save(BANNER.copy(name = "3rd", start_date = jan3rd))
+		val events = repository.findBannersPaginated(0, 3)
+		assertEquals("3rd", events.summary.first().name)
 	}
 
 	@Test

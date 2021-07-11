@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerRepository {
 
 	val TABLE_NAME: String = "banners"
+	val ORDER_QUERY: String = "ORDER BY start_date DESC"
 
 	override fun findById(bannerId: Int): Banner? =
 		try {
@@ -37,7 +38,7 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 
 	override fun findBannersForListing(): List<ListItem> =
 		jdbcTemplate.queryForList(
-			"SELECT * FROM $TABLE_NAME",
+			"SELECT * FROM $TABLE_NAME $ORDER_QUERY",
 			MapSqlParameterSource()
 		).map {
 			mapToListItem(it)
@@ -47,7 +48,7 @@ class DbBannerRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : BannerR
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
+					"SELECT * FROM $TABLE_NAME $ORDER_QUERY LIMIT :resultsPerPage OFFSET :offset",
 					MapSqlParameterSource()
 						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
