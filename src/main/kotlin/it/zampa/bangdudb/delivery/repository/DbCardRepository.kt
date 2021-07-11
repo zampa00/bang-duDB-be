@@ -12,6 +12,7 @@ import java.sql.ResultSet
 class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepository {
 
 	val TABLE_NAME: String = "cards"
+	val ORDER_QUERY: String = "ORDER BY release_date DESC, rarity DESC, id"
 
 	override fun findById(cardId: String) =
 		try {
@@ -29,7 +30,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 	override fun findCardsFromEvent(eventId: Int): List<CardSummary> =
 		try {
 			jdbcTemplate.queryForList(
-				"SELECT * FROM $TABLE_NAME WHERE event_id = :eventId",
+				"SELECT * FROM $TABLE_NAME $ORDER_QUERY WHERE event_id = :eventId",
 				MapSqlParameterSource()
 					.addValue("eventId", eventId)
 			).map {
@@ -42,7 +43,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 	override fun findCardsFromBanner(bannerId: Int): List<CardSummary> =
 		try {
 			jdbcTemplate.queryForList(
-				"SELECT * FROM $TABLE_NAME WHERE banner_id = :bannerId",
+				"SELECT * FROM $TABLE_NAME $ORDER_QUERY WHERE banner_id = :bannerId",
 				MapSqlParameterSource()
 					.addValue("bannerId", bannerId)
 			).map {
@@ -56,7 +57,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 		try {
 			Paginated(
 				summary = jdbcTemplate.queryForList(
-					"SELECT * FROM $TABLE_NAME LIMIT :resultsPerPage OFFSET :offset",
+					"SELECT * FROM $TABLE_NAME $ORDER_QUERY LIMIT :resultsPerPage OFFSET :offset ",
 					MapSqlParameterSource()
 						.addValue("offset", page * resultsPerPage)
 						.addValue("resultsPerPage", resultsPerPage)
@@ -111,6 +112,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 			summary = jdbcTemplate.queryForList(
 				"SELECT * FROM $TABLE_NAME " +
 					whereClause +
+					" $ORDER_QUERY " +
 					"LIMIT :resultsPerPage OFFSET :offset",
 				sqlParameterSource
 			).map {
