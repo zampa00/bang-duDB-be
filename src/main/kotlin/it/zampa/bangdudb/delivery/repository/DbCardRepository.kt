@@ -310,8 +310,8 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 
 	private fun mapToCard(resultSet: ResultSet) = Card(
 		id = resultSet.getString("id"),
-		banner_id = resultSet.getInt("banner_id"),
-		event_id = resultSet.getInt("event_id"),
+		banner_id = if (resultSet.getInt("banner_id") != 0) resultSet.getInt("banner_id") else null,
+		event_id = if (resultSet.getInt("event_id") != 0) resultSet.getInt("event_id") else null,
 		character_name = resultSet.getString("character_name"),
 		band = resultSet.getString("band"),
 		card_name = resultSet.getString("card_name"),

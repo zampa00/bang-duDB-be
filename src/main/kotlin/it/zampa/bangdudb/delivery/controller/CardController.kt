@@ -99,6 +99,7 @@ class CardController(
 	): ResponseEntity<String> {
 		logger.info("received request to edit a card")
 		val card = mapper.readValue(cardDetails, InputCard::class.java)
+		logger.info("mapped request to $card")
 		editCardUseCase.execute(card)
 		logger.info("done, now answering with an OK")
 
