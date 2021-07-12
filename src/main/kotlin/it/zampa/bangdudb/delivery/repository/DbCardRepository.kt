@@ -30,7 +30,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 	override fun findCardsFromEvent(eventId: Int): List<CardSummary> =
 		try {
 			jdbcTemplate.queryForList(
-				"SELECT * FROM $TABLE_NAME $ORDER_QUERY WHERE event_id = :eventId",
+				"SELECT * FROM $TABLE_NAME WHERE event_id = :eventId $ORDER_QUERY",
 				MapSqlParameterSource()
 					.addValue("eventId", eventId)
 			).map {
@@ -43,7 +43,7 @@ class DbCardRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : CardRepos
 	override fun findCardsFromBanner(bannerId: Int): List<CardSummary> =
 		try {
 			jdbcTemplate.queryForList(
-				"SELECT * FROM $TABLE_NAME $ORDER_QUERY WHERE banner_id = :bannerId",
+				"SELECT * FROM $TABLE_NAME WHERE banner_id = :bannerId $ORDER_QUERY",
 				MapSqlParameterSource()
 					.addValue("bannerId", bannerId)
 			).map {
