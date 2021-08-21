@@ -9,6 +9,7 @@ import it.zampa.bangdudb.delivery.datamodel.out.SongSummary
 import it.zampa.bangdudb.domain.Song
 import it.zampa.bangdudb.domain.repository.SongRepository
 import it.zampa.bangdudb.domain.usecase.AddSongUseCase
+import it.zampa.bangdudb.domain.usecase.EditSongUseCase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -19,7 +20,11 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin
-class SongController(val songRepository: SongRepository, val addSongUseCase: AddSongUseCase) {
+class SongController(
+	val songRepository: SongRepository,
+	val addSongUseCase: AddSongUseCase,
+	val editSongUseCase: EditSongUseCase,
+) {
 
 	var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -51,7 +56,7 @@ class SongController(val songRepository: SongRepository, val addSongUseCase: Add
 	}
 
 	@PostMapping("/addSong")
-	fun addBanner(@RequestParam songData: String, @RequestParam songImage: MultipartFile): ResponseEntity<String> {
+	fun addSong(@RequestParam songData: String, @RequestParam songImage: MultipartFile): ResponseEntity<String> {
 		logger.info("received $songData")
 		logger.info("received image $songImage")
 
@@ -60,6 +65,19 @@ class SongController(val songRepository: SongRepository, val addSongUseCase: Add
 		logger.info("mapped to $song")
 
 		addSongUseCase.execute(song, songImage)
+
+		return ResponseEntity<String>(HttpStatus.OK)
+	}
+
+	@PostMapping("/editSong")
+	fun editSong(@RequestParam songData: String): ResponseEntity<String> {
+		logger.info("received $songData")
+
+		val song = mapper.readValue(songData, InputSong::class.java)
+
+		logger.info("mapped to $song")
+
+		editSongUseCase.execute(song)
 
 		return ResponseEntity<String>(HttpStatus.OK)
 	}

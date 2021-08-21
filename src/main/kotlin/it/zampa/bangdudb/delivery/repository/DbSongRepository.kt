@@ -118,6 +118,35 @@ class DbSongRepository(val jdbcTemplate: NamedParameterJdbcTemplate) : SongRepos
 		)
 	}
 
+	override fun editSong(song: Song) {
+		val editQuery = "UPDATE $TABLE_NAME SET " +
+			"name = :name, " +
+			"name_jp = :name_jp, " +
+			"band = :band, " +
+			"lyricist = :lyricist, " +
+			"composer = :composer, " +
+			"arranger = :arranger, " +
+			"difficulty = :difficulty, " +
+			"other_info = :other_info, " +
+			"is_cover = :is_cover, " +
+			"release_date = :release_date " +
+			" WHERE id = :id"
+		val sqlParameterSource = MapSqlParameterSource()
+			.addValue("id", song.id)
+			.addValue("name", song.name)
+			.addValue("name_jp", song.name_jp)
+			.addValue("band", song.band)
+			.addValue("lyricist", song.lyricist)
+			.addValue("composer", song.composer)
+			.addValue("arranger", song.arranger)
+			.addValue("difficulty", song.difficulty)
+			.addValue("other_info", song.other_info)
+			.addValue("is_cover", song.is_cover)
+			.addValue("release_date", song.release_date)
+
+		jdbcTemplate.update(editQuery, sqlParameterSource)
+	}
+
 	private fun mapToSongSummary(it: MutableMap<String, Any>) = SongSummary(
 		id = it["id"] as Int,
 		name = it["name"] as String,

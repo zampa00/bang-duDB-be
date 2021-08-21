@@ -75,75 +75,71 @@ class ApplicationConfig {
 		cardRepository: CardRepository,
 		s3Client: AmazonS3,
 		imageCompressionService: ImageCompressionService,
-	): AddCardUseCase =
-		AddCardUseCase(
-			S3ImageUploader(s3Client, bucketName, bucketUrl, cardsDirectory),
-			cardRepository,
-			imageCompressionService
-		)
+	) = AddCardUseCase(
+		S3ImageUploader(s3Client, bucketName, bucketUrl, cardsDirectory),
+		cardRepository,
+		imageCompressionService
+	)
 
 	@Bean
 	fun addBannerUseCase(
 		bannerRepository: BannerRepository,
 		s3Client: AmazonS3,
 		imageCompressionService: ImageCompressionService,
-	): AddBannerUseCase =
-		AddBannerUseCase(
-			S3ImageUploader(s3Client, bucketName, bucketUrl, bannersDirectory),
-			bannerRepository
-		)
+	) = AddBannerUseCase(
+		S3ImageUploader(s3Client, bucketName, bucketUrl, bannersDirectory),
+		bannerRepository
+	)
 
 	@Bean
 	fun addEventUseCase(
 		eventRepository: EventRepository,
 		s3Client: AmazonS3,
 		imageCompressionService: ImageCompressionService,
-	): AddEventUseCase =
-		AddEventUseCase(
-			S3ImageUploader(s3Client, bucketName, bucketUrl, eventsDirectory),
-			eventRepository
-		)
+	) = AddEventUseCase(
+		S3ImageUploader(s3Client, bucketName, bucketUrl, eventsDirectory),
+		eventRepository
+	)
 
 	@Bean
 	fun addSongUseCase(
 		songRepository: SongRepository,
 		s3Client: AmazonS3
-	): AddSongUseCase =
-		AddSongUseCase(
-			S3ImageUploader(s3Client, bucketName, bucketUrl, songsDirectory),
-			songRepository
-		)
+	) = AddSongUseCase(
+		S3ImageUploader(s3Client, bucketName, bucketUrl, songsDirectory),
+		songRepository
+	)
 
 	@Bean
 	fun editCardUseCase(
 		cardRepository: CardRepository
-	): EditCardUseCase =
-		EditCardUseCase(cardRepository)
+	) = EditCardUseCase(cardRepository)
 
 	@Bean
 	fun editEventUseCase(
 		eventRepository: EventRepository
-	): EditEventUseCase =
-		EditEventUseCase(eventRepository)
+	) = EditEventUseCase(eventRepository)
 
 	@Bean
 	fun editBannerUseCase(
 		bannerRepository: BannerRepository
-	): EditBannerUseCase =
-		EditBannerUseCase(bannerRepository)
+	) = EditBannerUseCase(bannerRepository)
+
+	@Bean
+	fun editSongUseCase(
+		songRepository: SongRepository
+	) = EditSongUseCase(songRepository)
 
 	@Bean
 	fun searchEventUseCase(
 		cardRepository: CardRepository,
 		eventRepository: EventRepository,
-	): SearchEventUseCase =
-		SearchEventUseCase(cardRepository, eventRepository)
+	) = SearchEventUseCase(cardRepository, eventRepository)
 
 	@Bean
 	fun searchBannerUseCase(
 		cardRepository: CardRepository,
 		bannerRepository: BannerRepository,
-	): SearchBannerUseCase =
-		SearchBannerUseCase(cardRepository, bannerRepository)
+	) = SearchBannerUseCase(cardRepository, bannerRepository)
 
 }

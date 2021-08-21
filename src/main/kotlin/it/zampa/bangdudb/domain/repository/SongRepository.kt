@@ -14,4 +14,6 @@ interface SongRepository {
 		bands: List<String>? = null,
 		is_cover: Boolean? = null,
 	): Paginated<SongSummary>
+
+	fun editSong(copy: Song)
 }

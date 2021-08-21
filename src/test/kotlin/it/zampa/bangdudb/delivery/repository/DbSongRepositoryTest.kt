@@ -92,6 +92,13 @@ class DbSongRepositoryTest : SpringTestParent() {
 		assertEquals("3rd", songs.summary.first().name)
 	}
 
+	@Test
+	fun update() {
+		repository.editSong(SONG.copy(id = 1, name = "new name"))
+		val updatedSong = repository.findById(1)!!
+		assertEquals("new name", updatedSong.name)
+	}
+
 	companion object {
 		val SONG = Song(
 			name = "song5",
