@@ -30,7 +30,7 @@ class AddEventUseCase(
 
 		val bannerHqUrl = imageUploader.upload(banner.inputStream, banner.resource.filename!!)
 		val stampUrl = imageUploader.upload(stamp.inputStream, stamp.resource.filename!!)
-		val titlePointsUrl = imageUploader.upload(titlePoints.inputStream, stamp.resource.filename!!)
+		val titlePointsUrl = imageUploader.upload(titlePoints.inputStream, titlePoints.resource.filename!!)
 		val titleRankUrl = imageUploader.upload(titleRank.inputStream, titleRank.resource.filename!!)
 		val instrumentUrl = imageUploader.upload(instrument.inputStream, instrument.resource.filename!!)
 		val accessoryPointsUrl = imageUploader.upload(accessoryPoints.inputStream, accessoryPoints.resource.filename!!)
