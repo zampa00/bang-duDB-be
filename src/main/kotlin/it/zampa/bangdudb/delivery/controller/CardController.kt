@@ -49,7 +49,7 @@ class CardController(
 		@RequestParam(name = "allowGacha") is_gacha: Boolean?,
 		@RequestParam(name = "allowUnavailableGacha") is_unavailable_gacha: Boolean?,
 		@RequestParam(name = "allowEvent") is_event: Boolean?,
-		@RequestParam(name = "allowEvent") is_birthday: Boolean?,
+		@RequestParam(name = "allowBirthday") is_birthday: Boolean?,
 		@RequestParam(name = "allowPromo") is_promo: Boolean?,
 		@RequestParam page: Int,
 		@RequestParam size: Int
