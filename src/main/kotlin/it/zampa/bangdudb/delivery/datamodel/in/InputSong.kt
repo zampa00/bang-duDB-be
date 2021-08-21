@@ -1,6 +1,7 @@
 package it.zampa.bangdudb.delivery.datamodel.`in`
 
 data class InputSong(
+	val id: Int?,
 	val name: String,
 	val name_jp: String,
 	val band: String,
